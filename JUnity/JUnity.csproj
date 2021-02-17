@@ -77,8 +77,7 @@
     <Compile Include="Services\UIController.cs" />
     <Compile Include="UI\UIElement.cs" />
     <Compile Include="Utilities\GameObjectCollection.cs" />
-    <Compile Include="Utilities\GameObjectReadOnlyCollection.cs" />
-    <Compile Include="Utilities\Rotation.cs" />
+    <Compile Include="Utilities\ISceneInitializer.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

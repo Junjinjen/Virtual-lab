@@ -7,30 +7,43 @@ namespace JUnity
 {
     public abstract class GameObject
     {
-        private const string _defaultName = "Unnamed object";
+        private const string DefaultName = "Unnamed object";
         private readonly List<GameComponent> _components = new List<GameComponent>();
         private readonly List<GameComponent> _fixedComponents = new List<GameComponent>();
 
         protected GameObject()
-            : this(_defaultName)
+            : this(DefaultName)
         {
         }
 
         protected GameObject(string name)
-            : this(name, null)
-        {
-        }
-
-        protected GameObject(GameObject parent)
-            : this(_defaultName, parent)
-        {
-        }
-
-        protected GameObject(string name, GameObject parent)
         {
             Name = name;
-            Parent = parent;
             IsActive = true;
+            Children = new GameObjectCollection(this);
+        }
+
+        public bool IsActive { get; set; }
+
+        public string Name { get; protected set; }
+
+        public GameObject Parent { get; internal set; }
+
+        public GameObjectCollection Children { get; }
+
+        public Quaternion Rotation { get; set; }
+
+        public Vector3 Position { get; set; }
+
+        public virtual void Start() { }
+
+        public virtual void Update(double deltaTime) { }
+
+        public virtual void FixedUpdate(double deltaTime) { }
+
+        public void Destroy()
+        {
+            JUnity.Instance.Scene.Remove(this);
         }
 
         internal void OnUpdate(double deltaTime)
@@ -49,34 +62,6 @@ namespace JUnity
             {
                 component.CallComponent(deltaTime);
             }
-
-            foreach (var component in _components)
-            {
-                component.CallComponent(deltaTime);
-            }
-        }
-
-        public bool IsActive { get; set; }
-
-        public string Name { get; protected set; }
-
-        public GameObject Parent { get; }
-
-        public GameObjectReadOnlyCollection Children { get; }
-
-        public Rotation Rotation { get; set; }
-
-        public Vector3 Position { get; set; }
-
-        public abstract void Start();
-
-        public abstract void Update(double deltaTime);
-
-        public abstract void FixedUpdate(double deltaTime);
-
-        public void Destroy()
-        {
-            JUnity.Instance.Scene.RequestRemove(this);
         }
     }
 }

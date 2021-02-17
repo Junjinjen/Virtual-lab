@@ -8,19 +8,25 @@ namespace JUnity
 {
     public class JUnity : IDisposable
     {
+        private const double FixedUpdatePeriod = 0.01;
         private readonly Stopwatch _stopwatch = new Stopwatch();
         private long _lastTickCount;
         private double _elapsedTime;
         private bool _isDisposed;
 
+        public JUnity(ISceneInitializer initializer)
+            : this()
+        {
+            initializer.Seed(Scene);
+        }
+
         public JUnity()
         {
             Instance = this;
-            Scene = new GameObjectCollection();
+            Scene = new GameObjectCollection(null);
             InputManager = new InputManager();
             GraphicsRenderer = new GraphicsRenderer();
             UIController = new UIController();
-            FixedUpdatePeriod = 0.01;
         }
 
         public static JUnity Instance { get; private set; }
@@ -28,8 +34,6 @@ namespace JUnity
         internal GraphicsRenderer GraphicsRenderer { get; }
 
         internal UIController UIController { get; }
-
-        public double FixedUpdatePeriod { get; set; }
 
         public GameObjectCollection Scene { get; }
 
@@ -64,7 +68,10 @@ namespace JUnity
                 InputManager.Update();
                 foreach (var gameObject in Scene)
                 {
-                    gameObject.OnFixedUpdate(deltaTime);
+                    if (gameObject.IsActive)
+                    {
+                        gameObject.OnFixedUpdate(_elapsedTime);
+                    }
                 }
 
                 _elapsedTime = 0.0;
@@ -72,7 +79,10 @@ namespace JUnity
 
             foreach (var gameObject in Scene)
             {
-                gameObject.OnUpdate(deltaTime);
+                if (gameObject.IsActive)
+                {
+                    gameObject.OnUpdate(deltaTime);
+                }
             }
 
             GraphicsRenderer.RenderScene();

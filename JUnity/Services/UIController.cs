@@ -18,7 +18,8 @@ namespace JUnity.Services
             var elementsUnderCursor = new List<UIElement>();
             foreach (var element in _elements)
             {
-                if (element.Position.X <= clickPosition.X && element.Position.Y <= clickPosition.Y &&
+                if (element.IsVisible &&
+                    element.Position.X <= clickPosition.X && element.Position.Y <= clickPosition.Y &&
                     element.Position.X + element.Width >= clickPosition.X && element.Position.Y + element.Height >= clickPosition.Y)
                 {
                     elementsUnderCursor.Add(element);
