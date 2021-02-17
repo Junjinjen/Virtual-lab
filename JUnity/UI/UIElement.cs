@@ -19,11 +19,28 @@ namespace Engine.UI
         public float Height { get; set; }
 
         /// <summary>
-        /// Handle mouse click
+        /// Handle mouse down event.
         /// </summary>
-        /// <param name="clickPosition">Click position (relative to element position)</param>
-        /// <returns>Is click absorbed</returns>
-        internal abstract bool HandleClick(Vector2 clickPosition);
+        /// <param name="mousePosition">Mouse position (relative to element position)</param>
+        /// <param name="key">Pressed key</param>
+        /// <param name="isJustPressed">True if the key is became pressed on this frame</param>
+        /// <returns>Is key absorbed</returns>
+        internal abstract bool HandleMouseDown(Vector2 mousePosition, MouseKey key, bool isJustPressed);
+
+        /// <summary>
+        /// Handle mouse up event. Called only if the key was suppressed by UI.
+        /// </summary>
+        /// <param name="mousePosition">Mouse position (relative to element position)</param>
+        /// <param name="key">Pressed key</param>
+        internal abstract void HandleMouseUp(Vector2 mousePosition, MouseKey key);
+
+        /// <summary>
+        /// Handle mouse scroll event.
+        /// </summary>
+        /// <param name="mousePosition">Mouse position (relative to element position)</param>
+        /// <param name="deltaScrollValue">Scroll value</param>
+        /// <returns>Is scroll absorbed</returns>
+        internal abstract bool HandleMouseScroll(Vector2 mousePosition, int deltaScrollValue);
 
         internal abstract void Render(GraphicsRenderer renderer);
 

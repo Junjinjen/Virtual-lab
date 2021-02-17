@@ -14,7 +14,7 @@ namespace Engine.Services
         /// <param name="mousePosition">Mouse position (relative to the game window)</param>
         /// <param name="key">Pressed key</param>
         /// <param name="isJustPressed">True if the key is became pressed on this frame</param>
-        /// <returns>Is click absorbed</returns>
+        /// <returns>Is key absorbed</returns>
         public bool HandleMouseDown(Vector2 mousePosition, MouseKey key, bool isJustPressed)
         {
             throw new System.NotSupportedException();
