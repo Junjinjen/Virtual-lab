@@ -30,6 +30,17 @@ namespace Engine.Services
             throw new System.NotSupportedException();
         }
 
+        /// <summary>
+        /// Handle mouse scroll event.
+        /// </summary>
+        /// <param name="mousePosition">Mouse position (relative to the game window)</param>
+        /// <param name="deltaScrollValue">Scroll value</param>
+        /// <returns>Is scroll absorbed by UI</returns>
+        public bool HandleMouseScroll(Vector2 mousePosition, int deltaScrollValue)
+        {
+            throw new System.NotSupportedException();
+        }
+
         public void RegisterElement(UIElement element)
         {
             _elements.Add(element);
