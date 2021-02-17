@@ -1,9 +1,9 @@
-﻿using JUnity.Components;
-using JUnity.Utilities;
+﻿using Engine.Components;
+using Engine.Utilities;
 using SharpDX;
 using System.Collections.Generic;
 
-namespace JUnity
+namespace Engine
 {
     public abstract class GameObject
     {

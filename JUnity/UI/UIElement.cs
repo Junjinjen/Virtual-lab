@@ -1,8 +1,8 @@
-﻿using JUnity.Services;
+﻿using Engine.Services;
 using SharpDX;
 using System;
 
-namespace JUnity.UI
+namespace Engine.UI
 {
     public abstract class UIElement : IDisposable
     {

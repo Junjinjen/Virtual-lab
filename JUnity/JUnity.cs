@@ -1,10 +1,10 @@
-﻿using JUnity.Services;
-using JUnity.Utilities;
+﻿using Engine.Services;
+using Engine.Utilities;
 using SharpDX.Windows;
 using System;
 using System.Diagnostics;
 
-namespace JUnity
+namespace Engine
 {
     public class JUnity : IDisposable
     {
@@ -42,7 +42,7 @@ namespace JUnity
         public void Run()
         {
             GraphicsRenderer.Initialize();
-            InputManager.Initialize(GraphicsRenderer.RenderForm.Handle);
+            InputManager.Initialize(GraphicsRenderer.RenderForm);
             _stopwatch.Start();
 
             RenderLoop.Run(GraphicsRenderer.RenderForm, RenderCallback);

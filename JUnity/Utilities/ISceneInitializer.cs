@@ -1,4 +1,4 @@
-﻿namespace JUnity.Utilities
+﻿namespace Engine.Utilities
 {
     public interface ISceneInitializer
     {

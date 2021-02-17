@@ -1,4 +1,4 @@
-﻿namespace JUnity.Components.Interfaces
+﻿namespace Engine.Components.Interfaces
 {
     internal interface IFixedUpdatableComponent
     {

@@ -1,7 +1,7 @@
 ﻿using SharpDX.Windows;
 using System;
 
-namespace JUnity.Services
+namespace Engine.Services
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S3881:\"IDisposable\" should be implemented correctly",
         Justification = "Will be correctly disposed by JUnity class")]
