@@ -7,57 +7,21 @@ namespace Engine.Services
     internal class UIController
     {
         private readonly List<UIElement> _elements = new List<UIElement>();
+        private readonly Dictionary<MouseKey, UIElement> _mouseUpListeners = new Dictionary<MouseKey, UIElement>
+        {
+            { MouseKey.Left, null },
+            { MouseKey.Right, null },
+            { MouseKey.Middle, null },
+            { MouseKey.Mouse4, null },
+            { MouseKey.Mouse5, null },
+        };
 
-        /// <summary>
-        /// Handle mouse down event.
-        /// </summary>
-        /// <param name="mousePosition">Mouse position (relative to the game window)</param>
-        /// <param name="key">Pressed key</param>
-        /// <param name="isJustPressed">True if the key is became pressed on this frame</param>
-        /// <returns>Is key absorbed</returns>
         public bool HandleMouseDown(Vector2 mousePosition, MouseKey key, bool isJustPressed)
         {
-            throw new System.NotSupportedException();
-        }
-
-        /// <summary>
-        /// Handle mouse up event. Called only if the key was suppressed by UI.
-        /// </summary>
-        /// <param name="mousePosition">Mouse position (relative to the game window)</param>
-        /// <param name="key">Pressed key</param>
-        public void HandleMouseUp(Vector2 mousePosition, MouseKey key)
-        {
-            throw new System.NotSupportedException();
-        }
-
-        /// <summary>
-        /// Handle mouse scroll event.
-        /// </summary>
-        /// <param name="mousePosition">Mouse position (relative to the game window)</param>
-        /// <param name="deltaScrollValue">Scroll value</param>
-        /// <returns>Is scroll absorbed by UI</returns>
-        public bool HandleMouseScroll(Vector2 mousePosition, int deltaScrollValue)
-        {
-            throw new System.NotSupportedException();
-        }
-
-        public void RegisterElement(UIElement element)
-        {
-            _elements.Add(element);
-        }
-
-        public void RemoveElement(UIElement element)
-        {
-            _elements.Remove(element);
-        }
-    }
-
-    /*var elementsUnderCursor = new List<UIElement>();
+            var elementsUnderCursor = new List<UIElement>();
             foreach (var element in _elements)
             {
-                if (element.IsVisible &&
-                    element.Position.X <= clickPosition.X && element.Position.Y <= clickPosition.Y &&
-                    element.Position.X + element.Width >= clickPosition.X && element.Position.Y + element.Height >= clickPosition.Y)
+                if (element.IsVisible && IsCursorOverElement(mousePosition, element))
                 {
                     elementsUnderCursor.Add(element);
                 }
@@ -68,12 +32,89 @@ namespace Engine.Services
                 elementsUnderCursor.Sort((x, y) => x.ZOrder.CompareTo(y.ZOrder));
                 for (int i = 0; i < elementsUnderCursor.Count; i++)
                 {
-                    if (elementsUnderCursor[i].HandleClick(clickPosition - elementsUnderCursor[i].Position))
+                    if (elementsUnderCursor[i].HandleMouseDown(mousePosition - elementsUnderCursor[i].Position, key, isJustPressed))
+                    {
+                        _mouseUpListeners[key] = elementsUnderCursor[i];
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public void HandleMouseUp(Vector2 mousePosition, MouseKey key)
+        {
+            var element = _mouseUpListeners[key];
+            if (element != null)
+            {
+                _mouseUpListeners[key] = null;
+                if (IsCursorOverElement(mousePosition, element))
+                {
+                    element.HandleMouseUp(mousePosition - element.Position, key);
+                }
+                else
+                {
+                    element.HandleMouseUpOutOfElement(key);
+                }
+            }
+        }
+
+        public bool HandleMouseScroll(Vector2 mousePosition, int deltaScrollValue)
+        {
+            var elementsUnderCursor = new List<UIElement>();
+            foreach (var element in _elements)
+            {
+                if (element.IsVisible && IsCursorOverElement(mousePosition, element))
+                {
+                    elementsUnderCursor.Add(element);
+                }
+            }
+
+            if (elementsUnderCursor.Count > 0)
+            {
+                elementsUnderCursor.Sort((x, y) => x.ZOrder.CompareTo(y.ZOrder));
+                for (int i = 0; i < elementsUnderCursor.Count; i++)
+                {
+                    if (elementsUnderCursor[i].HandleMouseScroll(mousePosition - elementsUnderCursor[i].Position, deltaScrollValue))
                     {
                         return true;
                     }
                 }
             }
 
-            return false;*/
+            return false;
+        }
+
+        public void RegisterElement(UIElement element)
+        {
+            _elements.Add(element);
+        }
+
+        public void RemoveElement(UIElement element)
+        {
+            if (_elements.Remove(element))
+            {
+                foreach (var pair in _mouseUpListeners)
+                {
+                    if (pair.Value.Equals(element))
+                    {
+                        _mouseUpListeners[pair.Key] = null;
+                        return;
+                    }
+                }
+            }
+        }
+
+        private bool IsCursorOverElement(Vector2 mousePosition, UIElement element)
+        {
+            if (element.Position.X <= mousePosition.X && element.Position.Y <= mousePosition.Y &&
+                element.Position.X + element.Width >= mousePosition.X && element.Position.Y + element.Height >= mousePosition.Y)
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
 }

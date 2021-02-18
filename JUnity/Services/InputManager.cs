@@ -59,14 +59,11 @@ namespace Engine.Services
             {
                 if (_mouseState.Buttons[i])
                 {
-                    if (JUnity.Instance.UIController.HandleMouseDown(position, (MouseKey)i, !_supressedKeys[i]))
+                    if (JUnity.Instance.UIController.HandleMouseDown(position, (MouseKey)i, !_supressedKeys[i]) && !_supressedKeys[i] && !_lastMouseState.Buttons[i])
                     {
-                        if (!_supressedKeys[i] && !_lastMouseState.Buttons[i])
-                        {
-                            _supressedKeys[i] = true;
-                        }
+                        _supressedKeys[i] = true;
                     }
-                    
+
                     if (_supressedKeys[i])
                     {
                         _mouseState.Buttons[i] = false;
@@ -77,6 +74,12 @@ namespace Engine.Services
                     JUnity.Instance.UIController.HandleMouseUp(position, (MouseKey)i);
                     _supressedKeys[i] = false;
                 }
+            }
+
+            if (_mouseState.Z != 0)
+            {
+                JUnity.Instance.UIController.HandleMouseScroll(position, _mouseState.Z);
+                _mouseState.Z = 0;
             }
         }
 
