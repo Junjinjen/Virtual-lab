@@ -76,11 +76,19 @@
     <Compile Include="Services\GraphicsRenderer.cs" />
     <Compile Include="Services\InputManager.cs" />
     <Compile Include="Services\UIController.cs" />
+    <Compile Include="TESTBUTTON.cs" />
+    <Compile Include="UI\Button.cs" />
     <Compile Include="UI\UIElement.cs" />
     <Compile Include="Utilities\GameObjectCollection.cs" />
     <Compile Include="Utilities\ISceneInitializer.cs" />
+    <Compile Include="Utilities\UIHelper.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.18.0.27296\analyzers\Google.Protobuf.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.18.0.27296\analyzers\SonarAnalyzer.CFG.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.18.0.27296\analyzers\SonarAnalyzer.CSharp.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.18.0.27296\analyzers\SonarAnalyzer.dll" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

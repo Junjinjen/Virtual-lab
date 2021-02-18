@@ -18,13 +18,13 @@ namespace Engine.UI
 
         public float Height { get; set; }
 
-        internal abstract bool HandleMouseDown(Vector2 mousePosition, MouseKey key, bool isJustPressed);
+        internal virtual void HandleMouseDown(Vector2 mousePosition, MouseKey key) { }
 
-        internal abstract void HandleMouseUp(Vector2 mousePosition, MouseKey key);
+        internal virtual void HandleMouseMove(Vector2 mousePosition, MouseKey key) { }
 
-        internal abstract void HandleMouseUpOutOfElement(MouseKey key);
+        internal virtual void HandleMouseUp(Vector2 mousePosition, MouseKey key) { }
 
-        internal abstract bool HandleMouseScroll(Vector2 mousePosition, int deltaScrollValue);
+        internal virtual void HandleMouseScroll(Vector2 mousePosition, int deltaScrollValue) { }
 
         internal abstract void Render(GraphicsRenderer renderer);
 

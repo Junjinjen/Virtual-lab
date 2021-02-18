@@ -59,7 +59,7 @@ namespace Engine.Services
             {
                 if (_mouseState.Buttons[i])
                 {
-                    if (JUnity.Instance.UIController.HandleMouseDown(position, (MouseKey)i, !_supressedKeys[i]) && !_supressedKeys[i] && !_lastMouseState.Buttons[i])
+                    if (!_lastMouseState.Buttons[i] && JUnity.Instance.UIController.HandleMouseDown(position, (MouseKey)i) && !_supressedKeys[i])
                     {
                         _supressedKeys[i] = true;
                     }
