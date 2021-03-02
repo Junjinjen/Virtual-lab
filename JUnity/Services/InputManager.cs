@@ -4,7 +4,7 @@ using SharpDX.Windows;
 using System;
 using System.Windows.Forms;
 
-namespace Engine.Services
+namespace JUnity.Services
 {
     public enum MouseKey
     {
@@ -17,7 +17,7 @@ namespace Engine.Services
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S3881:\"IDisposable\" should be implemented correctly",
         Justification = "Will be correctly disposed by JUnity class")]
-    public class InputManager : IDisposable
+    public sealed class InputManager : IDisposable
     {
         private RenderForm _renderForm;
         private DirectInput _directInput = new DirectInput();
@@ -59,7 +59,7 @@ namespace Engine.Services
             {
                 if (_mouseState.Buttons[i])
                 {
-                    if (!_lastMouseState.Buttons[i] && JUnity.Instance.UIController.HandleMouseDown(position, (MouseKey)i) && !_supressedKeys[i])
+                    if (!_lastMouseState.Buttons[i] && Engine.Instance.UIController.HandleMouseDown(position, (MouseKey)i) && !_supressedKeys[i])
                     {
                         _supressedKeys[i] = true;
                     }
@@ -71,14 +71,14 @@ namespace Engine.Services
                 }
                 else if(_supressedKeys[i])
                 {
-                    JUnity.Instance.UIController.HandleMouseUp(position, (MouseKey)i);
+                    Engine.Instance.UIController.HandleMouseUp(position, (MouseKey)i);
                     _supressedKeys[i] = false;
                 }
             }
 
             if (_mouseState.Z != 0)
             {
-                JUnity.Instance.UIController.HandleMouseScroll(position, _mouseState.Z);
+                Engine.Instance.UIController.HandleMouseScroll(position, _mouseState.Z);
                 _mouseState.Z = 0;
             }
         }

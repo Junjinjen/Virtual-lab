@@ -1,12 +1,12 @@
-﻿using Engine.Services;
-using Engine.Utilities;
+﻿using JUnity.Services;
+using JUnity.Utilities;
 using SharpDX.Windows;
 using System;
 using System.Diagnostics;
 
-namespace Engine
+namespace JUnity
 {
-    public class JUnity : IDisposable
+    public sealed class Engine : IDisposable
     {
         private const double FixedUpdatePeriod = 0.01;
         private readonly Stopwatch _stopwatch = new Stopwatch();
@@ -14,13 +14,13 @@ namespace Engine
         private double _elapsedTime;
         private bool _isDisposed;
 
-        public JUnity(ISceneInitializer initializer)
+        public Engine(ISceneInitializer initializer)
             : this()
         {
             initializer.Seed(Scene);
         }
 
-        public JUnity()
+        public Engine()
         {
             Instance = this;
             Scene = new GameObjectCollection(null);
@@ -29,7 +29,7 @@ namespace Engine
             UIController = new UIController();
         }
 
-        public static JUnity Instance { get; private set; }
+        public static Engine Instance { get; private set; }
 
         internal GraphicsRenderer GraphicsRenderer { get; }
 
@@ -108,7 +108,7 @@ namespace Engine
             GC.SuppressFinalize(this);
         }
 
-        ~JUnity()
+        ~Engine()
         {
             Dispose(false);
         }

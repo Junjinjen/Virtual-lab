@@ -1,8 +1,8 @@
-﻿using Engine.Services;
+﻿using JUnity.Services;
 using SharpDX;
 using System;
 
-namespace Engine.UI
+namespace JUnity.UI
 {
     public abstract class UIElement : IDisposable
     {
@@ -34,7 +34,7 @@ namespace Engine.UI
             {
                 if (disposing)
                 {
-                    JUnity.Instance.UIController.RemoveElement(this);
+                    Engine.Instance.UIController.RemoveElement(this);
                 }
 
                 _isDisposed = true;

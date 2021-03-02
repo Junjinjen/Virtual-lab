@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Engine.Utilities
+namespace JUnity.Utilities
 {
     public sealed class GameObjectCollection : ICollection<GameObject>
     {

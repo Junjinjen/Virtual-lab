@@ -1,11 +1,11 @@
-﻿using Engine.UI;
+﻿using JUnity.UI;
 using JUnity.Utilities;
 using SharpDX;
 using System.Collections.Generic;
 
-namespace Engine.Services
+namespace JUnity.Services
 {
-    internal class UIController
+    internal sealed class UIController
     {
         private readonly List<UIElement> _elements = new List<UIElement>();
         private readonly Dictionary<MouseKey, UIElement> _mouseUpListeners = new Dictionary<MouseKey, UIElement>

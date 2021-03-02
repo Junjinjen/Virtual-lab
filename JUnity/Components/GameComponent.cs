@@ -1,4 +1,4 @@
-﻿namespace Engine.Components
+﻿namespace JUnity.Components
 {
     public abstract class GameComponent
     {

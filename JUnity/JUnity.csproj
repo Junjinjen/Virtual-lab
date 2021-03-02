@@ -70,13 +70,13 @@
     <Compile Include="Components\GameComponent.cs" />
     <Compile Include="Components\Interfaces\IFixedUpdatableComponent.cs" />
     <Compile Include="Components\Interfaces\IUniqueComponent.cs" />
+    <Compile Include="Components\Script.cs" />
     <Compile Include="GameObject.cs" />
-    <Compile Include="JUnity.cs" />
+    <Compile Include="Engine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GraphicsRenderer.cs" />
     <Compile Include="Services\InputManager.cs" />
     <Compile Include="Services\UIController.cs" />
-    <Compile Include="TESTBUTTON.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\UIElement.cs" />
     <Compile Include="Utilities\GameObjectCollection.cs" />

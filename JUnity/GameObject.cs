@@ -1,22 +1,22 @@
-﻿using Engine.Components;
-using Engine.Utilities;
+﻿using JUnity.Components;
+using JUnity.Utilities;
 using SharpDX;
 using System.Collections.Generic;
 
-namespace Engine
+namespace JUnity
 {
-    public abstract class GameObject
+    public sealed class GameObject
     {
         private const string DefaultName = "Unnamed object";
         private readonly List<GameComponent> _components = new List<GameComponent>();
         private readonly List<GameComponent> _fixedComponents = new List<GameComponent>();
 
-        protected GameObject()
+        public GameObject()
             : this(DefaultName)
         {
         }
 
-        protected GameObject(string name)
+        public GameObject(string name)
         {
             Name = name;
             IsActive = true;
@@ -25,7 +25,9 @@ namespace Engine
 
         public bool IsActive { get; set; }
 
-        public string Name { get; protected set; }
+        public string Name { get; }
+
+        public Script Script { get; set; }
 
         public GameObject Parent { get; internal set; }
 
@@ -35,20 +37,9 @@ namespace Engine
 
         public Vector3 Position { get; set; }
 
-        public virtual void Start() { }
-
-        public virtual void Update(double deltaTime) { }
-
-        public virtual void FixedUpdate(double deltaTime) { }
-
-        public void Destroy()
-        {
-            JUnity.Instance.Scene.Remove(this);
-        }
-
         internal void OnUpdate(double deltaTime)
         {
-            Update(deltaTime);
+            Script?.Update(deltaTime);
             foreach (var component in _components)
             {
                 component.CallComponent(deltaTime);
@@ -57,7 +48,7 @@ namespace Engine
 
         internal void OnFixedUpdate(double deltaTime)
         {
-            FixedUpdate(deltaTime);
+            Script?.FixedUpdate(deltaTime);
             foreach (var component in _fixedComponents)
             {
                 component.CallComponent(deltaTime);
