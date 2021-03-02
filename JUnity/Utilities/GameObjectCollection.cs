@@ -90,7 +90,14 @@ namespace JUnity.Utilities
 
         public IEnumerator<GameObject> GetEnumerator()
         {
-            return _objects.GetEnumerator();
+            foreach (var root in _objects)
+            {
+                yield return root;
+                foreach (var obj in root.Children)
+                {
+                    yield return obj;
+                }
+            }
         }
 
         public bool Remove(GameObject item)
@@ -145,7 +152,7 @@ namespace JUnity.Utilities
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _objects.GetEnumerator();
+            return GetEnumerator();
         }
     }
 }

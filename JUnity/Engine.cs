@@ -88,7 +88,7 @@ namespace JUnity
             GraphicsRenderer.RenderScene();
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!_isDisposed)
             {
