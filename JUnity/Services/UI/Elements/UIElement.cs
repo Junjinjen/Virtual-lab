@@ -1,8 +1,9 @@
-﻿using JUnity.Services;
+﻿using JUnity.Services.Graphics;
+using JUnity.Services.Input;
 using SharpDX;
 using System;
 
-namespace JUnity.UI
+namespace JUnity.Services.UI.Elements
 {
     public abstract class UIElement : IDisposable
     {

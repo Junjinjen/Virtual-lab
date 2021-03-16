@@ -4,7 +4,7 @@ using SharpDX.Windows;
 using System;
 using System.Windows.Forms;
 
-namespace JUnity.Services
+namespace JUnity.Services.Input
 {
     public enum MouseKey
     {
@@ -15,8 +15,6 @@ namespace JUnity.Services
         Mouse5,
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S3881:\"IDisposable\" should be implemented correctly",
-        Justification = "Will be correctly disposed by JUnity class")]
     public sealed class InputManager : IDisposable
     {
         private RenderForm _renderForm;
@@ -69,7 +67,7 @@ namespace JUnity.Services
                         _mouseState.Buttons[i] = false;
                     }
                 }
-                else if(_supressedKeys[i])
+                else if (_supressedKeys[i])
                 {
                     Engine.Instance.UIController.HandleMouseUp(position, (MouseKey)i);
                     _supressedKeys[i] = false;

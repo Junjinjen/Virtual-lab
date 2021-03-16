@@ -1,9 +1,9 @@
-﻿using JUnity.Services;
+﻿using JUnity.Services.Input;
 using JUnity.Utilities;
 using SharpDX;
 using System;
 
-namespace JUnity.UI
+namespace JUnity.Services.UI.Elements
 {
     public abstract class Button : UIElement
     {

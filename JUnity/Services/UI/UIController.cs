@@ -1,9 +1,10 @@
-﻿using JUnity.UI;
+﻿using JUnity.Services.Input;
+using JUnity.Services.UI.Elements;
 using JUnity.Utilities;
 using SharpDX;
 using System.Collections.Generic;
 
-namespace JUnity.Services
+namespace JUnity.Services.UI
 {
     internal sealed class UIController
     {

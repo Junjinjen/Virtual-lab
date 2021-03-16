@@ -1,4 +1,7 @@
 ﻿using JUnity.Services;
+using JUnity.Services.Graphics;
+using JUnity.Services.Input;
+using JUnity.Services.UI;
 using JUnity.Utilities;
 using SharpDX.Windows;
 using System;
@@ -12,7 +15,6 @@ namespace JUnity
         private readonly Stopwatch _stopwatch = new Stopwatch();
         private long _lastTickCount;
         private double _elapsedTime;
-        private bool _isDisposed;
 
         public Engine(ISceneInitializer initializer)
             : this()
@@ -88,29 +90,10 @@ namespace JUnity
             GraphicsRenderer.RenderScene();
         }
 
-        private void Dispose(bool disposing)
-        {
-            if (!_isDisposed)
-            {
-                if (disposing)
-                {
-                    InputManager.Dispose();
-                    GraphicsRenderer.Dispose();
-                }
-
-                _isDisposed = true;
-            }
-        }
-
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        ~Engine()
-        {
-            Dispose(false);
+            InputManager.Dispose();
+            GraphicsRenderer.Dispose();
         }
     }
 }
