@@ -4,7 +4,7 @@ using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using System.Drawing.Imaging;
 
-namespace JUnity.Services.Graphics
+namespace JUnity.Services.Graphics.Meshing
 {
     public sealed class Texture
     {

@@ -1,5 +1,4 @@
-﻿using JUnity.Services;
-using JUnity.Services.Graphics;
+﻿using JUnity.Services.Graphics;
 using JUnity.Services.Input;
 using JUnity.Services.UI;
 using JUnity.Utilities;
@@ -13,17 +12,13 @@ namespace JUnity
     {
         private const double FixedUpdatePeriod = 0.01;
         private readonly Stopwatch _stopwatch = new Stopwatch();
+        private readonly ISceneInitializer _sceneInitializer;
         private long _lastTickCount;
         private double _elapsedTime;
 
         public Engine(ISceneInitializer initializer)
-            : this()
         {
-            initializer.Seed(Scene);
-        }
-
-        public Engine()
-        {
+            _sceneInitializer = initializer;
             Instance = this;
             Scene = new GameObjectCollection(null);
             InputManager = new InputManager();
@@ -37,7 +32,7 @@ namespace JUnity
 
         internal UIController UIController { get; }
 
-        public GameObjectCollection Scene { get; }
+        internal GameObjectCollection Scene { get; }
 
         public InputManager InputManager { get; }
 
@@ -45,6 +40,9 @@ namespace JUnity
         {
             GraphicsRenderer.Initialize();
             InputManager.Initialize(GraphicsRenderer.RenderForm);
+
+            _sceneInitializer.Seed(Scene);
+
             _stopwatch.Start();
 
             RenderLoop.Run(GraphicsRenderer.RenderForm, RenderCallback);

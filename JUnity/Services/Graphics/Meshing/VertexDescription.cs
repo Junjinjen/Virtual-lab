@@ -1,7 +1,7 @@
 ﻿using SharpDX;
 using System.Runtime.InteropServices;
 
-namespace JUnity.Services.Graphics
+namespace JUnity.Services.Graphics.Meshing
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct VertexDescription

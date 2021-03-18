@@ -1,4 +1,6 @@
-﻿namespace JUnity.Components
+﻿using JUnity.Utilities;
+
+namespace JUnity.Components
 {
     public abstract class Script
     {
@@ -8,6 +10,14 @@
         }
 
         public GameObject Object { get; }
+
+        public GameObjectCollection Scene
+        {
+            get
+            {
+                return Engine.Instance.Scene;
+            }
+        }
 
         public virtual void Start() { }
 

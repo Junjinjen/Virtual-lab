@@ -7,19 +7,13 @@ namespace JUnity.Services.Graphics
 {
     internal sealed class GraphicsRenderer : IDisposable
     {
-        public Dictionary<string, VertexShader> VertexShaders { get; }
+        public Dictionary<string, VertexShader> VertexShaders { get; private set; }
 
-        public Dictionary<string, PixelShader> PixelShaders { get; }
+        public Dictionary<string, PixelShader> PixelShaders { get; private set; }
 
-        public Device Device
-        {
-            get => throw new NotImplementedException();
-        }
+        public Device Device { get; private set; }
 
-        public RenderForm RenderForm
-        {
-            get => throw new NotImplementedException();
-        }
+        public RenderForm RenderForm { get; private set; }
 
         public void RenderScene()
         {
