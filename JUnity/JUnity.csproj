@@ -70,15 +70,16 @@
     <Compile Include="Components\GameComponent.cs" />
     <Compile Include="Components\Interfaces\IFixedUpdatableComponent.cs" />
     <Compile Include="Components\Interfaces\IUniqueComponent.cs" />
-    <Compile Include="Services\Graphics\Material\Material.cs" />
-    <Compile Include="Components\MeshRenderer\Mesh.cs" />
+    <Compile Include="Services\Graphics\Material.cs" />
+    <Compile Include="Services\Graphics\Mesh.cs" />
     <Compile Include="Components\Script.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Graphics\GraphicsRenderer.cs" />
-    <Compile Include="Services\Graphics\Material\MaterialDescription.cs" />
-    <Compile Include="Services\Graphics\Material\Texture.cs" />
+    <Compile Include="Services\Graphics\MaterialDescription.cs" />
+    <Compile Include="Services\Graphics\Texture.cs" />
+    <Compile Include="Services\Graphics\VertexDescription.cs" />
     <Compile Include="Services\Input\InputManager.cs" />
     <Compile Include="Services\UI\UIController.cs" />
     <Compile Include="Services\UI\Elements\Button.cs" />
@@ -95,6 +96,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Components\MeshRenderer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,7 +1,7 @@
 ﻿using SharpDX;
 using SharpDX.Direct3D11;
 
-namespace JUnity.Services.Graphics.Material
+namespace JUnity.Services.Graphics
 {
     public sealed class Material
     {

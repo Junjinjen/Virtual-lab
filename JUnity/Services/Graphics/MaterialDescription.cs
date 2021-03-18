@@ -1,7 +1,7 @@
 ﻿using SharpDX;
 using System.Runtime.InteropServices;
 
-namespace JUnity.Services.Graphics.Material
+namespace JUnity.Services.Graphics
 {
     [StructLayout(LayoutKind.Explicit, Size = 64)]
     internal struct MaterialDescription
