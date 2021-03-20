@@ -8,10 +8,8 @@ namespace JUnity.Services.Graphics.Meshing
 {
     public sealed class Texture
     {
-        public Texture(BitmapData imageData, SamplerState samplerState, int mipLevels = -1)
+        public Texture(BitmapData imageData, int mipLevels = -1)
         {
-            SamplerState = samplerState;
-
             var texture2d = new Texture2D(Engine.Instance.GraphicsRenderer.Device, new Texture2DDescription()
             {
                 Width = imageData.Width,
@@ -47,7 +45,5 @@ namespace JUnity.Services.Graphics.Meshing
         }
 
         public ShaderResourceView ShaderResourceView { get; }
-
-        public SamplerState SamplerState { get; }
     }
 }

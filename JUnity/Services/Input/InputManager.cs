@@ -35,12 +35,12 @@ namespace JUnity.Services.Input
 
             _keyboard = new Keyboard(_directInput);
             _keyboard.SetCooperativeLevel(_renderForm.Handle,
-                CooperativeLevel.Foreground | CooperativeLevel.NonExclusive);
+                CooperativeLevel.Background | CooperativeLevel.NonExclusive);
             _keyboard.Acquire();
 
             _mouse = new Mouse(_directInput);
             _mouse.SetCooperativeLevel(_renderForm.Handle,
-                CooperativeLevel.Foreground | CooperativeLevel.NonExclusive);
+                CooperativeLevel.Background | CooperativeLevel.NonExclusive);
             _mouse.Acquire();
         }
 

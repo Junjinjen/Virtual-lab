@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JUnity", "JUnity\JUnity.csproj", "{C14B3D74-7461-443B-BB53-228216C4EBFF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{AC96A26B-1677-4BAA-8928-E84B1878CBC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C14B3D74-7461-443B-BB53-228216C4EBFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C14B3D74-7461-443B-BB53-228216C4EBFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C14B3D74-7461-443B-BB53-228216C4EBFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC96A26B-1677-4BAA-8928-E84B1878CBC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC96A26B-1677-4BAA-8928-E84B1878CBC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC96A26B-1677-4BAA-8928-E84B1878CBC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC96A26B-1677-4BAA-8928-E84B1878CBC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

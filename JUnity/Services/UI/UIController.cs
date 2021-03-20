@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace JUnity.Services.UI
 {
-    internal sealed class UIController
+    public sealed class UIController
     {
         private readonly List<UIElement> _elements = new List<UIElement>();
         private readonly Dictionary<MouseKey, UIElement> _mouseUpListeners = new Dictionary<MouseKey, UIElement>
@@ -18,7 +18,7 @@ namespace JUnity.Services.UI
             { MouseKey.Mouse5, null },
         };
 
-        public bool HandleMouseDown(Vector2 mousePosition, MouseKey key)
+        internal bool HandleMouseDown(Vector2 mousePosition, MouseKey key)
         {
             var existingElement = _mouseUpListeners[key];
             if (existingElement != null)
@@ -41,7 +41,7 @@ namespace JUnity.Services.UI
             return false;
         }
 
-        public void HandleMouseUp(Vector2 mousePosition, MouseKey key)
+        internal void HandleMouseUp(Vector2 mousePosition, MouseKey key)
         {
             var element = _mouseUpListeners[key];
             if (element != null)
@@ -51,7 +51,7 @@ namespace JUnity.Services.UI
             }
         }
 
-        public bool HandleMouseScroll(Vector2 mousePosition, int deltaScrollValue)
+        internal bool HandleMouseScroll(Vector2 mousePosition, int deltaScrollValue)
         {
             foreach (var element in _elements)
             {
