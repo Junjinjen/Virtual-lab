@@ -1,14 +1,11 @@
 ﻿using JUnity.Services.Graphics;
 using JUnity.Services.Input;
 using SharpDX;
-using System;
 
 namespace JUnity.Services.UI.Elements
 {
-    public abstract class UIElement : IDisposable
+    public abstract class UIElement
     {
-        private bool _isDisposed;
-
         public bool IsVisible { get; set; } = true;
 
         public Vector2 Position { get; set; }
@@ -28,29 +25,5 @@ namespace JUnity.Services.UI.Elements
         internal virtual void HandleMouseScroll(Vector2 mousePosition, int deltaScrollValue) { }
 
         protected internal abstract void Render(GraphicsRenderer renderer);
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_isDisposed)
-            {
-                if (disposing)
-                {
-                    Engine.Instance.UIController.RemoveElement(this);
-                }
-
-                _isDisposed = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        ~UIElement()
-        {
-            Dispose(false);
-        }
     }
 }

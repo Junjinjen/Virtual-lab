@@ -67,12 +67,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Canvas.cs" />
     <Compile Include="Components\GameComponent.cs" />
     <Compile Include="Components\Interfaces\IFixedUpdatableComponent.cs" />
     <Compile Include="Components\Interfaces\IUniqueComponent.cs" />
+    <Compile Include="Services\Graphics\ConstantBuffer.cs" />
     <Compile Include="Services\Graphics\GraphicsInitializer.cs" />
     <Compile Include="Services\Graphics\GraphicsSettings.cs" />
     <Compile Include="Services\Graphics\Lightning\DirectionalLight.cs" />
+    <Compile Include="Services\Graphics\Lightning\LightContainer.cs" />
     <Compile Include="Services\Graphics\Lightning\PointLight.cs" />
     <Compile Include="Services\Graphics\Lightning\SpotLight.cs" />
     <Compile Include="Services\Graphics\Meshing\Material.cs" />

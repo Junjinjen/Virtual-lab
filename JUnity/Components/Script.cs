@@ -7,6 +7,7 @@ namespace JUnity.Components
         protected Script(GameObject owner)
         {
             Object = owner;
+            Canvas = new Canvas();
         }
 
         public GameObject Object { get; }
@@ -19,6 +20,8 @@ namespace JUnity.Components
             }
         }
 
+        public Canvas Canvas { get; }
+
         public virtual void Start() { }
 
         public virtual void Update(double deltaTime) { }
@@ -28,6 +31,7 @@ namespace JUnity.Components
         public void Destroy()
         {
             Engine.Instance.Scene.Remove(Object);
+            Canvas.Dispose();
         }
     }
 }

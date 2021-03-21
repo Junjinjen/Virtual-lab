@@ -2,6 +2,8 @@
 {
     public class GraphicsSettings
     {
+        internal const int MaxLightsCount = 8;
+
         internal static readonly GraphicsSettings Default = new GraphicsSettings
         {
             WindowTitle = "JUnity game",

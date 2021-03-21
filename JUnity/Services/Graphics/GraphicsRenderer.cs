@@ -1,11 +1,12 @@
 ﻿using SharpDX;
 using SharpDX.Direct3D11;
-using Buffer = SharpDX.Direct3D11.Buffer;
 using Device = SharpDX.Direct3D11.Device;
 using SharpDX.DXGI;
 using SharpDX.Windows;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using JUnity.Services.Graphics.Meshing;
 
 namespace JUnity.Services.Graphics
 {
@@ -20,18 +21,23 @@ namespace JUnity.Services.Graphics
         private RenderTargetView _renderView;
         private SamplerState _samplerState;
 
-        private Dictionary<string, VertexShader> _vertexShaders;
-        private Dictionary<string, PixelShader> _pixelShaders;
         private SampleDescription _sampleDescription;
         private Texture2DDescription _depthBufferDescription;
 
-        public Dictionary<string, VertexShader> VertexShaders { get => _vertexShaders; }
-
-        public Dictionary<string, PixelShader> PixelShaders { get => _pixelShaders; }
+        private readonly List<Mesh> _drawingQueue = new List<Mesh>();
 
         internal Device Device { get => _device; private set => _device = value; }
 
         internal RenderForm RenderForm { get; private set; }
+
+        public ReadOnlyDictionary<string, VertexShader> VertexShaders { get; private set; }
+
+        public ReadOnlyDictionary<string, PixelShader> PixelShaders { get; private set; }
+
+        internal void AddMeshToDrawingQueue(Mesh mesh)
+        {
+            _drawingQueue.Add(mesh);
+        }
 
         internal void RenderScene()
         {
@@ -51,7 +57,9 @@ namespace JUnity.Services.Graphics
             factory.MakeWindowAssociation(RenderForm.Handle, WindowAssociationFlags.IgnoreAll);
             factory.Dispose();
 
-            GraphicsInitializer.InitializeShaders(graphicsSettings.ShadersMetaPath, out var inputSignature, out _vertexShaders, out _pixelShaders);
+            GraphicsInitializer.InitializeShaders(graphicsSettings.ShadersMetaPath, out var inputSignature, out var vertexShaders, out var pixelShaders);
+            VertexShaders = new ReadOnlyDictionary<string, VertexShader>(vertexShaders);
+            PixelShaders = new ReadOnlyDictionary<string, PixelShader>(pixelShaders);
 
             var layout = new InputLayout(_device, inputSignature, new[]
                     {

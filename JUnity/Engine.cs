@@ -32,13 +32,13 @@ namespace JUnity
 
         internal GraphicsRenderer GraphicsRenderer { get; }
 
+        internal UIController UIController { get; }
+
         internal GameObjectCollection Scene { get; }
 
         public GraphicsSettings GraphicsSettings { get; set; }
 
         public InputManager InputManager { get; }
-
-        public UIController UIController { get; }
 
         public void Run()
         {
