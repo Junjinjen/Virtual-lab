@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using SharpDX.Direct3D11;
 using Buffer = SharpDX.Direct3D11.Buffer;
 
-namespace JUnity.Services.Graphics
+namespace JUnity.Services.Graphics.Utilities
 {
     internal sealed class ConstantBuffer<T> : IDisposable
         where T : struct

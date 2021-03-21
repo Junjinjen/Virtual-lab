@@ -71,11 +71,13 @@
     <Compile Include="Components\GameComponent.cs" />
     <Compile Include="Components\Interfaces\IFixedUpdatableComponent.cs" />
     <Compile Include="Components\Interfaces\IUniqueComponent.cs" />
-    <Compile Include="Services\Graphics\ConstantBuffer.cs" />
-    <Compile Include="Services\Graphics\GraphicsInitializer.cs" />
-    <Compile Include="Services\Graphics\GraphicsSettings.cs" />
+    <Compile Include="Services\Graphics\Camera.cs" />
+    <Compile Include="Services\Graphics\Utilities\ConstantBuffer.cs" />
+    <Compile Include="Services\Graphics\Utilities\GraphicsInitializer.cs" />
+    <Compile Include="Services\Graphics\Utilities\GraphicsSettings.cs" />
     <Compile Include="Services\Graphics\Lightning\DirectionalLight.cs" />
     <Compile Include="Services\Graphics\Lightning\LightContainer.cs" />
+    <Compile Include="Services\Graphics\Lightning\LightManager.cs" />
     <Compile Include="Services\Graphics\Lightning\PointLight.cs" />
     <Compile Include="Services\Graphics\Lightning\SpotLight.cs" />
     <Compile Include="Services\Graphics\Meshing\Material.cs" />
@@ -94,7 +96,7 @@
     <Compile Include="Services\UI\Elements\UIElement.cs" />
     <Compile Include="Utilities\GameObjectCollection.cs" />
     <Compile Include="Utilities\ISceneInitializer.cs" />
-    <Compile Include="Utilities\UIHelper.cs" />
+    <Compile Include="Services\UI\UIHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.18.0.27296\analyzers\Google.Protobuf.dll" />
@@ -109,6 +111,8 @@
     <Folder Include="Components\MeshRenderer\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Shaders\Common.h" />
+    <Content Include="Shaders\Lightning.h" />
     <Content Include="Shaders\test.hlsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

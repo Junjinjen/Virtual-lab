@@ -1,8 +1,10 @@
-﻿namespace JUnity.Services.Graphics
+﻿using SharpDX;
+
+namespace JUnity.Services.Graphics.Utilities
 {
     public class GraphicsSettings
     {
-        internal const int MaxLightsCount = 8;
+        internal const int MaxLightsPerTypeCount = 8;
 
         internal static readonly GraphicsSettings Default = new GraphicsSettings
         {
@@ -13,6 +15,8 @@
             ShadersMetaPath = "Shaders/ShadersMeta.xml",
             MultisamplesPerPixel = 1,
             MultisamplerQuality = 0,
+            VSyncEnabled = true,
+            GlobalAmbientOcclusion = new Vector3(0.02f),
         };
 
         public string WindowTitle { get; set; }
@@ -30,6 +34,10 @@
         public int MultisamplerQuality { get; set; }
 
         public TextureSampling TextureSampling { get; set; }
+
+        public Vector3 GlobalAmbientOcclusion { get; set; }
+
+        public bool VSyncEnabled { get; set; }
     }
 
     public enum TextureSampling

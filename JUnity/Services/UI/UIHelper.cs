@@ -1,7 +1,7 @@
 ﻿using JUnity.Services.UI.Elements;
 using SharpDX;
 
-namespace JUnity.Utilities
+namespace JUnity.Services.UI
 {
     internal static class UIHelper
     {

@@ -11,7 +11,7 @@ using System.Xml.Linq;
 using SharpDX.D3DCompiler;
 using System.IO;
 
-namespace JUnity.Services.Graphics
+namespace JUnity.Services.Graphics.Utilities
 {
     internal static class GraphicsInitializer
     {
@@ -53,12 +53,12 @@ namespace JUnity.Services.Graphics
                                     };
 
             var pixelShadersInfo = from shader in document.Element("shaders").Elements("pixel-shader")
-                                    select new ShaderInfo
-                                    {
-                                        Name = shader.Element("name").Value,
-                                        FileName = shader.Element("filename").Value,
-                                        EntryPoint = shader.Element("entry-point").Value
-                                    };
+                                   select new ShaderInfo
+                                   {
+                                       Name = shader.Element("name").Value,
+                                       FileName = shader.Element("filename").Value,
+                                       EntryPoint = shader.Element("entry-point").Value
+                                   };
 
             vertexShaders = new Dictionary<string, VertexShader>();
             pixelShaders = new Dictionary<string, PixelShader>();
@@ -78,7 +78,7 @@ namespace JUnity.Services.Graphics
                 {
                     inputSignature = shaderSignature;
                 }
-                else if (!Enumerable.SequenceEqual(shaderSignature.Data, inputSignature.Data))
+                else if (!shaderSignature.Data.SequenceEqual(inputSignature.Data))
                 {
                     throw new Exception("Vertex shaders have different input signatures");
                 }

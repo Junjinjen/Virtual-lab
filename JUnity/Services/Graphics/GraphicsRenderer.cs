@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using JUnity.Services.Graphics.Meshing;
+using JUnity.Services.Graphics.Lightning;
+using JUnity.Services.Graphics.Utilities;
 
 namespace JUnity.Services.Graphics
 {
@@ -21,14 +23,23 @@ namespace JUnity.Services.Graphics
         private RenderTargetView _renderView;
         private SamplerState _samplerState;
 
+        private ConstantBuffer<LightContainer> _lightBuffer;
+
         private SampleDescription _sampleDescription;
         private Texture2DDescription _depthBufferDescription;
+        private int _syncInterval;
 
         private readonly List<Mesh> _drawingQueue = new List<Mesh>();
 
         internal Device Device { get => _device; private set => _device = value; }
 
         internal RenderForm RenderForm { get; private set; }
+
+        internal LightManager LightManager { get; private set; }
+
+        internal Camera Camera { get; private set; }
+
+        public Color BackgroundColor { get; set; }
 
         public ReadOnlyDictionary<string, VertexShader> VertexShaders { get; private set; }
 
@@ -41,7 +52,15 @@ namespace JUnity.Services.Graphics
 
         internal void RenderScene()
         {
-            
+            ClearBuffers();
+            LightManager.CameraPosition = Camera.Position;
+
+            _lightBuffer.Update(LightManager.GetContainer());
+            _device.ImmediateContext.PixelShader.SetConstantBuffer(0, _lightBuffer.Buffer); // may cause problems, when using multiple shaders
+
+
+
+            EndRender();
         }
 
         internal void Initialize(GraphicsSettings graphicsSettings)
@@ -57,6 +76,8 @@ namespace JUnity.Services.Graphics
             factory.MakeWindowAssociation(RenderForm.Handle, WindowAssociationFlags.IgnoreAll);
             factory.Dispose();
 
+            CreateConstantBuffers();
+
             GraphicsInitializer.InitializeShaders(graphicsSettings.ShadersMetaPath, out var inputSignature, out var vertexShaders, out var pixelShaders);
             VertexShaders = new ReadOnlyDictionary<string, VertexShader>(vertexShaders);
             PixelShaders = new ReadOnlyDictionary<string, PixelShader>(pixelShaders);
@@ -71,12 +92,16 @@ namespace JUnity.Services.Graphics
 
             _device.ImmediateContext.InputAssembler.InputLayout = layout;
             _samplerState = GraphicsInitializer.CreateSamplerState(graphicsSettings.TextureSampling);
-
+            
             OnResize(null, EventArgs.Empty);
         }
 
         private void CreateSharedFields(GraphicsSettings graphicsSettings)
         {
+            Camera = new Camera();
+            LightManager = new LightManager();
+            LightManager.GlobalAmbient = graphicsSettings.GlobalAmbientOcclusion;
+
             _sampleDescription = new SampleDescription(graphicsSettings.MultisamplesPerPixel, graphicsSettings.MultisamplerQuality);
             _depthBufferDescription = new Texture2DDescription()
             {
@@ -91,6 +116,13 @@ namespace JUnity.Services.Graphics
                 CpuAccessFlags = CpuAccessFlags.None,
                 OptionFlags = ResourceOptionFlags.None
             };
+
+            _syncInterval = graphicsSettings.VSyncEnabled ? 1 : 0;
+        }
+
+        private void CreateConstantBuffers()
+        {
+            _lightBuffer = new ConstantBuffer<LightContainer>(_device);
         }
 
         private void OnResize(object sender, EventArgs args)
@@ -112,6 +144,19 @@ namespace JUnity.Services.Graphics
 
             _device.ImmediateContext.Rasterizer.SetViewport(new Viewport(0, 0, RenderForm.ClientSize.Width, RenderForm.ClientSize.Height, 0.0f, 1.0f));
             _device.ImmediateContext.OutputMerger.SetTargets(_depthView, _renderView);
+        }
+
+        private void ClearBuffers()
+        {
+            _device.ImmediateContext.ClearDepthStencilView(_depthView, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil, 1f, 0);
+            _device.ImmediateContext.ClearRenderTargetView(_renderView, BackgroundColor);
+        }
+
+        private void EndRender()
+        {
+            _swapChain.Present(_syncInterval, PresentFlags.Restart);
+            LightManager.ResetLight();
+            _drawingQueue.Clear();
         }
 
         public void Dispose()
