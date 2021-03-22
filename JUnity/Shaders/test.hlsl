@@ -4,15 +4,14 @@
 
 VertexShaderOutput VS(VertexShaderInput input)
 {
-	PS_IN output = (PS_IN)0;
-
-	output.pos = mul(input.pos, worldViewProj);
-	output.col = input.col;
+	VertexShaderOutput output = (VertexShaderOutput)0;
+	output.screenSpacePosition = mul(input.position, worldViewProjectionMatrix);
+	output.color = input.color;
 
 	return output;
 }
 
-float4 PS(PS_IN input) : SV_Target
+float4 PS(VertexShaderOutput input) : SV_Target
 {
-	return input.col;
+	return input.color;
 }

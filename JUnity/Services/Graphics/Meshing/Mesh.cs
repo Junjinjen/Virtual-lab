@@ -5,7 +5,7 @@ namespace JUnity.Services.Graphics.Meshing
 {
     public sealed class Mesh
     {
-        public Mesh(VertexDescription[] vertices, int[] indices, PrimitiveTopology primitiveTopology, Material material)
+        public Mesh(VertexDescription[] vertices, uint[] indices, Material material, PrimitiveTopology primitiveTopology = PrimitiveTopology.TriangleList)
         {
             Material = material;
             IndicesCount = indices.Length;

@@ -90,6 +90,8 @@ namespace JUnity.Services.Graphics
 
                 _device.ImmediateContext.VertexShader.Set(order.Mesh.Material.VertexShader);
                 _device.ImmediateContext.PixelShader.Set(order.Mesh.Material.PixelShader);
+
+                _device.ImmediateContext.DrawIndexed(order.Mesh.IndicesCount, 0, 0);
             }
 
             EndRender();
@@ -209,7 +211,7 @@ namespace JUnity.Services.Graphics
         {
             _swapChain.Present(_syncInterval, PresentFlags.Restart);
             LightManager.ResetLight();
-            _drawingQueue.Clear();
+            //_drawingQueue.Clear();
         }
 
         public void Dispose()
