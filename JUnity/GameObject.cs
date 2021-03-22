@@ -21,6 +21,7 @@ namespace JUnity
             Name = name;
             IsActive = true;
             Children = new GameObjectCollection(this);
+            Scale = Vector3.One;
         }
 
         public bool IsActive { get; set; }
@@ -37,7 +38,7 @@ namespace JUnity
 
         public Vector3 Position { get; set; }
 
-        public Vector3 Scale { get; set; } = Vector3.One;
+        public Vector3 Scale { get; set; }
 
         internal void OnUpdate(double deltaTime)
         {
