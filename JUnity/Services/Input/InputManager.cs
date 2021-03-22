@@ -51,33 +51,35 @@ namespace JUnity.Services.Input
 
             _lastMouseState = _mouseState;
             _mouseState = _mouse.GetCurrentState();
-
-            var position = GetCursorPosition();
-            for (int i = 0; i < 8; i++)
+            if (_lastMouseState != null)
             {
-                if (_mouseState.Buttons[i])
+                var position = GetCursorPosition();
+                for (int i = 0; i < 8; i++)
                 {
-                    if (!_lastMouseState.Buttons[i] && Engine.Instance.UIController.HandleMouseDown(position, (MouseKey)i) && !_supressedKeys[i])
+                    if (_mouseState.Buttons[i])
                     {
-                        _supressedKeys[i] = true;
-                    }
+                        if (!_lastMouseState.Buttons[i] && Engine.Instance.UIController.HandleMouseDown(position, (MouseKey)i) && !_supressedKeys[i])
+                        {
+                            _supressedKeys[i] = true;
+                        }
 
-                    if (_supressedKeys[i])
+                        if (_supressedKeys[i])
+                        {
+                            _mouseState.Buttons[i] = false;
+                        }
+                    }
+                    else if (_supressedKeys[i])
                     {
-                        _mouseState.Buttons[i] = false;
+                        Engine.Instance.UIController.HandleMouseUp(position, (MouseKey)i);
+                        _supressedKeys[i] = false;
                     }
                 }
-                else if (_supressedKeys[i])
-                {
-                    Engine.Instance.UIController.HandleMouseUp(position, (MouseKey)i);
-                    _supressedKeys[i] = false;
-                }
-            }
 
-            if (_mouseState.Z != 0)
-            {
-                Engine.Instance.UIController.HandleMouseScroll(position, _mouseState.Z);
-                _mouseState.Z = 0;
+                if (_mouseState.Z != 0)
+                {
+                    Engine.Instance.UIController.HandleMouseScroll(position, _mouseState.Z);
+                    _mouseState.Z = 0;
+                }
             }
         }
 
