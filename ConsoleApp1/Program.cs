@@ -21,6 +21,11 @@ namespace ConsoleApp1
             tmp.AspectRatio = 1;
             tmp.Position = new Vector3(1, 3, 5);
             tmp.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
+
+            using (var engine = new Engine(new Init()))
+            {
+                engine.Run();
+            }
         }
     }
 }

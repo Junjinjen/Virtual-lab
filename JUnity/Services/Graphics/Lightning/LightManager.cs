@@ -8,6 +8,13 @@ namespace JUnity.Services.Graphics.Lightning
     {
         private LightContainer _lightContainer = new LightContainer();
 
+        public LightManager()
+        {
+            _lightContainer.DirectionalLights = new DirectionalLight[GraphicsSettings.MaxLightsPerTypeCount];
+            _lightContainer.PointLights = new PointLight[GraphicsSettings.MaxLightsPerTypeCount];
+            _lightContainer.SpotLights = new SpotLight[GraphicsSettings.MaxLightsPerTypeCount];
+        }
+
         public Vector3 CameraPosition
         {
             get
