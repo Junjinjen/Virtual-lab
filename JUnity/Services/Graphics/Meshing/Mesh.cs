@@ -12,7 +12,7 @@ namespace JUnity.Services.Graphics.Meshing
             PrimitiveTopology = primitiveTopology;
 
             var verticesBuffer = Buffer.Create(Engine.Instance.GraphicsRenderer.Device, BindFlags.VertexBuffer,
-                vertices, SharpDX.Utilities.SizeOf<VertexDescription>() * IndicesCount);
+                vertices, SharpDX.Utilities.SizeOf<VertexDescription>() * vertices.Length);
 
             VertexBufferBinding = new VertexBufferBinding(verticesBuffer, SharpDX.Utilities.SizeOf<VertexDescription>(), 0);
             IndexBuffer = Buffer.Create(Engine.Instance.GraphicsRenderer.Device, BindFlags.IndexBuffer, indices, SharpDX.Utilities.SizeOf<int>() * IndicesCount);

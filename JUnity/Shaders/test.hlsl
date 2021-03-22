@@ -1,6 +1,6 @@
 ﻿#include "Headers/Vertex.h"
 #include "Headers/Pixel.h"
-#include "Headers/Lightning.h"
+//#include "Headers/Lightning.h"
 
 VertexShaderOutput VS(VertexShaderInput input)
 {

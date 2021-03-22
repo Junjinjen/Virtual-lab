@@ -8,7 +8,7 @@ namespace JUnity.Services.Graphics.Utilities
 
         internal static readonly GraphicsSettings Default = new GraphicsSettings
         {
-            WindowTitle = "JUnity game",
+            WindowTitle = "JUnity window",
             IsWindowed = true,
             Numerator = 60,
             Denominator = 1,

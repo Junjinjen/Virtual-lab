@@ -67,22 +67,7 @@ namespace JUnity.Services.Graphics
             foreach (var order in _drawingQueue)
             {
                 UpdateMaterial(order.Mesh.Material);
-
-                var worldMatrix = Matrix.RotationQuaternion(order.GameObject.Rotation) *
-                    Matrix.Translation(order.GameObject.Position);
-
-                var matrices = new MeshMatrices
-                {
-                    WorldMatrix = worldMatrix,
-                    WorldViewProjectionMatrix = Matrix.Multiply(worldMatrix, viewProjectionMatrix),
-                    InverseWorldMatrix = Matrix.Invert(worldMatrix),
-                };
-
-                matrices.WorldMatrix.Transpose();
-                matrices.WorldViewProjectionMatrix.Transpose();
-
-                _meshMatricesBufferBuffer.Update(matrices);
-                _device.ImmediateContext.VertexShader.SetConstantBuffer(MeshMatricesSlot, _meshMatricesBufferBuffer.Buffer);
+                UpdateMeshMatrices(ref viewProjectionMatrix, order.GameObject);
 
                 _device.ImmediateContext.InputAssembler.PrimitiveTopology = order.Mesh.PrimitiveTopology;
                 _device.ImmediateContext.InputAssembler.SetVertexBuffers(0, order.Mesh.VertexBufferBinding);
@@ -95,6 +80,25 @@ namespace JUnity.Services.Graphics
             }
 
             EndRender();
+        }
+
+        private void UpdateMeshMatrices(ref Matrix viewProjectionMatrix, GameObject gameObject)
+        {
+            var worldMatrix = Matrix.RotationQuaternion(gameObject.Rotation) *
+                                Matrix.Translation(gameObject.Position);
+
+            var matrices = new MeshMatrices
+            {
+                WorldMatrix = worldMatrix,
+                WorldViewProjectionMatrix = Matrix.Multiply(worldMatrix, viewProjectionMatrix),
+                InverseWorldMatrix = Matrix.Invert(worldMatrix),
+            };
+
+            matrices.WorldMatrix.Transpose();
+            matrices.WorldViewProjectionMatrix.Transpose();
+
+            _meshMatricesBufferBuffer.Update(matrices);
+            _device.ImmediateContext.VertexShader.SetConstantBuffer(MeshMatricesSlot, _meshMatricesBufferBuffer.Buffer);
         }
 
         private void UpdateMaterial(Material material)
@@ -152,8 +156,10 @@ namespace JUnity.Services.Graphics
         private void CreateSharedFields(GraphicsSettings graphicsSettings)
         {
             Camera = new Camera();
-            LightManager = new LightManager();
-            LightManager.GlobalAmbient = graphicsSettings.GlobalAmbientOcclusion;
+            LightManager = new LightManager
+            {
+                GlobalAmbient = graphicsSettings.GlobalAmbientOcclusion
+            };
 
             _sampleDescription = new SampleDescription(graphicsSettings.MultisamplesPerPixel, graphicsSettings.MultisamplerQuality);
             _depthBufferDescription = new Texture2DDescription()

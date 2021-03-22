@@ -21,35 +21,35 @@ namespace ConsoleApp1
                     {
                         Position = new Vector4(-1.0f, 1.0f, -1.0f, 1.0f),
                         Normal = new Vector4(0.0f, 0.0f, -1.0f, 1.0f),
-                        Color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f),
+                        Color = new Vector4(1.0f, 0.0f, 0.0f, 1.0f),
                         TextureCoordinate = new Vector2(0.25f, 0.25f)
                     },
                     new VertexDescription // front 1
                     {
                         Position = new Vector4(-1.0f, -1.0f, -1.0f, 1.0f),
                         Normal = new Vector4(0.0f, 0.0f, -1.0f, 1.0f),
-                        Color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f),
+                        Color = new Vector4(0.0f, 1.0f, 0.0f, 1.0f),
                         TextureCoordinate = new Vector2(0.25f, 0.5f)
                     },
                     new VertexDescription // front 2
                     {
                         Position = new Vector4(1.0f, -1.0f, -1.0f, 1.0f),
                         Normal = new Vector4(0.0f, 0.0f, -1.0f, 1.0f),
-                        Color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f),
+                        Color = new Vector4(0.0f, 0.0f, 1.0f, 1.0f),
                         TextureCoordinate = new Vector2(0.5f, 0.5f)
                     },
                     new VertexDescription // front 3
                     {
                         Position = new Vector4(1.0f, 1.0f, -1.0f, 1.0f),
                         Normal = new Vector4(0.0f, 0.0f, -1.0f, 1.0f),
-                        Color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f),
+                        Color = new Vector4(1.0f, 1.0f, 0.0f, 1.0f),
                         TextureCoordinate = new Vector2(0.5f, 0.25f)
                     },
                     new VertexDescription // right 4
                     {
                         Position = new Vector4(1.0f, 1.0f, -1.0f, 1.0f),
                         Normal = new Vector4(1.0f, 0.0f, 0.0f, 1.0f),
-                        Color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f),
+                        Color = new Vector4(0.0f, 1.0f, 1.0f, 1.0f),
                         TextureCoordinate = new Vector2(0.5f, 0.25f)
                     },
                     new VertexDescription // right 5
@@ -63,28 +63,28 @@ namespace ConsoleApp1
                     {
                         Position = new Vector4(1.0f, -1.0f, 1.0f, 1.0f),
                         Normal = new Vector4(1.0f, 0.0f, 0.0f, 1.0f),
-                        Color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f),
+                        Color = new Vector4(1.0f, 0.5f, 0.0f, 1.0f),
                         TextureCoordinate = new Vector2(0.75f, 0.5f)
                     },
                     new VertexDescription // right 7
                     {
                         Position = new Vector4(1.0f, 1.0f, 1.0f, 1.0f),
                         Normal = new Vector4(1.0f, 0.0f, 0.0f, 1.0f),
-                        Color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f),
+                        Color = new Vector4(5.0f, 1.0f, 0.5f, 1.0f),
                         TextureCoordinate = new Vector2(0.75f, 0.25f)
                     },
                     new VertexDescription // back 8
                     {
                         Position = new Vector4(1.0f, 1.0f, 1.0f, 1.0f),
                         Normal = new Vector4(0.0f, 0.0f, 1.0f, 1.0f),
-                        Color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f),
+                        Color = new Vector4(1.0f, 0.5f, 1.0f, 1.0f),
                         TextureCoordinate = new Vector2(0.75f, 0.25f)
                     },
                     new VertexDescription // back 9
                     {
                         Position = new Vector4(1.0f, -1.0f, 1.0f, 1.0f),
                         Normal = new Vector4(0.0f, 0.0f, 1.0f, 1.0f),
-                        Color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f),
+                        Color = new Vector4(1.0f, 0.5f, 0.5f, 1.0f),
                         TextureCoordinate = new Vector2(0.75f, 0.5f)
                     },
                     new VertexDescription // back 10
@@ -197,7 +197,11 @@ namespace ConsoleApp1
             };
 
             var mesh = new Mesh(vertexes, indeces, new Material());
+
+            mesh.Material.SetPixelShader("px1");
+            mesh.Material.SetVertexShader("vx1");
             var go = new GameObject();
+            go.Rotation = Quaternion.RotationLookAtLH(new Vector3(0.5f), Vector3.Up);
             Engine.Instance.GraphicsRenderer.AddMeshToDrawingQueue(new RenderOrder
             {
                 GameObject = go,
