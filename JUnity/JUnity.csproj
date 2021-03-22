@@ -92,6 +92,7 @@
     <Compile Include="Services\Graphics\Meshing\MaterialDescription.cs" />
     <Compile Include="Services\Graphics\Meshing\Texture.cs" />
     <Compile Include="Services\Graphics\Meshing\VertexDescription.cs" />
+    <Compile Include="Services\Graphics\Utilities\IncludeHandler.cs" />
     <Compile Include="Services\Input\InputManager.cs" />
     <Compile Include="Services\UI\UIController.cs" />
     <Compile Include="Services\UI\Elements\Button.cs" />
@@ -113,10 +114,18 @@
     <Folder Include="Components\MeshRenderer\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Shaders\Headers\Pixel.h" />
-    <Content Include="Shaders\Headers\Signature.h" />
-    <Content Include="Shaders\Headers\Vertex.h" />
-    <Content Include="Shaders\Headers\Lightning.h" />
+    <Content Include="Shaders\Headers\Pixel.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Shaders\Headers\Signature.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Shaders\Headers\Vertex.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Shaders\Headers\Lightning.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Shaders\test.hlsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -1,4 +1,7 @@
-﻿#define MAX_LIGHTS_PER_TYPE = 8
+#ifndef LIGHTNING_H
+#define LIGHTNING_H
+
+#define MAX_LIGHTS_PER_TYPE 8
 
 struct DirectionalLight
 {
@@ -43,3 +46,5 @@ cbuffer MaterialDescription : register(b1)
 	float3 specularCoefficient;
 	bool isTexturePresent;
 }
+
+#endif // !LIGHTNING_H

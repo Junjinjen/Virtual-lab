@@ -1,4 +1,7 @@
-﻿struct VertexShaderInput
+#ifndef SIGNATURE_H
+#define SIGNATURE_H
+
+struct VertexShaderInput
 {
 	float4 position : POSITION;
 	float4 normal : NORMAL;
@@ -14,3 +17,5 @@ struct VertexShaderOutput
 	float4 color : COLOR;
 	float4 textureCoordinate : TEXCOORD0;
 };
+
+#endif // !SIGNATURE_H

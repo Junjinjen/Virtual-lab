@@ -1,4 +1,9 @@
-﻿#include "Signature.h"
+#ifndef PIXEL_H
+#define PIXEL_H
 
-Texture2D texture : register(t0);
-sampler sampler : register(s0);
+#include "Signature.h"
+
+Texture2D meshTexture : register(t0);
+sampler textureSampler : register(s0);
+
+#endif // !PIXEL_H

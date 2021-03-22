@@ -68,7 +68,7 @@ namespace JUnity.Services.Graphics.Utilities
 
             foreach (var shaderInfo in vertexShadersInfo)
             {
-                var vertexShaderByteCode = ShaderBytecode.CompileFromFile(Path.Combine(shadersFolder, shaderInfo.FileName), shaderInfo.EntryPoint, "vs_5_0");
+                var vertexShaderByteCode = ShaderBytecode.CompileFromFile(Path.Combine(shadersFolder, shaderInfo.FileName), shaderInfo.EntryPoint, "vs_5_0", include: new IncludeHandler(shadersFolder));
                 var vertexShader = new VertexShader(Engine.Instance.GraphicsRenderer.Device, vertexShaderByteCode);
 
                 vertexShaders.Add(shaderInfo.Name, vertexShader);
@@ -88,7 +88,7 @@ namespace JUnity.Services.Graphics.Utilities
 
             foreach (var shaderInfo in pixelShadersInfo)
             {
-                var pixelShaderByteCode = ShaderBytecode.CompileFromFile(Path.Combine(shadersFolder, shaderInfo.FileName), shaderInfo.EntryPoint, "ps_5_0");
+                var pixelShaderByteCode = ShaderBytecode.CompileFromFile(Path.Combine(shadersFolder, shaderInfo.FileName), shaderInfo.EntryPoint, "ps_5_0", include: new IncludeHandler(shadersFolder));
                 var pixelShader = new PixelShader(Engine.Instance.GraphicsRenderer.Device, pixelShaderByteCode);
 
                 pixelShaders.Add(shaderInfo.Name, pixelShader);
