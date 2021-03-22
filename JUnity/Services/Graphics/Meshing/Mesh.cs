@@ -15,7 +15,7 @@ namespace JUnity.Services.Graphics.Meshing
                 vertices, SharpDX.Utilities.SizeOf<VertexDescription>() * vertices.Length);
 
             VertexBufferBinding = new VertexBufferBinding(verticesBuffer, SharpDX.Utilities.SizeOf<VertexDescription>(), 0);
-            IndexBuffer = Buffer.Create(Engine.Instance.GraphicsRenderer.Device, BindFlags.IndexBuffer, indices, SharpDX.Utilities.SizeOf<int>() * IndicesCount);
+            IndexBuffer = Buffer.Create(Engine.Instance.GraphicsRenderer.Device, BindFlags.IndexBuffer, indices, sizeof(uint) * IndicesCount);
         }
 
         public VertexBufferBinding VertexBufferBinding { get; }

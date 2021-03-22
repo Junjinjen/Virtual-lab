@@ -38,6 +38,8 @@ namespace JUnity.Services.Graphics.Utilities
         public Vector3 GlobalAmbientOcclusion { get; set; }
 
         public bool VSyncEnabled { get; set; }
+
+        public Color BackgroundColor { get; set; }
     }
 
     public enum TextureSampling

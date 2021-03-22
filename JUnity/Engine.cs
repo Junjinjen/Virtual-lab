@@ -6,7 +6,7 @@ using JUnity.Utilities;
 using SharpDX.Windows;
 using System;
 using System.Diagnostics;
-
+using System.Drawing;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("ConsoleApp1")]
@@ -43,6 +43,8 @@ namespace JUnity
         public GraphicsSettings GraphicsSettings { get; set; }
 
         public InputManager InputManager { get; }
+
+        public Size WindowSize { get => GraphicsRenderer.RenderForm.Size; set => GraphicsRenderer.RenderForm.Size = value; }
 
         public void Run()
         {

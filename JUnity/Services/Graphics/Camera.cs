@@ -33,11 +33,15 @@ namespace JUnity.Services.Graphics
             }
         }
 
+        public float DrawDistance { get; set; }
+
+        public float NearDistance { get; set; }
+
         internal Matrix GetPojectionMatrix()
         {
             if (_pojectionMatrix == null)
             {
-                _pojectionMatrix = Matrix.PerspectiveFovLH(Fov, AspectRatio, 0.1f, 100.0f);
+                _pojectionMatrix = Matrix.PerspectiveFovLH(Fov / AspectRatio, AspectRatio, NearDistance, DrawDistance);
             }
 
             return _pojectionMatrix.Value;

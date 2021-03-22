@@ -155,6 +155,7 @@ namespace JUnity.Services.Graphics
 
         private void CreateSharedFields(GraphicsSettings graphicsSettings)
         {
+            BackgroundColor = graphicsSettings.BackgroundColor;
             Camera = new Camera();
             LightManager = new LightManager
             {
