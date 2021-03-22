@@ -14,6 +14,11 @@ namespace JUnity.Services.Graphics
 {
     public sealed class GraphicsRenderer : IDisposable
     {
+        private const int LightContainerSlot = 0;
+        private const int MaterialDescriptionSlot = 1;
+        private const int ViewProjectionMatricesSlot = 0;
+        private const int WorldMatrixBufferSlot = 1;
+
         private Device _device;
         private SwapChainDescription _swapChainDescription;
         private SwapChain _swapChain;
@@ -24,12 +29,15 @@ namespace JUnity.Services.Graphics
         private SamplerState _samplerState;
 
         private ConstantBuffer<LightContainer> _lightBuffer;
+        private ConstantBuffer<ViewProjectionMatricesBuffer> _viewProjectionMatricesBuffer;
+        private ConstantBuffer<MaterialDescription> _materialDescriptionBuffer;
+        private ConstantBuffer<Matrix> _worldMatrixBuffer;
 
         private SampleDescription _sampleDescription;
         private Texture2DDescription _depthBufferDescription;
         private int _syncInterval;
 
-        private readonly List<Mesh> _drawingQueue = new List<Mesh>();
+        private readonly List<RenderOrder> _drawingQueue = new List<RenderOrder>();
 
         internal Device Device { get => _device; private set => _device = value; }
 
@@ -45,9 +53,9 @@ namespace JUnity.Services.Graphics
 
         public ReadOnlyDictionary<string, PixelShader> PixelShaders { get; private set; }
 
-        internal void AddMeshToDrawingQueue(Mesh mesh)
+        internal void AddMeshToDrawingQueue(RenderOrder order)
         {
-            _drawingQueue.Add(mesh);
+            _drawingQueue.Add(order);
         }
 
         internal void RenderScene()
@@ -55,12 +63,56 @@ namespace JUnity.Services.Graphics
             ClearBuffers();
             LightManager.CameraPosition = Camera.Position;
 
-            _lightBuffer.Update(LightManager.GetContainer());
-            _device.ImmediateContext.PixelShader.SetConstantBuffer(0, _lightBuffer.Buffer); // may cause problems, when using multiple shaders
+            UpdateLightning();
+            UpdateViewProjectionMatrices();
 
+            foreach (var order in _drawingQueue)
+            {
+                UpdateMaterial(order.Mesh.Material);
 
+                var worldMatrix = Matrix.RotationQuaternion(order.GameObject.Rotation) *
+                    Matrix.Translation(order.GameObject.Position);
+                _worldMatrixBuffer.Update(worldMatrix);
+                _device.ImmediateContext.VertexShader.SetConstantBuffer(WorldMatrixBufferSlot, _worldMatrixBuffer.Buffer);
+
+                _device.ImmediateContext.InputAssembler.PrimitiveTopology = order.Mesh.PrimitiveTopology;
+                _device.ImmediateContext.InputAssembler.SetVertexBuffers(0, order.Mesh.VertexBufferBinding);
+                _device.ImmediateContext.InputAssembler.SetIndexBuffer(order.Mesh.IndexBuffer, Format.R32_UInt, 0);
+
+                _device.ImmediateContext.VertexShader.Set(order.Mesh.Material.VertexShader);
+                _device.ImmediateContext.PixelShader.Set(order.Mesh.Material.PixelShader);
+            }
 
             EndRender();
+        }
+
+        private void UpdateMaterial(Material material)
+        {
+            _materialDescriptionBuffer.Update(material.Description);
+            _device.ImmediateContext.PixelShader.SetConstantBuffer(MaterialDescriptionSlot, _materialDescriptionBuffer.Buffer);
+
+            if (material.Texture != null)
+            {
+                _device.ImmediateContext.PixelShader.SetShaderResource(0, material.Texture.ShaderResourceView);
+            }
+        }
+
+        private void UpdateViewProjectionMatrices()
+        {
+            var viewProjectionMatricesBuffer = new ViewProjectionMatricesBuffer
+            {
+                ProjectionMatrix = Camera.GetPojectionMatrix(),
+                ViewMatrix = Camera.GetViewMatrixTema(),
+            };
+
+            _viewProjectionMatricesBuffer.Update(viewProjectionMatricesBuffer);
+            _device.ImmediateContext.VertexShader.SetConstantBuffer(ViewProjectionMatricesSlot, _viewProjectionMatricesBuffer.Buffer);
+        }
+
+        private void UpdateLightning()
+        {
+            _lightBuffer.Update(LightManager.GetContainer());
+            _device.ImmediateContext.PixelShader.SetConstantBuffer(LightContainerSlot, _lightBuffer.Buffer); // may cause problems, when using multiple shaders
         }
 
         internal void Initialize(GraphicsSettings graphicsSettings)
@@ -94,6 +146,8 @@ namespace JUnity.Services.Graphics
             _samplerState = GraphicsInitializer.CreateSamplerState(graphicsSettings.TextureSampling);
             
             OnResize(null, EventArgs.Empty);
+
+            _device.ImmediateContext.PixelShader.SetSampler(0, _samplerState);
         }
 
         private void CreateSharedFields(GraphicsSettings graphicsSettings)
@@ -123,6 +177,9 @@ namespace JUnity.Services.Graphics
         private void CreateConstantBuffers()
         {
             _lightBuffer = new ConstantBuffer<LightContainer>(_device);
+            _viewProjectionMatricesBuffer = new ConstantBuffer<ViewProjectionMatricesBuffer>(_device);
+            _materialDescriptionBuffer = new ConstantBuffer<MaterialDescription>(_device);
+            _worldMatrixBuffer = new ConstantBuffer<Matrix>(_device);
         }
 
         private void OnResize(object sender, EventArgs args)

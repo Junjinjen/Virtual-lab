@@ -33,3 +33,13 @@ cbuffer LightContainer : register(b0)
 	PointLight pointLights[MAX_LIGHTS_PER_TYPE];
 	DirectionalLight directionalLights[MAX_LIGHTS_PER_TYPE];
 }
+
+cbuffer MaterialDescription : register(b1)
+{
+	float3 emissivityCoefficient;
+	float specularPower;
+	float3 ambientCoefficient;
+	float3 diffusionCoefficient;
+	float3 specularCoefficient;
+	bool isTexturePresent;
+}

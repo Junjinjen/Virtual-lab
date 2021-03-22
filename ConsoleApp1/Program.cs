@@ -9,6 +9,11 @@ namespace ConsoleApp1
     {
         public void Seed(GameObjectCollection scene)
         {
+            var tmp = new Camera();
+            tmp.Fov = 90;
+            tmp.AspectRatio = 1;
+            tmp.Position = new Vector3(0, 0, -1);
+            tmp.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
         }
     }
 

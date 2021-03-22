@@ -8,6 +8,8 @@ namespace JUnity.Services.Graphics.Meshing
         private MaterialDescription _description;
         private Texture _texture;
 
+        internal MaterialDescription Description { get => _description; }
+
         public VertexShader VertexShader { get; private set; }
 
         public void SetVertexShader(string shaderName)

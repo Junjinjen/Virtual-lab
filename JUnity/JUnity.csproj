@@ -72,6 +72,7 @@
     <Compile Include="Components\Interfaces\IFixedUpdatableComponent.cs" />
     <Compile Include="Components\Interfaces\IUniqueComponent.cs" />
     <Compile Include="Services\Graphics\Camera.cs" />
+    <Compile Include="Services\Graphics\Meshing\RenderOrder.cs" />
     <Compile Include="Services\Graphics\Utilities\ConstantBuffer.cs" />
     <Compile Include="Services\Graphics\Utilities\GraphicsInitializer.cs" />
     <Compile Include="Services\Graphics\Utilities\GraphicsSettings.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Services\Graphics\Meshing\MaterialDescription.cs" />
     <Compile Include="Services\Graphics\Meshing\Texture.cs" />
     <Compile Include="Services\Graphics\Meshing\VertexDescription.cs" />
+    <Compile Include="Services\Graphics\Utilities\ViewProjectionMatricesBuffer.cs" />
     <Compile Include="Services\Input\InputManager.cs" />
     <Compile Include="Services\UI\UIController.cs" />
     <Compile Include="Services\UI\Elements\Button.cs" />
@@ -111,8 +113,10 @@
     <Folder Include="Components\MeshRenderer\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Shaders\Common.h" />
-    <Content Include="Shaders\Lightning.h" />
+    <Content Include="Shaders\Headers\Pixel.h" />
+    <Content Include="Shaders\Headers\Signature.h" />
+    <Content Include="Shaders\Headers\Vertex.h" />
+    <Content Include="Shaders\Headers\Lightning.h" />
     <Content Include="Shaders\test.hlsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
