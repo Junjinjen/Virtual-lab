@@ -203,15 +203,7 @@ namespace ConsoleApp1
             mesh.Material.SetPixelShader("px1");
             mesh.Material.SetVertexShader("vx1");
 
-            var bmp = new Bitmap("texture.png");
-            var rect = new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
-            if (bmp.PixelFormat != PixelFormat.Format32bppArgb)
-            {
-                bmp = bmp.Clone(rect, PixelFormat.Format32bppArgb);
-            }
-            var data = bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            mesh.Material.Texture = new Texture(data);
-            bmp.UnlockBits(data);
+            mesh.Material.Texture = new Texture("texture.png");
 
             var go = new GameObject();
             go.Rotation = Quaternion.RotationLookAtLH(new Vector3(0.5f), Vector3.Up);

@@ -2,6 +2,7 @@
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
+using System.Drawing;
 using System.Drawing.Imaging;
 
 namespace JUnity.Services.Graphics.Meshing
@@ -9,6 +10,37 @@ namespace JUnity.Services.Graphics.Meshing
     public sealed class Texture
     {
         public Texture(BitmapData imageData, int mipLevels = -1)
+        {
+            CreateImage(imageData, mipLevels);
+        }
+
+        public Texture(string filename, int mipLevels = -1)
+        {
+            using (var bmp = new Bitmap(filename))
+            {
+                var rect = new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
+                if (bmp.PixelFormat != PixelFormat.Format32bppArgb)
+                {
+                    using (var bmpWithFormat = bmp.Clone(rect, PixelFormat.Format32bppArgb))
+                    {
+                        CreateImage(bmpWithFormat, rect, mipLevels);
+                    }
+                }
+                else
+                {
+                    CreateImage(bmp, rect, mipLevels);
+                }
+            }
+        }
+
+        private void CreateImage(Bitmap bmp, System.Drawing.Rectangle rect, int mipLevels = -1)
+        {
+            var data = bmp.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            CreateImage(data, mipLevels);
+            bmp.UnlockBits(data);
+        }
+
+        private void CreateImage(BitmapData imageData, int mipLevels = -1)
         {
             var texture2d = new Texture2D(Engine.Instance.GraphicsRenderer.Device, new Texture2DDescription
             {
@@ -44,6 +76,6 @@ namespace JUnity.Services.Graphics.Meshing
             }
         }
 
-        public ShaderResourceView ShaderResourceView { get; }
+        public ShaderResourceView ShaderResourceView { get; private set; }
     }
 }

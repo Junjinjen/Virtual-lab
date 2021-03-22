@@ -4,6 +4,6 @@
 #include "Signature.h"
 
 Texture2D meshTexture : register(t0);
-sampler textureSampler : register(s0);
+SamplerState textureSampler : register(s0);
 
 #endif // !PIXEL_H

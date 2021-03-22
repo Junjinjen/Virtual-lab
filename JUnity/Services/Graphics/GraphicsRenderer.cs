@@ -83,8 +83,7 @@ namespace JUnity.Services.Graphics
 
         private void UpdateMeshMatrices(ref Matrix viewProjectionMatrix, GameObject gameObject)
         {
-            var worldMatrix = Matrix.RotationQuaternion(gameObject.Rotation) *
-                                Matrix.Translation(gameObject.Position);
+            var worldMatrix = Matrix.RotationQuaternion(gameObject.Rotation) * Matrix.Translation(gameObject.Position);
 
             var matrices = new MeshMatrices
             {

@@ -7,6 +7,7 @@ VertexShaderOutput VS(VertexShaderInput input)
 	VertexShaderOutput output = (VertexShaderOutput)0;
 	output.screenSpacePosition = mul(input.position, worldViewProjectionMatrix);
 	output.color = input.color;
+	output.textureCoordinate = input.textureCoordinate;
 
 	return output;
 }

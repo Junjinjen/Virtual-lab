@@ -15,7 +15,7 @@ struct VertexShaderOutput
 	float4 worldSpacePosition : POSITION0;
 	float3 normal : POSITION1;
 	float4 color : COLOR;
-	float4 textureCoordinate : TEXCOORD0;
+	float2 textureCoordinate : TEXCOORD0;
 };
 
 #endif // !SIGNATURE_H
