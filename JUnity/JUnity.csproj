@@ -72,6 +72,7 @@
     <Compile Include="Components\Interfaces\IFixedUpdatableComponent.cs" />
     <Compile Include="Components\Interfaces\IUniqueComponent.cs" />
     <Compile Include="Services\Graphics\Camera.cs" />
+    <Compile Include="Services\Graphics\Meshing\MeshMatricesBuffer.cs" />
     <Compile Include="Services\Graphics\Meshing\RenderOrder.cs" />
     <Compile Include="Services\Graphics\Utilities\ConstantBuffer.cs" />
     <Compile Include="Services\Graphics\Utilities\GraphicsInitializer.cs" />
@@ -91,7 +92,6 @@
     <Compile Include="Services\Graphics\Meshing\MaterialDescription.cs" />
     <Compile Include="Services\Graphics\Meshing\Texture.cs" />
     <Compile Include="Services\Graphics\Meshing\VertexDescription.cs" />
-    <Compile Include="Services\Graphics\Utilities\ViewProjectionMatricesBuffer.cs" />
     <Compile Include="Services\Input\InputManager.cs" />
     <Compile Include="Services\UI\UIController.cs" />
     <Compile Include="Services\UI\Elements\Button.cs" />

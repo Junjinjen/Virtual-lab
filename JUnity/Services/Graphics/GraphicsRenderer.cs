@@ -16,8 +16,7 @@ namespace JUnity.Services.Graphics
     {
         private const int LightContainerSlot = 0;
         private const int MaterialDescriptionSlot = 1;
-        private const int ViewProjectionMatricesSlot = 0;
-        private const int WorldMatrixBufferSlot = 1;
+        private const int MeshMatricesSlot = 2;
 
         private Device _device;
         private SwapChainDescription _swapChainDescription;
@@ -29,9 +28,8 @@ namespace JUnity.Services.Graphics
         private SamplerState _samplerState;
 
         private ConstantBuffer<LightContainer> _lightBuffer;
-        private ConstantBuffer<ViewProjectionMatricesBuffer> _viewProjectionMatricesBuffer;
         private ConstantBuffer<MaterialDescription> _materialDescriptionBuffer;
-        private ConstantBuffer<Matrix> _worldMatrixBuffer;
+        private ConstantBuffer<MeshMatrices> _meshMatricesBufferBuffer;
 
         private SampleDescription _sampleDescription;
         private Texture2DDescription _depthBufferDescription;
@@ -64,7 +62,7 @@ namespace JUnity.Services.Graphics
             LightManager.CameraPosition = Camera.Position;
 
             UpdateLightning();
-            UpdateViewProjectionMatrices();
+            var viewProjectionMatrix = Matrix.Multiply(Camera.GetViewMatrixTema(), Camera.GetPojectionMatrix());
 
             foreach (var order in _drawingQueue)
             {
@@ -72,8 +70,19 @@ namespace JUnity.Services.Graphics
 
                 var worldMatrix = Matrix.RotationQuaternion(order.GameObject.Rotation) *
                     Matrix.Translation(order.GameObject.Position);
-                _worldMatrixBuffer.Update(worldMatrix);
-                _device.ImmediateContext.VertexShader.SetConstantBuffer(WorldMatrixBufferSlot, _worldMatrixBuffer.Buffer);
+
+                var matrices = new MeshMatrices
+                {
+                    WorldMatrix = worldMatrix,
+                    WorldViewProjectionMatrix = Matrix.Multiply(worldMatrix, viewProjectionMatrix),
+                    InverseWorldMatrix = Matrix.Invert(worldMatrix),
+                };
+
+                matrices.WorldMatrix.Transpose();
+                matrices.WorldViewProjectionMatrix.Transpose();
+
+                _meshMatricesBufferBuffer.Update(matrices);
+                _device.ImmediateContext.VertexShader.SetConstantBuffer(MeshMatricesSlot, _meshMatricesBufferBuffer.Buffer);
 
                 _device.ImmediateContext.InputAssembler.PrimitiveTopology = order.Mesh.PrimitiveTopology;
                 _device.ImmediateContext.InputAssembler.SetVertexBuffers(0, order.Mesh.VertexBufferBinding);
@@ -95,18 +104,6 @@ namespace JUnity.Services.Graphics
             {
                 _device.ImmediateContext.PixelShader.SetShaderResource(0, material.Texture.ShaderResourceView);
             }
-        }
-
-        private void UpdateViewProjectionMatrices()
-        {
-            var viewProjectionMatricesBuffer = new ViewProjectionMatricesBuffer
-            {
-                ProjectionMatrix = Camera.GetPojectionMatrix(),
-                ViewMatrix = Camera.GetViewMatrixTema(),
-            };
-
-            _viewProjectionMatricesBuffer.Update(viewProjectionMatricesBuffer);
-            _device.ImmediateContext.VertexShader.SetConstantBuffer(ViewProjectionMatricesSlot, _viewProjectionMatricesBuffer.Buffer);
         }
 
         private void UpdateLightning()
@@ -177,9 +174,8 @@ namespace JUnity.Services.Graphics
         private void CreateConstantBuffers()
         {
             _lightBuffer = new ConstantBuffer<LightContainer>(_device);
-            _viewProjectionMatricesBuffer = new ConstantBuffer<ViewProjectionMatricesBuffer>(_device);
             _materialDescriptionBuffer = new ConstantBuffer<MaterialDescription>(_device);
-            _worldMatrixBuffer = new ConstantBuffer<Matrix>(_device);
+            _meshMatricesBufferBuffer = new ConstantBuffer<MeshMatrices>(_device);
         }
 
         private void OnResize(object sender, EventArgs args)
