@@ -216,17 +216,11 @@ namespace JUnity.Services.Graphics
             _device.ImmediateContext.ClearRenderTargetView(_renderView, BackgroundColor);
         }
 
-        float i;
-
         private void EndRender()
         {
             _swapChain.Present(_syncInterval, PresentFlags.Restart);
             LightManager.ResetLight();
-            //_drawingQueue.Clear();
-            
-            _drawingQueue[0].GameObject.Rotation = Quaternion.RotationYawPitchRoll(i * 0.5f, i, 0);
-
-            i += 0.01f;
+            _drawingQueue.Clear();
         }
 
         public void Dispose()
@@ -234,22 +228,21 @@ namespace JUnity.Services.Graphics
             _lightBuffer.Dispose();
             _meshMatricesBufferBuffer.Dispose();
             _materialDescriptionBuffer.Dispose();
-            _device.ImmediateContext.PixelShader.GetSamplers(0, 1)[0].Dispose(); //kastil!!!
+
             DisposeDictionaryElements(PixelShaders);
             DisposeDictionaryElements(VertexShaders);
-            _device.ImmediateContext.InputAssembler.InputLayout.Dispose();
+
             _depthBuffer.Dispose();
             _depthView.Dispose();
             _renderView.Dispose();
             _backBuffer.Dispose();
-            _device.ImmediateContext.ClearState();
-            _device.ImmediateContext.Flush();
-            _device.ImmediateContext.Dispose();
             _swapChain.Dispose();
             _device.Dispose();
+
+            RenderForm.Dispose();
         }
 
-        private void DisposeDictionaryElements<T>(ReadOnlyDictionary<string, T> dictionary) where T : class, IDisposable // ;)
+        private void DisposeDictionaryElements<T>(ReadOnlyDictionary<string, T> dictionary) where T : class, IDisposable
         {
             foreach (var item in dictionary)
             {

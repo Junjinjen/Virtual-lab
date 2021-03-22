@@ -4,9 +4,9 @@ using SharpDX.D3DCompiler;
 
 namespace JUnity.Services.Graphics.Utilities
 {
-    internal class IncludeHandler : Include
+    internal sealed class IncludeHandler : Include
     {
-        private string _shaderFolder;
+        private readonly string _shaderFolder;
         private Stream _stream;
 
         public IncludeHandler(string shadersFolder)
