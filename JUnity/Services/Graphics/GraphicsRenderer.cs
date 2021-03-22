@@ -223,6 +223,12 @@ namespace JUnity.Services.Graphics
 
         public void Dispose()
         {
+            _lightBuffer.Dispose();
+            _meshMatricesBufferBuffer.Dispose();
+            _materialDescriptionBuffer.Dispose();
+            _device.ImmediateContext.PixelShader.GetSamplers(0, 1)[0].Dispose(); //kastil!!!
+            DisposeDictionaryElements(PixelShaders);
+            DisposeDictionaryElements(VertexShaders);
             _device.ImmediateContext.InputAssembler.InputLayout.Dispose();
             _depthBuffer.Dispose();
             _depthView.Dispose();
@@ -231,8 +237,16 @@ namespace JUnity.Services.Graphics
             _device.ImmediateContext.ClearState();
             _device.ImmediateContext.Flush();
             _device.ImmediateContext.Dispose();
-            _device.Dispose();
             _swapChain.Dispose();
+            _device.Dispose();
+        }
+
+        private void DisposeDictionaryElements<T>(ReadOnlyDictionary<string, T> dictionary) where T : class, IDisposable // ;)
+        {
+            foreach (var item in dictionary)
+            {
+                item.Value.Dispose();
+            }
         }
     }
 }
