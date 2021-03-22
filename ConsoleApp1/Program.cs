@@ -205,6 +205,7 @@ namespace ConsoleApp1
             mesh.Material.Texture = new Texture("texture.png");
 
             var go = new GameObject();
+            go.Scale = new Vector3(0.5f, 2, 1);
             go.Rotation = Quaternion.RotationLookAtLH(new Vector3(0.5f), Vector3.Up);
             Engine.Instance.GraphicsRenderer.AddMeshToDrawingQueue(new RenderOrder
             {
