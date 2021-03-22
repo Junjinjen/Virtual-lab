@@ -25,7 +25,6 @@ namespace JUnity.Services.Graphics
         private DepthStencilView _depthView;
         private Texture2D _backBuffer;
         private RenderTargetView _renderView;
-        private SamplerState _samplerState;
 
         private ConstantBuffer<LightContainer> _lightBuffer;
         private ConstantBuffer<MaterialDescription> _materialDescriptionBuffer;
@@ -37,7 +36,7 @@ namespace JUnity.Services.Graphics
 
         private readonly List<RenderOrder> _drawingQueue = new List<RenderOrder>();
 
-        internal Device Device { get => _device; private set => _device = value; }
+        internal Device Device { get => _device; }
 
         internal RenderForm RenderForm { get; private set; }
 
@@ -133,6 +132,8 @@ namespace JUnity.Services.Graphics
 
             CreateConstantBuffers();
 
+            _device.ImmediateContext.Rasterizer.State = GraphicsInitializer.CreateRasterizerStage();
+
             GraphicsInitializer.InitializeShaders(graphicsSettings.ShadersMetaPath, out var inputSignature, out var vertexShaders, out var pixelShaders);
             VertexShaders = new ReadOnlyDictionary<string, VertexShader>(vertexShaders);
             PixelShaders = new ReadOnlyDictionary<string, PixelShader>(pixelShaders);
@@ -146,11 +147,11 @@ namespace JUnity.Services.Graphics
                     });
 
             _device.ImmediateContext.InputAssembler.InputLayout = layout;
-            _samplerState = GraphicsInitializer.CreateSamplerState(graphicsSettings.TextureSampling);
-            
-            OnResize(null, EventArgs.Empty);
 
-            _device.ImmediateContext.PixelShader.SetSampler(0, _samplerState);
+            var samplerState = GraphicsInitializer.CreateSamplerState(graphicsSettings.TextureSampling);
+            _device.ImmediateContext.PixelShader.SetSampler(0, samplerState);
+
+            OnResize(null, EventArgs.Empty);
         }
 
         private void CreateSharedFields(GraphicsSettings graphicsSettings)
@@ -222,7 +223,6 @@ namespace JUnity.Services.Graphics
 
         public void Dispose()
         {
-            _samplerState.Dispose();
             _device.ImmediateContext.InputAssembler.InputLayout.Dispose();
             _depthBuffer.Dispose();
             _depthView.Dispose();

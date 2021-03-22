@@ -130,6 +130,21 @@ namespace JUnity.Services.Graphics.Utilities
             return new SamplerState(Engine.Instance.GraphicsRenderer.Device, desc);
         }
 
+        public static RasterizerState CreateRasterizerStage()
+        {
+            var desc = new RasterizerStateDescription
+            {
+                CullMode = CullMode.Back,
+                FillMode = FillMode.Solid,
+                IsFrontCounterClockwise = true,
+                IsMultisampleEnabled = true,
+                IsAntialiasedLineEnabled = true,
+                IsDepthClipEnabled = true,
+            };
+
+            return new RasterizerState(Engine.Instance.GraphicsRenderer.Device, desc);
+        }
+
         private class ShaderInfo
         {
             public string Name { get; set; }

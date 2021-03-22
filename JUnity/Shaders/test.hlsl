@@ -13,5 +13,7 @@ VertexShaderOutput VS(VertexShaderInput input)
 
 float4 PS(VertexShaderOutput input) : SV_Target
 {
-	return input.color;
+	float mipLevel = meshTexture.CalculateLevelOfDetail(textureSampler, input.textureCoordinate);
+	float4 texColor = meshTexture.SampleLevel(textureSampler, input.textureCoordinate, mipLevel);
+	return texColor;
 }

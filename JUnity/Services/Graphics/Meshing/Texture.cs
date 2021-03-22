@@ -10,7 +10,7 @@ namespace JUnity.Services.Graphics.Meshing
     {
         public Texture(BitmapData imageData, int mipLevels = -1)
         {
-            var texture2d = new Texture2D(Engine.Instance.GraphicsRenderer.Device, new Texture2DDescription()
+            var texture2d = new Texture2D(Engine.Instance.GraphicsRenderer.Device, new Texture2DDescription
             {
                 Width = imageData.Width,
                 Height = imageData.Height,
@@ -25,10 +25,10 @@ namespace JUnity.Services.Graphics.Meshing
             },
             new DataRectangle(imageData.Scan0, imageData.Stride));
 
-            ShaderResourceView = new ShaderResourceView(Engine.Instance.GraphicsRenderer.Device, texture2d, new ShaderResourceViewDescription()
+            ShaderResourceView = new ShaderResourceView(Engine.Instance.GraphicsRenderer.Device, texture2d, new ShaderResourceViewDescription
             {
                 Dimension = ShaderResourceViewDimension.Texture2D,
-                Format = Format.R8G8B8A8_UNorm,
+                Format = Format.B8G8R8A8_UNorm,
                 Texture2D = new ShaderResourceViewDescription.Texture2DResource
                 {
                     MostDetailedMip = 0,
