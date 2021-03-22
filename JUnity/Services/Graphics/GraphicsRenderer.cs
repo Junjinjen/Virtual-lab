@@ -83,7 +83,7 @@ namespace JUnity.Services.Graphics
 
         private void UpdateMeshMatrices(ref Matrix viewProjectionMatrix, GameObject gameObject)
         {
-            var worldMatrix = Matrix.RotationQuaternion(gameObject.Rotation) * Matrix.Translation(gameObject.Position);
+            var worldMatrix = Matrix.Scaling(gameObject.Scale) * Matrix.RotationQuaternion(gameObject.Rotation) * Matrix.Translation(gameObject.Position);
 
             var matrices = new MeshMatrices
             {
@@ -214,15 +214,27 @@ namespace JUnity.Services.Graphics
             _device.ImmediateContext.ClearRenderTargetView(_renderView, BackgroundColor);
         }
 
+        float i;
+
         private void EndRender()
         {
             _swapChain.Present(_syncInterval, PresentFlags.Restart);
             LightManager.ResetLight();
             //_drawingQueue.Clear();
+            
+            _drawingQueue[0].GameObject.Rotation = Quaternion.RotationYawPitchRoll(i * 0.5f, i, 0);
+
+            i += 0.01f;
         }
 
         public void Dispose()
         {
+            _lightBuffer.Dispose();
+            _meshMatricesBufferBuffer.Dispose();
+            _materialDescriptionBuffer.Dispose();
+            _device.ImmediateContext.PixelShader.GetSamplers(0, 1)[0].Dispose(); //kastil!!!
+            DisposeDictionaryElements(PixelShaders);
+            DisposeDictionaryElements(VertexShaders);
             _device.ImmediateContext.InputAssembler.InputLayout.Dispose();
             _depthBuffer.Dispose();
             _depthView.Dispose();
@@ -231,8 +243,16 @@ namespace JUnity.Services.Graphics
             _device.ImmediateContext.ClearState();
             _device.ImmediateContext.Flush();
             _device.ImmediateContext.Dispose();
-            _device.Dispose();
             _swapChain.Dispose();
+            _device.Dispose();
+        }
+
+        private void DisposeDictionaryElements<T>(ReadOnlyDictionary<string, T> dictionary) where T : class, IDisposable // ;)
+        {
+            foreach (var item in dictionary)
+            {
+                item.Value.Dispose();
+            }
         }
     }
 }
