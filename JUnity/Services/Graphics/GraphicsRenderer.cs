@@ -206,6 +206,8 @@ namespace JUnity.Services.Graphics
 
             _device.ImmediateContext.Rasterizer.SetViewport(new Viewport(0, 0, RenderForm.ClientSize.Width, RenderForm.ClientSize.Height, 0.0f, 1.0f));
             _device.ImmediateContext.OutputMerger.SetTargets(_depthView, _renderView);
+
+            Camera.UpdateAspectRatio();
         }
 
         private void ClearBuffers()

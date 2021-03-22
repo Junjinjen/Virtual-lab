@@ -23,25 +23,21 @@ namespace JUnity.Services.Graphics
             }
         }
 
-        public float AspectRatio
-        {
-            get => _aspectRatio;
-            set
-            {
-                _pojectionMatrix = null;
-                _aspectRatio = value;
-            }
-        }
-
         public float DrawDistance { get; set; }
 
         public float NearDistance { get; set; }
+
+        internal void UpdateAspectRatio()
+        {
+            _aspectRatio = Engine.Instance.WindowSize.Width / (float)Engine.Instance.WindowSize.Height;
+            _pojectionMatrix = null;
+        }
 
         internal Matrix GetPojectionMatrix()
         {
             if (_pojectionMatrix == null)
             {
-                _pojectionMatrix = Matrix.PerspectiveFovLH(Fov / AspectRatio, AspectRatio, NearDistance, DrawDistance);
+                _pojectionMatrix = Matrix.PerspectiveFovLH(Fov / _aspectRatio, _aspectRatio, NearDistance, DrawDistance);
             }
 
             return _pojectionMatrix.Value;

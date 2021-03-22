@@ -12,7 +12,6 @@ namespace ConsoleApp1
             Engine.Instance.GraphicsRenderer.Camera.Fov = MathUtil.DegreesToRadians(90);
             Engine.Instance.GraphicsRenderer.Camera.DrawDistance = 100;
             Engine.Instance.GraphicsRenderer.Camera.NearDistance = 0.001f;
-            Engine.Instance.GraphicsRenderer.Camera.AspectRatio = Engine.Instance.WindowSize.Width / (float)Engine.Instance.WindowSize.Height;
             Engine.Instance.GraphicsRenderer.Camera.Position = new Vector3(0, 0, -5);
             Engine.Instance.GraphicsRenderer.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
 
