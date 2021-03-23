@@ -85,32 +85,32 @@ namespace JUnity.Services.Input
 
         public bool IsKeyPressed(Key key)
         {
-            return _keyboardState.IsPressed(key);
+            return _keyboardState != null ? _keyboardState.IsPressed(key) : false;
         }
 
         public bool IsKeyPressed(MouseKey key)
         {
-            return _mouseState.Buttons[(int)key];
+            return _keyboardState != null ? _mouseState.Buttons[(int)key] : false;
         }
 
         public bool IsKeyJustPressed(Key key)
         {
-            return !_lastKeyboardState.IsPressed(key) && _keyboardState.IsPressed(key);
+            return _keyboardState != null ? !_lastKeyboardState.IsPressed(key) && _keyboardState.IsPressed(key) : false;
         }
 
         public bool IsKeyJustPressed(MouseKey key)
         {
-            return !_lastMouseState.Buttons[(int)key] && _mouseState.Buttons[(int)key];
+            return _keyboardState != null ? !_lastMouseState.Buttons[(int)key] && _mouseState.Buttons[(int)key] : false;
         }
 
         public bool IsKeyJustReleased(Key key)
         {
-            return _lastKeyboardState.IsPressed(key) && !_keyboardState.IsPressed(key);
+            return _keyboardState != null ? _lastKeyboardState.IsPressed(key) && !_keyboardState.IsPressed(key) : false;
         }
 
         public bool IsKeyJustReleased(MouseKey key)
         {
-            return _lastMouseState.Buttons[(int)key] && !_mouseState.Buttons[(int)key];
+            return _keyboardState != null ? _lastMouseState.Buttons[(int)key] && !_mouseState.Buttons[(int)key] : false;
         }
 
         public Vector2 GetCursorPosition()
@@ -121,7 +121,7 @@ namespace JUnity.Services.Input
 
         public int GetScrollDeltaValue()
         {
-            return _mouseState.Z;
+            return _mouseState != null ? _mouseState.Z : 0;
         }
 
         public void Dispose()
