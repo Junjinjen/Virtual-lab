@@ -27,7 +27,7 @@ namespace JUnity
             Scale = Vector3.One;
         }
 
-        public TComponent AddComponent<TComponent>(params object[] args)
+        public TComponent AddComponent<TComponent>()
             where TComponent : GameComponent
         {
             if (typeof(IUniqueComponent).IsAssignableFrom(typeof(TComponent)) && GetComponent<TComponent>() != null)
@@ -35,20 +35,10 @@ namespace JUnity
                 throw new InvalidOperationException("Unable to add unique component. Dublication detected.");
             }
 
-            var ctorArguments = new object[args.Length + 1];
-            ctorArguments[0] = this;
-            args.CopyTo(ctorArguments, 1);
+            var ctor = typeof(TComponent).GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic,
+                null, new[] { typeof(GameObject) }, null);
 
-            var ctorArgumentsTypes = new Type[ctorArguments.Length];
-            for (int i = 0; i < ctorArgumentsTypes.Length; i++)
-            {
-                ctorArgumentsTypes[i] = ctorArguments[i].GetType();
-            }
-
-            var ctor = typeof(TComponent).GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                null, ctorArgumentsTypes, null);
-
-            var component = (TComponent)ctor.Invoke(ctorArguments);
+            var component = (TComponent)ctor.Invoke(new[] { this });
             if (typeof(IFixedUpdatableComponent).IsAssignableFrom(typeof(TComponent)))
             {
                 _fixedComponents.Add(component);
@@ -108,8 +98,8 @@ namespace JUnity
             }
 
             return null;
-        }
-
+        }  
+        
         public bool IsActive { get; set; }
 
         public string Name { get; }
@@ -125,6 +115,20 @@ namespace JUnity
         public Vector3 Position { get; set; }
 
         public Vector3 Scale { get; set; }
+
+        internal void OnStartup()
+        {
+            Script?.Start();
+            foreach (var component in _components)
+            {
+                component.Start();
+            }
+
+            foreach (var component in _fixedComponents)
+            {
+                component.Start();
+            }
+        }
 
         internal void OnUpdate(double deltaTime)
         {

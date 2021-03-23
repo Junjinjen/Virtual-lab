@@ -1,4 +1,5 @@
-﻿using SharpDX.Direct3D;
+﻿using SharpDX;
+using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 
 namespace JUnity.Services.Graphics.Meshing
@@ -10,6 +11,7 @@ namespace JUnity.Services.Graphics.Meshing
             Material = material;
             IndicesCount = indices.Length;
             PrimitiveTopology = primitiveTopology;
+            Scale = Vector3.One;
 
             var verticesBuffer = Buffer.Create(Engine.Instance.GraphicsRenderer.Device, BindFlags.VertexBuffer,
                 vertices, SharpDX.Utilities.SizeOf<VertexDescription>() * vertices.Length);
@@ -17,6 +19,8 @@ namespace JUnity.Services.Graphics.Meshing
             VertexBufferBinding = new VertexBufferBinding(verticesBuffer, SharpDX.Utilities.SizeOf<VertexDescription>(), 0);
             IndexBuffer = Buffer.Create(Engine.Instance.GraphicsRenderer.Device, BindFlags.IndexBuffer, indices, sizeof(uint) * IndicesCount);
         }
+
+        public Vector3 Scale { get; set; }
 
         public VertexBufferBinding VertexBufferBinding { get; }
 
@@ -26,6 +30,6 @@ namespace JUnity.Services.Graphics.Meshing
 
         public PrimitiveTopology PrimitiveTopology { get; }
 
-        public Material Material { get; }
+        public Material Material { get; set; }
     }
 }

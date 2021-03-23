@@ -1,4 +1,5 @@
 ﻿using JUnity;
+using JUnity.Components.Rendering;
 using JUnity.Services.Graphics.Meshing;
 using JUnity.Utilities;
 using SharpDX;
@@ -198,19 +199,13 @@ namespace ConsoleApp1
             };
 
             var mesh = new Mesh(vertexes, indeces, new Material());
-
-            mesh.Material.SetPixelShader("px1");
-            mesh.Material.SetVertexShader("vx1");
-
             mesh.Material.Texture = new Texture("texture.png");
 
+
             var go = new GameObject();
+            go.AddComponent<MeshRenderer>().Initialize(mesh, "vx1", "px1");
             go.Rotation = Quaternion.RotationLookAtLH(new Vector3(0.5f), Vector3.Up);
-            Engine.Instance.GraphicsRenderer.AddMeshToDrawingQueue(new RenderOrder
-            {
-                GameObject = go,
-                Mesh = mesh,
-            });
+            scene.Add(go);
         }
     }
 

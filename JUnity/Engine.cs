@@ -55,7 +55,7 @@ namespace JUnity
 
             foreach (var gameObject in Scene)
             {
-                gameObject.Script?.Start();
+                gameObject.OnStartup();
             }
 
             _stopwatch.Start();

@@ -72,6 +72,7 @@
     <Compile Include="Components\GameComponent.cs" />
     <Compile Include="Components\Interfaces\IFixedUpdatableComponent.cs" />
     <Compile Include="Components\Interfaces\IUniqueComponent.cs" />
+    <Compile Include="Components\Rendering\MeshRenderer.cs" />
     <Compile Include="Services\Graphics\Camera.cs" />
     <Compile Include="Services\Graphics\Meshing\MeshMatricesBuffer.cs" />
     <Compile Include="Services\Graphics\Meshing\RenderOrder.cs" />
@@ -105,9 +106,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Components\MeshRenderer\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Shaders\Headers\Pixel.h">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

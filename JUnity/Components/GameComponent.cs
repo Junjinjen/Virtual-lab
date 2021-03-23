@@ -9,8 +9,8 @@
 
         public GameObject Owner { get; }
 
-        public abstract void Initialize();
+        internal virtual void Start() { }
 
-        public abstract void CallComponent(double deltaTime);
+        internal abstract void CallComponent(double deltaTime);
     }
 }

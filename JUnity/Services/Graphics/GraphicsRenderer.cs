@@ -50,7 +50,7 @@ namespace JUnity.Services.Graphics
 
         public ReadOnlyDictionary<string, PixelShader> PixelShaders { get; private set; }
 
-        internal void AddMeshToDrawingQueue(RenderOrder order)
+        internal void AddRenderOrder(RenderOrder order)
         {
             _drawingQueue.Add(order);
         }
@@ -70,7 +70,7 @@ namespace JUnity.Services.Graphics
                     UpdateMaterial(order.Mesh.Material);
                 }
                 
-                UpdateMeshMatrices(ref viewProjectionMatrix, order.GameObject);
+                UpdateMeshMatrices(ref viewProjectionMatrix, order.GameObject, order.Mesh.Scale);
 
                 _device.ImmediateContext.InputAssembler.PrimitiveTopology = order.Mesh.PrimitiveTopology;
                 _device.ImmediateContext.InputAssembler.SetVertexBuffers(0, order.Mesh.VertexBufferBinding);
@@ -85,9 +85,9 @@ namespace JUnity.Services.Graphics
             EndRender();
         }
 
-        private void UpdateMeshMatrices(ref Matrix viewProjectionMatrix, GameObject gameObject)
+        private void UpdateMeshMatrices(ref Matrix viewProjectionMatrix, GameObject gameObject, Vector3 meshScale)
         {
-            var worldMatrix = Matrix.Scaling(gameObject.Scale) * Matrix.RotationQuaternion(gameObject.Rotation) * Matrix.Translation(gameObject.Position);
+            var worldMatrix = Matrix.Scaling(gameObject.Scale * meshScale) * Matrix.RotationQuaternion(gameObject.Rotation) * Matrix.Translation(gameObject.Position);
 
             var matrices = new MeshMatrices
             {
