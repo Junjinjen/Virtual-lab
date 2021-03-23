@@ -7,16 +7,10 @@ using System;
 
 namespace ConsoleApp1
 {
-    class Init : ISceneInitializer
+    class Go : IGameObjectCreator
     {
-        public void Seed(GameObjectCollection scene)
+        public GameObject Create()
         {
-            Engine.Instance.GraphicsRenderer.Camera.Fov = MathUtil.DegreesToRadians(90);
-            Engine.Instance.GraphicsRenderer.Camera.DrawDistance = 100;
-            Engine.Instance.GraphicsRenderer.Camera.NearDistance = 0.001f;
-            Engine.Instance.GraphicsRenderer.Camera.Position = new Vector3(0, 0, -5);
-            Engine.Instance.GraphicsRenderer.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
-
             var vertexes = new VertexDescription[]
             {
                 new VertexDescription // front 0
@@ -205,7 +199,22 @@ namespace ConsoleApp1
             var go = new GameObject();
             go.AddComponent<MeshRenderer>().Initialize(mesh, "vx1", "px1");
             go.Rotation = Quaternion.RotationLookAtLH(new Vector3(0.5f), Vector3.Up);
-            scene.Add(go);
+
+            return go;
+        }
+    }
+
+    class Init : ISceneInitializer
+    {
+        public void Seed(GameObjectCollection scene)
+        {
+            Engine.Instance.GraphicsRenderer.Camera.Fov = MathUtil.DegreesToRadians(90);
+            Engine.Instance.GraphicsRenderer.Camera.DrawDistance = 100;
+            Engine.Instance.GraphicsRenderer.Camera.NearDistance = 0.001f;
+            Engine.Instance.GraphicsRenderer.Camera.Position = new Vector3(0, 0, -5);
+            Engine.Instance.GraphicsRenderer.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
+
+            scene.Add(GameObjectFactory.Create<Go>());
         }
     }
 

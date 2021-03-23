@@ -100,6 +100,8 @@
     <Compile Include="Services\UI\Elements\Button.cs" />
     <Compile Include="Services\UI\Elements\UIElement.cs" />
     <Compile Include="Utilities\GameObjectCollection.cs" />
+    <Compile Include="Utilities\GameObjectFactory.cs" />
+    <Compile Include="Utilities\IGameObjectCreator.cs" />
     <Compile Include="Utilities\ISceneInitializer.cs" />
     <Compile Include="Services\UI\UIHelper.cs" />
   </ItemGroup>
