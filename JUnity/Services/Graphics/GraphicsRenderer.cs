@@ -65,15 +65,19 @@ namespace JUnity.Services.Graphics
 
             foreach (var order in _drawingQueue)
             {
-                UpdateMaterial(order.Mesh.Material);
+                if (order.Mesh.Material != null)
+                {
+                    UpdateMaterial(order.Mesh.Material);
+                }
+                
                 UpdateMeshMatrices(ref viewProjectionMatrix, order.GameObject);
 
                 _device.ImmediateContext.InputAssembler.PrimitiveTopology = order.Mesh.PrimitiveTopology;
                 _device.ImmediateContext.InputAssembler.SetVertexBuffers(0, order.Mesh.VertexBufferBinding);
                 _device.ImmediateContext.InputAssembler.SetIndexBuffer(order.Mesh.IndexBuffer, Format.R32_UInt, 0);
 
-                _device.ImmediateContext.VertexShader.Set(order.Mesh.Material.VertexShader);
-                _device.ImmediateContext.PixelShader.Set(order.Mesh.Material.PixelShader);
+                _device.ImmediateContext.VertexShader.Set(order.VertexShader);
+                _device.ImmediateContext.PixelShader.Set(order.PixelShader);
 
                 _device.ImmediateContext.DrawIndexed(order.Mesh.IndicesCount, 0, 0);
             }

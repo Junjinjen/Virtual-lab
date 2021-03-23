@@ -1,5 +1,4 @@
 ﻿using SharpDX;
-using SharpDX.Direct3D11;
 
 namespace JUnity.Services.Graphics.Meshing
 {
@@ -9,20 +8,6 @@ namespace JUnity.Services.Graphics.Meshing
         private Texture _texture;
 
         internal MaterialDescription Description { get => _description; }
-
-        public VertexShader VertexShader { get; private set; }
-
-        public void SetVertexShader(string shaderName)
-        {
-            VertexShader = Engine.Instance.GraphicsRenderer.VertexShaders[shaderName];
-        }
-
-        public PixelShader PixelShader { get; private set; }
-
-        public void SetPixelShader(string shaderName)
-        {
-            PixelShader = Engine.Instance.GraphicsRenderer.PixelShaders[shaderName];
-        }
 
         public Texture Texture
         {

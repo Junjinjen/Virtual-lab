@@ -53,6 +53,11 @@ namespace JUnity
 
             _sceneInitializer.Seed(Scene);
 
+            foreach (var gameObject in Scene)
+            {
+                gameObject.Script?.Start();
+            }
+
             _stopwatch.Start();
 
             RenderLoop.Run(GraphicsRenderer.RenderForm, RenderCallback);
