@@ -42,7 +42,8 @@ namespace JUnity.Services.Graphics.Meshing
 
         private void CreateImage(BitmapData imageData, int mipLevels = -1)
         {
-            var texture2d = new Texture2D(Engine.Instance.GraphicsRenderer.Device, new Texture2DDescription
+            var dataRectangle = new DataRectangle(imageData.Scan0, imageData.Stride);
+            var textureDesc = new Texture2DDescription
             {
                 Width = imageData.Width,
                 Height = imageData.Height,
@@ -54,8 +55,17 @@ namespace JUnity.Services.Graphics.Meshing
                 MipLevels = mipLevels != -1 ? 0 : 1,
                 OptionFlags = mipLevels != -1 ? ResourceOptionFlags.GenerateMipMaps : ResourceOptionFlags.None,
                 SampleDescription = new SampleDescription(1, 0),
-            },
-            new DataRectangle(imageData.Scan0, imageData.Stride));
+            };
+
+            Texture2D texture2d;
+            if (mipLevels != -1)
+            {
+                texture2d = new Texture2D(Engine.Instance.GraphicsRenderer.Device, textureDesc);
+            }
+            else
+            {
+                texture2d = new Texture2D(Engine.Instance.GraphicsRenderer.Device, textureDesc, dataRectangle);
+            }
 
             ShaderResourceView = new ShaderResourceView(Engine.Instance.GraphicsRenderer.Device, texture2d, new ShaderResourceViewDescription
             {
@@ -76,6 +86,6 @@ namespace JUnity.Services.Graphics.Meshing
             }
         }
 
-        public ShaderResourceView ShaderResourceView { get; private set; }
+        internal ShaderResourceView ShaderResourceView { get; private set; }
     }
 }

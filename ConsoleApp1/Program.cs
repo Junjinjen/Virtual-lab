@@ -192,7 +192,7 @@ namespace ConsoleApp1
             };
 
             var mesh = new Mesh(vertexes, indeces, new Material());
-            mesh.Material.Texture = new Texture("texture.png");
+            mesh.Material.Texture = new Texture("texture.png", 8);
 
 
             var go = new GameObject();
@@ -210,7 +210,7 @@ namespace ConsoleApp1
             Engine.Instance.GraphicsRenderer.Camera.Fov = MathUtil.DegreesToRadians(90);
             Engine.Instance.GraphicsRenderer.Camera.DrawDistance = 100;
             Engine.Instance.GraphicsRenderer.Camera.NearDistance = 0.001f;
-            Engine.Instance.GraphicsRenderer.Camera.Position = new Vector3(0, 0, -5);
+            Engine.Instance.GraphicsRenderer.Camera.Position = new Vector3(0, 0, -25);
             Engine.Instance.GraphicsRenderer.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
 
             GameObjectFactory.CreateAndRegister<Go>();

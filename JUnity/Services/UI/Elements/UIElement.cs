@@ -24,6 +24,6 @@ namespace JUnity.Services.UI.Elements
 
         internal virtual void HandleMouseScroll(Vector2 mousePosition, int deltaScrollValue) { }
 
-        protected internal abstract void Render(GraphicsRenderer renderer);
+        protected internal abstract void Render(UIRenderer renderer);
     }
 }

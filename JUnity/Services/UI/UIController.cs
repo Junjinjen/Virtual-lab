@@ -84,5 +84,15 @@ namespace JUnity.Services.UI
                 }
             }
         }
+
+        internal void RenderUI()
+        {
+            foreach (var element in _elements)
+            {
+                if (element.IsVisible)
+                {
+                }
+            }
+        }
     }
 }
