@@ -3,7 +3,6 @@ using JUnity.Components.Rendering;
 using JUnity.Services.Graphics.Meshing;
 using JUnity.Utilities;
 using SharpDX;
-using System;
 
 namespace ConsoleApp1
 {
@@ -214,7 +213,7 @@ namespace ConsoleApp1
             Engine.Instance.GraphicsRenderer.Camera.Position = new Vector3(0, 0, -5);
             Engine.Instance.GraphicsRenderer.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
 
-            scene.Add(GameObjectFactory.Create<Go>());
+            GameObjectFactory.CreateAndRegister<Go>();
         }
     }
 

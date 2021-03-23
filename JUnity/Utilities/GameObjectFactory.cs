@@ -15,5 +15,13 @@ namespace JUnity.Utilities
             var creator = Activator.CreateInstance<TCreator>();
             return Create(creator);
         }
+
+        public static GameObject CreateAndRegister<TCreator>()
+            where TCreator : IGameObjectCreator
+        {
+            var gameObject = Create<TCreator>();
+            Engine.Instance.Scene.Add(gameObject);
+            return gameObject;
+        }
     }
 }

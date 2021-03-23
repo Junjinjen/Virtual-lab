@@ -27,6 +27,8 @@ namespace JUnity
             Scale = Vector3.One;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S3011:Reflection should not be used to increase accessibility of classes, methods, or fields",
+            Justification = "Engine logic")]
         public TComponent AddComponent<TComponent>()
             where TComponent : GameComponent
         {

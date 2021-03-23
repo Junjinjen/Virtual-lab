@@ -46,6 +46,8 @@ namespace JUnity.Components.Rendering
             SetPixelShader(pixelShaderName);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S112:General exceptions should never be thrown",
+            Justification = "Most suitable exception class")]
         internal override void Start()
         {
             if (_mesh == null || _pixelShader == null || _vertexShader == null)

@@ -85,32 +85,32 @@ namespace JUnity.Services.Input
 
         public bool IsKeyPressed(Key key)
         {
-            return _keyboardState != null ? _keyboardState.IsPressed(key) : false;
+            return _keyboardState != null && _keyboardState.IsPressed(key);
         }
 
         public bool IsKeyPressed(MouseKey key)
         {
-            return _keyboardState != null ? _mouseState.Buttons[(int)key] : false;
+            return _keyboardState != null && _mouseState.Buttons[(int)key];
         }
 
         public bool IsKeyJustPressed(Key key)
         {
-            return _keyboardState != null ? !_lastKeyboardState.IsPressed(key) && _keyboardState.IsPressed(key) : false;
+            return _keyboardState != null && !_lastKeyboardState.IsPressed(key) && _keyboardState.IsPressed(key);
         }
 
         public bool IsKeyJustPressed(MouseKey key)
         {
-            return _keyboardState != null ? !_lastMouseState.Buttons[(int)key] && _mouseState.Buttons[(int)key] : false;
+            return _keyboardState != null && !_lastMouseState.Buttons[(int)key] && _mouseState.Buttons[(int)key];
         }
 
         public bool IsKeyJustReleased(Key key)
         {
-            return _keyboardState != null ? _lastKeyboardState.IsPressed(key) && !_keyboardState.IsPressed(key) : false;
+            return _keyboardState != null && _lastKeyboardState.IsPressed(key) && !_keyboardState.IsPressed(key);
         }
 
         public bool IsKeyJustReleased(MouseKey key)
         {
-            return _keyboardState != null ? _lastMouseState.Buttons[(int)key] && !_mouseState.Buttons[(int)key] : false;
+            return _keyboardState != null && _lastMouseState.Buttons[(int)key] && !_mouseState.Buttons[(int)key];
         }
 
         public Vector2 GetCursorPosition()
