@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using JUnity.Services.Graphics.Meshing;
 using JUnity.Services.Graphics.Lightning;
 using JUnity.Services.Graphics.Utilities;
+using Direct2DFactory = SharpDX.Direct2D1.Factory;
 
 namespace JUnity.Services.Graphics
 {
@@ -33,6 +34,8 @@ namespace JUnity.Services.Graphics
         private SampleDescription _sampleDescription;
         private Texture2DDescription _depthBufferDescription;
         private int _syncInterval;
+
+        private UIRenderer _uIRenderer;
 
         private readonly List<RenderOrder> _drawingQueue = new List<RenderOrder>();
 
@@ -126,7 +129,6 @@ namespace JUnity.Services.Graphics
 
             RenderForm = new RenderForm(graphicsSettings.WindowTitle);
             RenderForm.UserResized += OnResize;
-
             GraphicsInitializer.CreateDeviceWithSwapChain(graphicsSettings, RenderForm, _sampleDescription, out _swapChainDescription, out _swapChain, out _device);
 
             var factory = _swapChain.GetParent<Factory>();
@@ -153,6 +155,8 @@ namespace JUnity.Services.Graphics
 
             var samplerState = GraphicsInitializer.CreateSamplerState(graphicsSettings.TextureSampling);
             _device.ImmediateContext.PixelShader.SetSampler(0, samplerState);
+
+            _uIRenderer = new UIRenderer();
 
             OnResize(null, EventArgs.Empty);
         }
@@ -212,6 +216,8 @@ namespace JUnity.Services.Graphics
             _device.ImmediateContext.OutputMerger.SetTargets(_depthView, _renderView);
 
             Camera.UpdateAspectRatio();
+
+            _uIRenderer.OnResize(_backBuffer);
         }
 
         private void ClearBuffers()
@@ -222,6 +228,7 @@ namespace JUnity.Services.Graphics
 
         private void EndRender()
         {
+            _uIRenderer.DrawTexture(_drawingQueue[0].Mesh.Material.Texture.FileName);
             _swapChain.Present(_syncInterval, PresentFlags.Restart);
             LightManager.ResetLight();
             _drawingQueue.Clear();

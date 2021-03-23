@@ -16,6 +16,7 @@ namespace JUnity.Services.Graphics.Meshing
 
         public Texture(string filename, int mipLevels = -1)
         {
+            FileName = filename;
             using (var bmp = new Bitmap(filename))
             {
                 var rect = new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
@@ -34,7 +35,7 @@ namespace JUnity.Services.Graphics.Meshing
         }
 
         private void CreateImage(Bitmap bmp, System.Drawing.Rectangle rect, int mipLevels = -1)
-        {
+        { 
             var data = bmp.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
             CreateImage(data, mipLevels);
             bmp.UnlockBits(data);
@@ -87,5 +88,8 @@ namespace JUnity.Services.Graphics.Meshing
         }
 
         internal ShaderResourceView ShaderResourceView { get; private set; }
+
+        internal string FileName { get; private set; }
+
     }
 }

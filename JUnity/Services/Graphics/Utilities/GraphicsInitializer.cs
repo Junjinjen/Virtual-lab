@@ -36,7 +36,7 @@ namespace JUnity.Services.Graphics.Utilities
             Configuration.EnableObjectTracking = true;
 #endif
 
-            Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.None, swapChainDescription, out device, out swapChain);
+            Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.BgraSupport, swapChainDescription, out device, out swapChain);
         }
 
         public static void InitializeShaders(string shadersMetaPath, out ShaderSignature inputSignature,
