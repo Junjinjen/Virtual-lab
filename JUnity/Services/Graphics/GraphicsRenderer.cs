@@ -246,7 +246,8 @@ namespace JUnity.Services.Graphics
             RenderForm.Dispose();
         }
 
-        private void DisposeDictionaryElements<T>(ReadOnlyDictionary<string, T> dictionary) where T : class, IDisposable
+        private void DisposeDictionaryElements<T>(ReadOnlyDictionary<string, T> dictionary)
+            where T : class, IDisposable
         {
             foreach (var item in dictionary)
             {

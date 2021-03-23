@@ -3,6 +3,8 @@ using JUnity.Components.Rendering;
 using JUnity.Services.Graphics.Meshing;
 using JUnity.Utilities;
 using SharpDX;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace ConsoleApp1
 {
@@ -192,8 +194,22 @@ namespace ConsoleApp1
             };
 
             var mesh = new Mesh(vertexes, indeces, new Material());
-            mesh.Material.Texture = new Texture("texture.png", 8);
 
+            var bmp = new Bitmap("texture.png");
+            var buffer = new List<byte>();
+            for (int i = 0; i < bmp.Width; i++)
+            {
+                for (int j = 0; j < bmp.Height; j++)
+                {
+                    var color = bmp.GetPixel(i, j);
+                    buffer.Add(color.R);
+                    buffer.Add(color.G);
+                    buffer.Add(color.B);
+                    buffer.Add(color.A);
+                }
+            }
+
+            mesh.Material.Texture = new Texture(buffer.ToArray(), 8);
 
             var go = new GameObject();
             go.AddComponent<MeshRenderer>().Initialize(mesh, "vx1", "px1");
@@ -210,7 +226,7 @@ namespace ConsoleApp1
             Engine.Instance.GraphicsRenderer.Camera.Fov = MathUtil.DegreesToRadians(90);
             Engine.Instance.GraphicsRenderer.Camera.DrawDistance = 100;
             Engine.Instance.GraphicsRenderer.Camera.NearDistance = 0.001f;
-            Engine.Instance.GraphicsRenderer.Camera.Position = new Vector3(0, 0, -25);
+            Engine.Instance.GraphicsRenderer.Camera.Position = new Vector3(0, 0, -5);
             Engine.Instance.GraphicsRenderer.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
 
             GameObjectFactory.CreateAndRegister<Go>();
@@ -223,7 +239,7 @@ namespace ConsoleApp1
         {
             using (var engine = new Engine(new Init()))
             {
-                engine.GraphicsSettings.BackgroundColor = Color.Gray;
+                engine.GraphicsSettings.BackgroundColor = SharpDX.Color.Gray;
                 engine.Run();
             }
         }
