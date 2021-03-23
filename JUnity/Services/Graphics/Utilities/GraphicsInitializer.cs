@@ -80,7 +80,7 @@ namespace JUnity.Services.Graphics.Utilities
                 }
                 else if (!shaderSignature.Data.SequenceEqual(inputSignature.Data))
                 {
-                    throw new Exception("Vertex shaders have different input signatures");
+                    throw new Exception("Vertex shaders have different input signatures.");
                 }
 
                 vertexShaderByteCode.Dispose();
@@ -124,7 +124,7 @@ namespace JUnity.Services.Graphics.Utilities
                     desc.Filter = Filter.Anisotropic;
                     break;
                 default:
-                    throw new ArgumentException("Texture sampling option not found", nameof(textureSampling));
+                    throw new ArgumentException("Texture sampling option not found.", nameof(textureSampling));
             }
 
             return new SamplerState(Engine.Instance.GraphicsRenderer.Device, desc);

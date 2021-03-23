@@ -43,7 +43,7 @@ namespace JUnity.Services.Graphics.Lightning
         {
             if (_lightContainer.ActiveDirectionalLights + 1 > GraphicsSettings.MaxLightsPerTypeCount)
             {
-                throw new ArgumentOutOfRangeException(nameof(light), "Unable to add direction light. Light limit reached");
+                throw new ArgumentOutOfRangeException(nameof(light), "Unable to add direction light. Light limit reached.");
             }
 
             _lightContainer.DirectionalLights[_lightContainer.ActiveDirectionalLights++] = light;
@@ -53,7 +53,7 @@ namespace JUnity.Services.Graphics.Lightning
         {
             if (_lightContainer.ActivePointLights + 1 > GraphicsSettings.MaxLightsPerTypeCount)
             {
-                throw new ArgumentOutOfRangeException(nameof(light), "Unable to add point light. Light limit reached");
+                throw new ArgumentOutOfRangeException(nameof(light), "Unable to add point light. Light limit reached.");
             }
 
             _lightContainer.PointLights[_lightContainer.ActivePointLights++] = light;
@@ -63,7 +63,7 @@ namespace JUnity.Services.Graphics.Lightning
         {
             if (_lightContainer.ActiveSpotLights + 1 > GraphicsSettings.MaxLightsPerTypeCount)
             {
-                throw new ArgumentOutOfRangeException(nameof(light), "Unable to add spot light. Light limit reached");
+                throw new ArgumentOutOfRangeException(nameof(light), "Unable to add spot light. Light limit reached.");
             }
 
             _lightContainer.SpotLights[_lightContainer.ActiveSpotLights++] = light;

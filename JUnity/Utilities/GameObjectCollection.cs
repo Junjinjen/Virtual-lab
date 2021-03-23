@@ -41,7 +41,7 @@ namespace JUnity.Utilities
                     return answ;
                 }
 
-                throw new ArgumentOutOfRangeException(nameof(name), "Object with given name wasn't found");
+                throw new ArgumentOutOfRangeException(nameof(name), "Object with given name wasn't found.");
             }
         }
 

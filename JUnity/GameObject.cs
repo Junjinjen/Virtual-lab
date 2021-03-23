@@ -1,4 +1,7 @@
-﻿using JUnity.Components;
+﻿using System;
+using System.Reflection;
+using JUnity.Components;
+using JUnity.Components.Interfaces;
 using JUnity.Utilities;
 using SharpDX;
 using System.Collections.Generic;
@@ -22,6 +25,89 @@ namespace JUnity
             IsActive = true;
             Children = new GameObjectCollection(this);
             Scale = Vector3.One;
+        }
+
+        public TComponent AddComponent<TComponent>(params object[] args)
+            where TComponent : GameComponent
+        {
+            if (typeof(IUniqueComponent).IsAssignableFrom(typeof(TComponent)) && GetComponent<TComponent>() != null)
+            {
+                throw new InvalidOperationException("Unable to add unique component. Dublication detected.");
+            }
+
+            var ctorArguments = new object[args.Length + 1];
+            ctorArguments[0] = this;
+            args.CopyTo(ctorArguments, 1);
+
+            var ctorArgumentsTypes = new Type[ctorArguments.Length];
+            for (int i = 0; i < ctorArgumentsTypes.Length; i++)
+            {
+                ctorArgumentsTypes[i] = ctorArguments[i].GetType();
+            }
+
+            var ctor = typeof(TComponent).GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                null, ctorArgumentsTypes, null);
+
+            var component = (TComponent)ctor.Invoke(ctorArguments);
+            if (typeof(IFixedUpdatableComponent).IsAssignableFrom(typeof(TComponent)))
+            {
+                _fixedComponents.Add(component);
+            }
+            else
+            {
+                _components.Add(component);
+            }
+
+            return component;
+        }
+
+        public List<TComponent> GetComponents<TComponent>()
+            where TComponent : GameComponent
+        {
+            var answ = new List<TComponent>();
+            foreach (var item in _components)
+            {
+                if (item is TComponent component)
+                {
+                    answ.Add(component);
+                }
+            }
+
+            foreach (var item in _fixedComponents)
+            {
+                if (item is TComponent component)
+                {
+                    answ.Add(component);
+                }
+            }
+
+            return answ;
+        }
+
+        public TComponent GetComponent<TComponent>()
+            where TComponent : GameComponent
+        {
+            var answ = SearchComponent<TComponent>(_components);
+            if (answ == null)
+            {
+                answ = SearchComponent<TComponent>(_fixedComponents);
+            }
+
+            return answ;
+        }
+
+        private TComponent SearchComponent<TComponent>(List<GameComponent> components)
+            where TComponent : GameComponent
+        {
+            foreach (var item in components)
+            {
+                if (item is TComponent component)
+                {
+                    return component;
+                }
+            }
+
+            return null;
         }
 
         public bool IsActive { get; set; }
