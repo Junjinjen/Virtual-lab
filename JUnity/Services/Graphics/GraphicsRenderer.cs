@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using JUnity.Services.Graphics.Meshing;
 using JUnity.Services.Graphics.Lightning;
 using JUnity.Services.Graphics.Utilities;
+using JUnity.Services.Graphics.UI;
 
 namespace JUnity.Services.Graphics
 {
@@ -38,7 +39,7 @@ namespace JUnity.Services.Graphics
 
         internal Device Device { get => _device; }
 
-        internal UIRenderer UIRenderer { get; }
+        internal UIRenderer UIRenderer { get; private set; }
 
         internal RenderForm RenderForm { get; private set; }
 

@@ -81,7 +81,7 @@
     <Compile Include="Services\Graphics\Camera.cs" />
     <Compile Include="Services\Graphics\Meshing\MeshMatricesBuffer.cs" />
     <Compile Include="Services\Graphics\Meshing\RenderOrder.cs" />
-    <Compile Include="Services\Graphics\UIRenderer.cs" />
+    <Compile Include="Services\Graphics\UI\UIRenderer.cs" />
     <Compile Include="Services\Graphics\Utilities\ConstantBuffer.cs" />
     <Compile Include="Services\Graphics\Utilities\GraphicsInitializer.cs" />
     <Compile Include="Services\Graphics\Utilities\GraphicsSettings.cs" />

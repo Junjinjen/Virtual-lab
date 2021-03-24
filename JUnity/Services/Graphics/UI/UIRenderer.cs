@@ -1,6 +1,6 @@
 ﻿using SharpDX.Direct2D1;
 
-namespace JUnity.Services.Graphics
+namespace JUnity.Services.Graphics.UI
 {
     public class UIRenderer
     {
