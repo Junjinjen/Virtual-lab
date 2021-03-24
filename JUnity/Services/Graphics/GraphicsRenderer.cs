@@ -38,6 +38,8 @@ namespace JUnity.Services.Graphics
 
         internal Device Device { get => _device; }
 
+        internal UIRenderer UIRenderer { get; }
+
         internal RenderForm RenderForm { get; private set; }
 
         internal LightManager LightManager { get; private set; }

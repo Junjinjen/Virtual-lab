@@ -2,61 +2,89 @@
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
-using SharpDX.IO;
+using Direct2DBitmap = SharpDX.Direct2D1.Bitmap;
+using WicBitmap = SharpDX.WIC.Bitmap;
 using SharpDX.WIC;
-using System.IO;
 
 namespace JUnity.Services.Graphics.Meshing
 {
     public sealed class Texture
     {
         private static ImagingFactory _imagingFactory = new ImagingFactory();
+        private ShaderResourceView _shaderResourceView;
+        private Direct2DBitmap _direct2DBitmap;
+
+        private readonly WicBitmap _wicBitmap;
+        private readonly int _mipLevels;
 
         public Texture(string filename, int mipLevels = -1)
         {
+            _mipLevels = mipLevels;
+
             using (var decoder = new BitmapDecoder(_imagingFactory, filename, DecodeOptions.CacheOnDemand))
             {
-                CreateImage(decoder.GetFrame(0), mipLevels);
+                var formatConverter = new FormatConverter(_imagingFactory);
+                formatConverter.Initialize(decoder.GetFrame(0), SharpDX.WIC.PixelFormat.Format32bppPRGBA,
+                    BitmapDitherType.None, null, 0.0f, BitmapPaletteType.Custom);
+                _wicBitmap = new WicBitmap(_imagingFactory, formatConverter, BitmapCreateCacheOption.CacheOnDemand);
             }
         }
 
-        public Texture(byte[] data, int mipLevels = -1)
+        public Texture(Color[] data, int width, int height, int mipLevels = -1)
         {
-            using (var stream = new MemoryStream(data))
+            _mipLevels = mipLevels;
+
+            _wicBitmap = WicBitmap.New(_imagingFactory, width, height, SharpDX.WIC.PixelFormat.Format32bppPRGBA, data);
+        }
+
+        internal ShaderResourceView ShaderResourceView
+        {
+            get
             {
-                using (var decoder = new BitmapDecoder(_imagingFactory, stream, DecodeOptions.CacheOnDemand))
+                if (_shaderResourceView == null)
                 {
-                    CreateImage(decoder.GetFrame(0), mipLevels);
+                    CreateShaderResourceView();
                 }
+
+                return _shaderResourceView;
             }
         }
 
-        private void CreateImage(BitmapFrameDecode imageData, int mipLevels = -1)
+        internal Direct2DBitmap Bitmap
         {
-            var formatConverter = new FormatConverter(_imagingFactory);
-            formatConverter.Initialize(imageData, PixelFormat.Format32bppPRGBA,
-                BitmapDitherType.None, null, 0.0f, BitmapPaletteType.Custom);
+            get
+            {
+                if (_direct2DBitmap == null)
+                {
+                    CreateBitmap();
+                }
 
-            int stride = formatConverter.Size.Width * 4;
-            var buffer = new DataStream(formatConverter.Size.Height * stride, true, true);
-            formatConverter.CopyPixels(stride, buffer);
+                return _direct2DBitmap;
+            }
+        }
+
+        private void CreateShaderResourceView()
+        {
+            int stride = _wicBitmap.Size.Width * 4;
+            var buffer = new DataStream(_wicBitmap.Size.Height * stride, true, true);
+            _wicBitmap.CopyPixels(stride, buffer);
 
             var textureDesc = new Texture2DDescription
             {
-                Width = formatConverter.Size.Width,
-                Height = formatConverter.Size.Height,
+                Width = _wicBitmap.Size.Width,
+                Height = _wicBitmap.Size.Height,
                 ArraySize = 1,
-                BindFlags = mipLevels != -1 ? BindFlags.ShaderResource | BindFlags.RenderTarget : BindFlags.ShaderResource,
+                BindFlags = _mipLevels != -1 ? BindFlags.ShaderResource | BindFlags.RenderTarget : BindFlags.ShaderResource,
                 Usage = ResourceUsage.Default,
                 CpuAccessFlags = CpuAccessFlags.None,
                 Format = Format.R8G8B8A8_UNorm,
-                MipLevels = mipLevels != -1 ? 0 : 1,
-                OptionFlags = mipLevels != -1 ? ResourceOptionFlags.GenerateMipMaps : ResourceOptionFlags.None,
+                MipLevels = _mipLevels != -1 ? 0 : 1,
+                OptionFlags = _mipLevels != -1 ? ResourceOptionFlags.GenerateMipMaps : ResourceOptionFlags.None,
                 SampleDescription = new SampleDescription(1, 0),
             };
 
             Texture2D texture2d;
-            if (mipLevels != -1)
+            if (_mipLevels != -1)
             {
                 texture2d = new Texture2D(Engine.Instance.GraphicsRenderer.Device, textureDesc);
             }
@@ -66,18 +94,18 @@ namespace JUnity.Services.Graphics.Meshing
                 texture2d = new Texture2D(Engine.Instance.GraphicsRenderer.Device, textureDesc, dataRectangle);
             }
 
-            ShaderResourceView = new ShaderResourceView(Engine.Instance.GraphicsRenderer.Device, texture2d, new ShaderResourceViewDescription
+            _shaderResourceView = new ShaderResourceView(Engine.Instance.GraphicsRenderer.Device, texture2d, new ShaderResourceViewDescription
             {
                 Dimension = ShaderResourceViewDimension.Texture2D,
                 Format = Format.R8G8B8A8_UNorm,
                 Texture2D = new ShaderResourceViewDescription.Texture2DResource
                 {
                     MostDetailedMip = 0,
-                    MipLevels = mipLevels != -1 ? mipLevels : 1
+                    MipLevels = _mipLevels != -1 ? _mipLevels : 1
                 }
             });
 
-            if (mipLevels != -1)
+            if (_mipLevels != -1)
             {
                 var dataBox = new DataBox(buffer.DataPointer, stride, 1);
                 Engine.Instance.GraphicsRenderer.Device.ImmediateContext.UpdateSubresource(dataBox, texture2d, 0);
@@ -85,6 +113,9 @@ namespace JUnity.Services.Graphics.Meshing
             }
         }
 
-        internal ShaderResourceView ShaderResourceView { get; private set; }
+        private void CreateBitmap()
+        {
+            _direct2DBitmap = Direct2DBitmap.FromWicBitmap(Engine.Instance.GraphicsRenderer.UIRenderer.RenderTarget, _wicBitmap);
+        }
     }
 }

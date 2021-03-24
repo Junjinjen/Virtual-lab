@@ -196,24 +196,29 @@ namespace ConsoleApp1
             var mesh = new Mesh(vertexes, indeces, new Material());
 
             var bmp = new Bitmap("texture.png");
-            var buffer = new List<byte>();
-            for (int i = 0; i < bmp.Width; i++)
+            var buff = new List<SharpDX.Color>();
+
+            for (int j = 0; j < bmp.Height; j++)
             {
-                for (int j = 0; j < bmp.Height; j++)
+                for (int i = 0; i < bmp.Width; i++)
                 {
-                    var color = bmp.GetPixel(i, j);
-                    buffer.Add(color.R);
-                    buffer.Add(color.G);
-                    buffer.Add(color.B);
-                    buffer.Add(color.A);
+                    var pixel = bmp.GetPixel(i, j);
+                    buff.Add(new SharpDX.Color
+                    {
+                        A = pixel.A,
+                        B = pixel.B,
+                        G = pixel.G,
+                        R = pixel.R,
+                    });
                 }
             }
 
-            mesh.Material.Texture = new Texture(buffer.ToArray(), 8);
+            //mesh.Material.Texture = new Texture(buff.ToArray(), bmp.Width, bmp.Width);
+            mesh.Material.Texture = new Texture("texture.png");
 
             var go = new GameObject();
             go.AddComponent<MeshRenderer>().Initialize(mesh, "vx1", "px1");
-            go.Rotation = Quaternion.RotationLookAtLH(new Vector3(0.5f), Vector3.Up);
+            //go.Rotation = Quaternion.RotationLookAtLH(new Vector3(0.5f), Vector3.Up);
 
             return go;
         }
