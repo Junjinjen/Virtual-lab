@@ -60,7 +60,7 @@ namespace JUnity.Services.Graphics
             CreateSharedFields(graphicsSettings);
 
             RenderForm = new RenderForm(graphicsSettings.WindowTitle);
-            RenderForm.ResizeEnd += RenderForm_ResizeEnd;
+            RenderForm.Resize += OnResize;
             UIRenderer = new UIRenderer();
 
             GraphicsInitializer.CreateDeviceWithSwapChain(graphicsSettings, RenderForm, _sampleDescription, out _swapChainDescription, out _swapChain, out _device);
@@ -90,7 +90,7 @@ namespace JUnity.Services.Graphics
             var samplerState = GraphicsInitializer.CreateSamplerState(graphicsSettings.TextureSampling);
             _device.ImmediateContext.PixelShader.SetSampler(0, samplerState);
 
-            RenderForm_ResizeEnd(null, EventArgs.Empty);
+            OnResize(null, EventArgs.Empty);
             UIRenderer.Initialize(RenderForm);
         }
 
@@ -201,12 +201,13 @@ namespace JUnity.Services.Graphics
             _meshMatricesBufferBuffer = new ConstantBuffer<MeshMatrices>(_device);
         }
 
-        private void RenderForm_ResizeEnd(object sender, EventArgs args)
+        private void OnResize(object sender, EventArgs args)
         {
             BackBuffer?.Dispose();
-            SharpDX.Utilities.Dispose(ref _renderView);
-            SharpDX.Utilities.Dispose(ref _depthBuffer);
-            SharpDX.Utilities.Dispose(ref _depthView);
+            _renderView?.Dispose();
+            _depthBuffer?.Dispose();
+            _depthView?.Dispose();
+            UIRenderer.RenderTarget?.Dispose();
 
             _swapChain.ResizeBuffers(_swapChainDescription.BufferCount, RenderForm.ClientSize.Width, RenderForm.ClientSize.Height, Format.Unknown, SwapChainFlags.None);
             BackBuffer = Texture2D.FromSwapChain<Texture2D>(_swapChain, 0);

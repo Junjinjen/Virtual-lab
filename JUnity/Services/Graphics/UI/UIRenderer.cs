@@ -25,8 +25,7 @@ namespace JUnity.Services.Graphics.UI
         {
             _direct2DFactory = new Direct2DFactory();
             _directWriteFactory = new DirectWriteFactory();
-            renderForm.ResizeEnd += RenderForm_ResizeEnd;
-            renderForm.ResizeBegin += RenderForm_ResizeBegin;
+            renderForm.Resize += OnResize;
 
             _renderTargetProperties = new RenderTargetProperties
             {
@@ -38,15 +37,10 @@ namespace JUnity.Services.Graphics.UI
                 Usage = RenderTargetUsage.None,
             };
 
-            RenderForm_ResizeEnd(null, EventArgs.Empty);
+            OnResize(null, EventArgs.Empty);
         }
 
-        private void RenderForm_ResizeBegin(object sender, EventArgs e)
-        {
-            RenderTarget?.Dispose();
-        }
-
-        private void RenderForm_ResizeEnd(object sender, EventArgs e)
+        private void OnResize(object sender, EventArgs e)
         {
             using (var surface = Engine.Instance.GraphicsRenderer.BackBuffer.QueryInterface<Surface>())
             {
