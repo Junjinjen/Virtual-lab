@@ -9,7 +9,6 @@ using System.Collections.ObjectModel;
 using JUnity.Services.Graphics.Meshing;
 using JUnity.Services.Graphics.Lightning;
 using JUnity.Services.Graphics.Utilities;
-using JUnity.Services.Graphics.UI;
 
 namespace JUnity.Services.Graphics
 {
@@ -24,8 +23,8 @@ namespace JUnity.Services.Graphics
         private SwapChain _swapChain;
         private Texture2D _depthBuffer;
         private DepthStencilView _depthView;
-        private Texture2D _backBuffer;
         private RenderTargetView _renderView;
+        private RasterizerStateFactory _renderStateFactory;
 
         private ConstantBuffer<LightContainer> _lightBuffer;
         private ConstantBuffer<MaterialDescription> _materialDescriptionBuffer;
@@ -39,7 +38,7 @@ namespace JUnity.Services.Graphics
 
         internal Device Device { get => _device; }
 
-        internal UIRenderer UIRenderer { get; private set; }
+        internal Texture2D BackBuffer { get; private set; }
 
         internal RenderForm RenderForm { get; private set; }
 
@@ -52,6 +51,43 @@ namespace JUnity.Services.Graphics
         public ReadOnlyDictionary<string, VertexShader> VertexShaders { get; private set; }
 
         public ReadOnlyDictionary<string, PixelShader> PixelShaders { get; private set; }
+
+        internal void Initialize(GraphicsSettings graphicsSettings)
+        {
+            CreateSharedFields(graphicsSettings);
+
+            RenderForm = new RenderForm(graphicsSettings.WindowTitle);
+            RenderForm.UserResized += OnResize;
+
+            GraphicsInitializer.CreateDeviceWithSwapChain(graphicsSettings, RenderForm, _sampleDescription, out _swapChainDescription, out _swapChain, out _device);
+
+            var factory = _swapChain.GetParent<Factory>();
+            factory.MakeWindowAssociation(RenderForm.Handle, WindowAssociationFlags.IgnoreAll);
+            factory.Dispose();
+
+            CreateConstantBuffers();
+
+            _renderStateFactory = new RasterizerStateFactory(_device);
+
+            GraphicsInitializer.InitializeShaders(graphicsSettings.ShadersMetaPath, out var inputSignature, out var vertexShaders, out var pixelShaders);
+            VertexShaders = new ReadOnlyDictionary<string, VertexShader>(vertexShaders);
+            PixelShaders = new ReadOnlyDictionary<string, PixelShader>(pixelShaders);
+
+            var layout = new InputLayout(_device, inputSignature, new[]
+                    {
+                        new InputElement("POSITION", 0, Format.R32G32B32A32_Float, 0, 0),
+                        new InputElement("NORMAL", 0, Format.R32G32B32A32_Float, 16, 0),
+                        new InputElement("COLOR", 0, Format.R32G32B32A32_Float, 32, 0),
+                        new InputElement("TEXCOORD", 0, Format.R32G32_Float, 48, 0),
+                    });
+
+            _device.ImmediateContext.InputAssembler.InputLayout = layout;
+
+            var samplerState = GraphicsInitializer.CreateSamplerState(graphicsSettings.TextureSampling);
+            _device.ImmediateContext.PixelShader.SetSampler(0, samplerState);
+
+            OnResize(null, EventArgs.Empty);
+        }
 
         internal void AddRenderOrder(RenderOrder order)
         {
@@ -74,6 +110,8 @@ namespace JUnity.Services.Graphics
                 }
                 
                 UpdateMeshMatrices(ref viewProjectionMatrix, order.GameObject, order.Mesh.Scale);
+
+                _device.ImmediateContext.Rasterizer.State = _renderStateFactory.Create(order.Mesh.Material.RasterizerState);
 
                 _device.ImmediateContext.InputAssembler.PrimitiveTopology = order.Mesh.PrimitiveTopology;
                 _device.ImmediateContext.InputAssembler.SetVertexBuffers(0, order.Mesh.VertexBufferBinding);
@@ -123,43 +161,6 @@ namespace JUnity.Services.Graphics
             _device.ImmediateContext.PixelShader.SetConstantBuffer(LightContainerSlot, _lightBuffer.Buffer); // may cause problems, when using multiple shaders
         }
 
-        internal void Initialize(GraphicsSettings graphicsSettings)
-        {
-            CreateSharedFields(graphicsSettings);
-
-            RenderForm = new RenderForm(graphicsSettings.WindowTitle);
-            RenderForm.UserResized += OnResize;
-
-            GraphicsInitializer.CreateDeviceWithSwapChain(graphicsSettings, RenderForm, _sampleDescription, out _swapChainDescription, out _swapChain, out _device);
-
-            var factory = _swapChain.GetParent<Factory>();
-            factory.MakeWindowAssociation(RenderForm.Handle, WindowAssociationFlags.IgnoreAll);
-            factory.Dispose();
-
-            CreateConstantBuffers();
-
-            _device.ImmediateContext.Rasterizer.State = GraphicsInitializer.CreateRasterizerStage();
-
-            GraphicsInitializer.InitializeShaders(graphicsSettings.ShadersMetaPath, out var inputSignature, out var vertexShaders, out var pixelShaders);
-            VertexShaders = new ReadOnlyDictionary<string, VertexShader>(vertexShaders);
-            PixelShaders = new ReadOnlyDictionary<string, PixelShader>(pixelShaders);
-
-            var layout = new InputLayout(_device, inputSignature, new[]
-                    {
-                        new InputElement("POSITION", 0, Format.R32G32B32A32_Float, 0, 0),
-                        new InputElement("NORMAL", 0, Format.R32G32B32A32_Float, 16, 0),
-                        new InputElement("COLOR", 0, Format.R32G32B32A32_Float, 32, 0),
-                        new InputElement("TEXCOORD", 0, Format.R32G32_Float, 48, 0),
-                    });
-
-            _device.ImmediateContext.InputAssembler.InputLayout = layout;
-
-            var samplerState = GraphicsInitializer.CreateSamplerState(graphicsSettings.TextureSampling);
-            _device.ImmediateContext.PixelShader.SetSampler(0, samplerState);
-
-            OnResize(null, EventArgs.Empty);
-        }
-
         private void CreateSharedFields(GraphicsSettings graphicsSettings)
         {
             BackgroundColor = graphicsSettings.BackgroundColor;
@@ -196,14 +197,18 @@ namespace JUnity.Services.Graphics
 
         private void OnResize(object sender, EventArgs args)
         {
-            SharpDX.Utilities.Dispose(ref _backBuffer);
+            if (BackBuffer != null)
+            {
+                BackBuffer.Dispose();
+            }
+
             SharpDX.Utilities.Dispose(ref _renderView);
             SharpDX.Utilities.Dispose(ref _depthBuffer);
             SharpDX.Utilities.Dispose(ref _depthView);
 
             _swapChain.ResizeBuffers(_swapChainDescription.BufferCount, RenderForm.ClientSize.Width, RenderForm.ClientSize.Height, Format.Unknown, SwapChainFlags.None);
-            _backBuffer = Texture2D.FromSwapChain<Texture2D>(_swapChain, 0);
-            _renderView = new RenderTargetView(_device, _backBuffer);
+            BackBuffer = Texture2D.FromSwapChain<Texture2D>(_swapChain, 0);
+            _renderView = new RenderTargetView(_device, BackBuffer);
 
             _depthBufferDescription.Width = RenderForm.ClientSize.Width;
             _depthBufferDescription.Height = RenderForm.ClientSize.Height;
@@ -242,7 +247,7 @@ namespace JUnity.Services.Graphics
             _depthBuffer.Dispose();
             _depthView.Dispose();
             _renderView.Dispose();
-            _backBuffer.Dispose();
+            BackBuffer.Dispose();
             _swapChain.Dispose();
             _device.Dispose();
 

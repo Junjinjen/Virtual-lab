@@ -1,4 +1,5 @@
 ﻿using JUnity.Services.Graphics;
+using JUnity.Services.Graphics.UI;
 using JUnity.Services.Graphics.Utilities;
 using JUnity.Services.Input;
 using JUnity.Services.UI;
@@ -28,6 +29,7 @@ namespace JUnity
             Scene = new GameObjectCollection(null);
             InputManager = new InputManager();
             GraphicsRenderer = new GraphicsRenderer();
+            UIRenderer = new UIRenderer();
             GraphicsSettings = GraphicsSettings.Default;
             UIController = new UIController();
         }
@@ -35,6 +37,8 @@ namespace JUnity
         public static Engine Instance { get; private set; }
 
         internal GraphicsRenderer GraphicsRenderer { get; }
+
+        internal UIRenderer UIRenderer { get; private set; }
 
         internal UIController UIController { get; }
 
@@ -49,6 +53,7 @@ namespace JUnity
         public void Run()
         {
             GraphicsRenderer.Initialize(GraphicsSettings);
+            UIRenderer.Initialize(GraphicsRenderer.RenderForm);
             InputManager.Initialize(GraphicsRenderer.RenderForm);
 
             _sceneInitializer.Seed(Scene);
@@ -101,6 +106,7 @@ namespace JUnity
             }
 
             GraphicsRenderer.RenderScene();
+            UIRenderer.RenderUI();
         }
 
         public void Dispose()

@@ -91,6 +91,7 @@ namespace JUnity.Services.UI
             {
                 if (element.IsVisible)
                 {
+                    element.Render(Engine.Instance.UIRenderer);
                 }
             }
         }

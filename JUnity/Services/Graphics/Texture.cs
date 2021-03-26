@@ -6,7 +6,7 @@ using Direct2DBitmap = SharpDX.Direct2D1.Bitmap;
 using WicBitmap = SharpDX.WIC.Bitmap;
 using SharpDX.WIC;
 
-namespace JUnity.Services.Graphics.Meshing
+namespace JUnity.Services.Graphics
 {
     public sealed class Texture
     {
@@ -24,7 +24,7 @@ namespace JUnity.Services.Graphics.Meshing
             using (var decoder = new BitmapDecoder(_imagingFactory, filename, DecodeOptions.CacheOnDemand))
             {
                 var formatConverter = new FormatConverter(_imagingFactory);
-                formatConverter.Initialize(decoder.GetFrame(0), SharpDX.WIC.PixelFormat.Format32bppPRGBA,
+                formatConverter.Initialize(decoder.GetFrame(0), PixelFormat.Format32bppPRGBA,
                     BitmapDitherType.None, null, 0.0f, BitmapPaletteType.Custom);
                 _wicBitmap = new WicBitmap(_imagingFactory, formatConverter, BitmapCreateCacheOption.CacheOnDemand);
             }
@@ -34,7 +34,7 @@ namespace JUnity.Services.Graphics.Meshing
         {
             _mipLevels = mipLevels;
 
-            _wicBitmap = WicBitmap.New(_imagingFactory, width, height, SharpDX.WIC.PixelFormat.Format32bppPRGBA, data);
+            _wicBitmap = WicBitmap.New(_imagingFactory, width, height, PixelFormat.Format32bppPRGBA, data);
         }
 
         internal ShaderResourceView ShaderResourceView
@@ -115,7 +115,7 @@ namespace JUnity.Services.Graphics.Meshing
 
         private void CreateBitmap()
         {
-            _direct2DBitmap = Direct2DBitmap.FromWicBitmap(Engine.Instance.GraphicsRenderer.UIRenderer.RenderTarget, _wicBitmap);
+            _direct2DBitmap = Direct2DBitmap.FromWicBitmap(Engine.Instance.UIRenderer.RenderTarget, _wicBitmap);
         }
     }
 }

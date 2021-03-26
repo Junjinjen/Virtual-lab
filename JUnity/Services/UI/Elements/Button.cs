@@ -1,10 +1,11 @@
-﻿using JUnity.Services.Input;
+﻿using JUnity.Services.Graphics.UI;
+using JUnity.Services.Input;
 using SharpDX;
 using System;
 
 namespace JUnity.Services.UI.Elements
 {
-    public abstract class Button : UIElement
+    public class Button : UIElement
     {
         internal override void HandleMouseDown(Vector2 mousePosition, MouseKey key)
         {
@@ -26,6 +27,11 @@ namespace JUnity.Services.UI.Elements
         protected virtual void OnMouseDown() { }
 
         protected virtual void OnMouseUp() { }
+
+        protected internal override void Render(UIRenderer renderer)
+        {
+            throw new NotImplementedException();
+        }
 
         public event EventHandler Click;
     }

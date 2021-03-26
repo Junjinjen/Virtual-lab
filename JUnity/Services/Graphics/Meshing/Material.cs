@@ -1,4 +1,5 @@
 ﻿using SharpDX;
+using SharpDX.Direct3D11;
 
 namespace JUnity.Services.Graphics.Meshing
 {
@@ -6,6 +7,19 @@ namespace JUnity.Services.Graphics.Meshing
     {
         private MaterialDescription _description;
         private Texture _texture;
+
+        public Material()
+        {
+            RasterizerState = new RasterizerStateDescription
+            {
+                CullMode = CullMode.Back,
+                FillMode = FillMode.Solid,
+                IsFrontCounterClockwise = true,
+                IsMultisampleEnabled = true,
+                IsAntialiasedLineEnabled = true,
+                IsDepthClipEnabled = true,
+            };
+        }
 
         internal MaterialDescription Description { get => _description; }
 
@@ -25,6 +39,8 @@ namespace JUnity.Services.Graphics.Meshing
                 }
             }
         }
+
+        public RasterizerStateDescription RasterizerState { get; set; }
 
         public Vector3 EmissivityCoefficient
         {
