@@ -106,6 +106,7 @@ namespace JUnity
             }
 
             GraphicsRenderer.RenderScene();
+            UIController.CreateDrawRequest();
             UIRenderer.RenderUI();
         }
 

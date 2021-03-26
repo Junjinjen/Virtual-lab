@@ -5,6 +5,7 @@ using SharpDX.DXGI;
 using Direct2DBitmap = SharpDX.Direct2D1.Bitmap;
 using WicBitmap = SharpDX.WIC.Bitmap;
 using SharpDX.WIC;
+using SharpDX.Direct2D1;
 
 namespace JUnity.Services.Graphics
 {
@@ -13,6 +14,7 @@ namespace JUnity.Services.Graphics
         private static ImagingFactory _imagingFactory = new ImagingFactory();
         private ShaderResourceView _shaderResourceView;
         private Direct2DBitmap _direct2DBitmap;
+        private RenderTarget _oldRenderTarget;
 
         private readonly WicBitmap _wicBitmap;
         private readonly int _mipLevels;
@@ -24,7 +26,7 @@ namespace JUnity.Services.Graphics
             using (var decoder = new BitmapDecoder(_imagingFactory, filename, DecodeOptions.CacheOnDemand))
             {
                 var formatConverter = new FormatConverter(_imagingFactory);
-                formatConverter.Initialize(decoder.GetFrame(0), PixelFormat.Format32bppPRGBA,
+                formatConverter.Initialize(decoder.GetFrame(0), SharpDX.WIC.PixelFormat.Format32bppPRGBA,
                     BitmapDitherType.None, null, 0.0f, BitmapPaletteType.Custom);
                 _wicBitmap = new WicBitmap(_imagingFactory, formatConverter, BitmapCreateCacheOption.CacheOnDemand);
             }
@@ -34,7 +36,7 @@ namespace JUnity.Services.Graphics
         {
             _mipLevels = mipLevels;
 
-            _wicBitmap = WicBitmap.New(_imagingFactory, width, height, PixelFormat.Format32bppPRGBA, data);
+            _wicBitmap = WicBitmap.New(_imagingFactory, width, height, SharpDX.WIC.PixelFormat.Format32bppPRGBA, data);
         }
 
         internal ShaderResourceView ShaderResourceView
@@ -54,9 +56,10 @@ namespace JUnity.Services.Graphics
         {
             get
             {
-                if (_direct2DBitmap == null)
+                if (_direct2DBitmap == null || !Engine.Instance.UIRenderer.RenderTarget.Equals(_oldRenderTarget))
                 {
-                    CreateBitmap();
+                    _oldRenderTarget = Engine.Instance.UIRenderer.RenderTarget;
+                    _direct2DBitmap = Direct2DBitmap.FromWicBitmap(_oldRenderTarget, _wicBitmap);
                 }
 
                 return _direct2DBitmap;
@@ -111,11 +114,6 @@ namespace JUnity.Services.Graphics
                 Engine.Instance.GraphicsRenderer.Device.ImmediateContext.UpdateSubresource(dataBox, texture2d, 0);
                 Engine.Instance.GraphicsRenderer.Device.ImmediateContext.GenerateMips(ShaderResourceView);
             }
-        }
-
-        private void CreateBitmap()
-        {
-            _direct2DBitmap = Direct2DBitmap.FromWicBitmap(Engine.Instance.UIRenderer.RenderTarget, _wicBitmap);
         }
     }
 }

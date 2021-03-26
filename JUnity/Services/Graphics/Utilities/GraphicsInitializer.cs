@@ -32,11 +32,13 @@ namespace JUnity.Services.Graphics.Utilities
                 Usage = Usage.RenderTargetOutput
             };
 
+            var deviceCreationFlags = DeviceCreationFlags.BgraSupport;
 #if DEBUG
             Configuration.EnableObjectTracking = true;
+            deviceCreationFlags |= DeviceCreationFlags.Debug;
 #endif
 
-            Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.BgraSupport, swapChainDescription, out device, out swapChain);
+            Device.CreateWithSwapChain(DriverType.Hardware, deviceCreationFlags, swapChainDescription, out device, out swapChain);
         }
 
         public static void InitializeShaders(string shadersMetaPath, out ShaderSignature inputSignature,

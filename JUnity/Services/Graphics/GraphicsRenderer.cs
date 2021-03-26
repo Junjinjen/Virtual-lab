@@ -12,7 +12,7 @@ using JUnity.Services.Graphics.Utilities;
 
 namespace JUnity.Services.Graphics
 {
-    public sealed class GraphicsRenderer : IDisposable
+    internal sealed class GraphicsRenderer : IDisposable
     {
         private const int LightContainerSlot = 0;
         private const int MaterialDescriptionSlot = 1;
@@ -52,12 +52,12 @@ namespace JUnity.Services.Graphics
 
         public ReadOnlyDictionary<string, PixelShader> PixelShaders { get; private set; }
 
-        internal void Initialize(GraphicsSettings graphicsSettings)
+        public void Initialize(GraphicsSettings graphicsSettings)
         {
             CreateSharedFields(graphicsSettings);
 
             RenderForm = new RenderForm(graphicsSettings.WindowTitle);
-            RenderForm.UserResized += OnResize;
+            RenderForm.ResizeEnd += RenderForm_ResizeEnd;
 
             GraphicsInitializer.CreateDeviceWithSwapChain(graphicsSettings, RenderForm, _sampleDescription, out _swapChainDescription, out _swapChain, out _device);
 
@@ -86,15 +86,15 @@ namespace JUnity.Services.Graphics
             var samplerState = GraphicsInitializer.CreateSamplerState(graphicsSettings.TextureSampling);
             _device.ImmediateContext.PixelShader.SetSampler(0, samplerState);
 
-            OnResize(null, EventArgs.Empty);
+            RenderForm_ResizeEnd(null, EventArgs.Empty);
         }
 
-        internal void AddRenderOrder(RenderOrder order)
+        public void AddRenderOrder(RenderOrder order)
         {
             _drawingQueue.Add(order);
         }
 
-        internal void RenderScene()
+        public void RenderScene()
         {
             ClearBuffers();
             LightManager.CameraPosition = Camera.Position;
@@ -195,13 +195,9 @@ namespace JUnity.Services.Graphics
             _meshMatricesBufferBuffer = new ConstantBuffer<MeshMatrices>(_device);
         }
 
-        private void OnResize(object sender, EventArgs args)
+        private void RenderForm_ResizeEnd(object sender, EventArgs args)
         {
-            if (BackBuffer != null)
-            {
-                BackBuffer.Dispose();
-            }
-
+            BackBuffer?.Dispose();
             SharpDX.Utilities.Dispose(ref _renderView);
             SharpDX.Utilities.Dispose(ref _depthBuffer);
             SharpDX.Utilities.Dispose(ref _depthView);

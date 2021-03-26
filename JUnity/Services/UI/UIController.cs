@@ -85,13 +85,13 @@ namespace JUnity.Services.UI
             }
         }
 
-        internal void RenderUI()
+        internal void CreateDrawRequest()
         {
             foreach (var element in _elements)
             {
                 if (element.IsVisible)
                 {
-                    element.Render(Engine.Instance.UIRenderer);
+                    Engine.Instance.UIRenderer.AddElementToDrawOrder(element);
                 }
             }
         }

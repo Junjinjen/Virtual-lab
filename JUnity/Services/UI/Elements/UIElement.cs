@@ -1,6 +1,6 @@
-﻿using JUnity.Services.Graphics.UI;
-using JUnity.Services.Input;
+﻿using JUnity.Services.Input;
 using SharpDX;
+using SharpDX.Direct2D1;
 
 namespace JUnity.Services.UI.Elements
 {
@@ -24,6 +24,6 @@ namespace JUnity.Services.UI.Elements
 
         internal virtual void HandleMouseScroll(Vector2 mousePosition, int deltaScrollValue) { }
 
-        protected internal abstract void Render(UIRenderer renderer);
+        protected internal abstract void Render(RenderTarget renderTarget);
     }
 }

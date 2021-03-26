@@ -2,6 +2,7 @@
 using JUnity.Components.Rendering;
 using JUnity.Services.Graphics;
 using JUnity.Services.Graphics.Meshing;
+using JUnity.Services.UI.Elements;
 using JUnity.Utilities;
 using SharpDX;
 using System.Collections.Generic;
@@ -234,6 +235,13 @@ namespace ConsoleApp1
             Engine.Instance.GraphicsRenderer.Camera.NearDistance = 0.001f;
             Engine.Instance.GraphicsRenderer.Camera.Position = new Vector3(0, 0, -5);
             Engine.Instance.GraphicsRenderer.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
+
+            Engine.Instance.UIController.RegisterElement(new Button
+            {
+                Width = 0.5f,
+                Height = 0.5f,
+                Text = "Hello world",
+            });
 
             GameObjectFactory.CreateAndRegister<Go>();
         }

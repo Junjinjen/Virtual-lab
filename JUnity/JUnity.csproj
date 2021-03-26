@@ -82,6 +82,7 @@
     <Compile Include="Services\Graphics\Meshing\MeshMatricesBuffer.cs" />
     <Compile Include="Services\Graphics\Meshing\RasterizerStateFactory.cs" />
     <Compile Include="Services\Graphics\Meshing\RenderOrder.cs" />
+    <Compile Include="Services\Graphics\UI\Styling\SurfaceStyle.cs" />
     <Compile Include="Services\Graphics\UI\UIRenderer.cs" />
     <Compile Include="Services\Graphics\Utilities\ConstantBuffer.cs" />
     <Compile Include="Services\Graphics\Utilities\GraphicsInitializer.cs" />
