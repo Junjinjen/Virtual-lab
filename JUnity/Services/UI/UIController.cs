@@ -91,7 +91,7 @@ namespace JUnity.Services.UI
             {
                 if (element.IsVisible)
                 {
-                    Engine.Instance.UIRenderer.AddElementToDrawOrder(element);
+                    Engine.Instance.GraphicsRenderer.UIRenderer.AddElementToDrawOrder(element);
                 }
             }
         }

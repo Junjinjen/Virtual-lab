@@ -1,4 +1,5 @@
 ﻿using JUnity.Services.Graphics.UI.Styling;
+using JUnity.Services.Graphics.Utilities;
 using JUnity.Services.Input;
 using SharpDX;
 using SharpDX.Direct2D1;
@@ -19,8 +20,18 @@ namespace JUnity.Services.UI.Elements
             Active = true;
             Style = new ButtonStyle
             {
-                TextColor = Color.Black,
-                DisabledTextColor = new Color(175, 160, 175, 255),
+                TextStyle = new ButtonTextStyle
+                {
+                    TextColor = Color.Black,
+                    DisabledTextColor = new Color(175, 160, 175, 255),
+                    FontFamily = "Consolas",
+                    FontSize = 12.0f,
+                    FontStretch = FontStretch.Normal,
+                    FontStyle = FontStyle.Normal,
+                    FontWeight = FontWeight.Normal,
+                    ParagraphAlignment = ParagraphAlignment.Center,
+                    TextAlignment = TextAlignment.Center,
+                },
                 ActiveBackground = new SurfaceStyle
                 {
                     Color = new Color(225, 225, 225, 255),
@@ -36,13 +47,6 @@ namespace JUnity.Services.UI.Elements
                     Color = new Color(204, 228, 247, 255),
                     Opacity = 1.0f,
                 },
-                FontFamily = "Consolas",
-                FontSize = 12.0f,
-                FontStretch = FontStretch.Normal,
-                FontStyle = FontStyle.Normal,
-                FontWeight = FontWeight.Normal,
-                ParagraphAlignment = ParagraphAlignment.Center,
-                TextAlignment = TextAlignment.Center,
             };
         }
 
@@ -80,8 +84,6 @@ namespace JUnity.Services.UI.Elements
 
         protected internal override void Render(RenderTarget renderTarget)
         {
-            renderTarget.Transform = Matrix3x2.Identity;
-
             if (Active)
             {
                 if (_isPressed)
@@ -93,12 +95,12 @@ namespace JUnity.Services.UI.Elements
                     DrawBackground(renderTarget, Style.ActiveBackground);
                 }
 
-                DrawText(renderTarget, Style.TextColor);
+                DrawText(renderTarget, Style.TextStyle.TextColor);
             }
             else
             {
                 DrawBackground(renderTarget, Style.DisabledBackground);
-                DrawText(renderTarget, Style.DisabledTextColor);
+                DrawText(renderTarget, Style.TextStyle.DisabledTextColor);
             }
         }
 
@@ -106,17 +108,8 @@ namespace JUnity.Services.UI.Elements
         {
             var rect = new RectangleF(Position.X * renderTarget.Size.Width, Position.Y * renderTarget.Size.Height,
                 Width * renderTarget.Size.Width, Height * renderTarget.Size.Height);
-            using (var brush = new SolidColorBrush(renderTarget, textColor))
-            {
-                using (var textFormat = new TextFormat(Engine.Instance.UIRenderer.DirectWriteFactory,
-                    Style.FontFamily, Style.FontWeight, Style.FontStyle, Style.FontStretch, Style.FontSize))
-                {
-                    textFormat.TextAlignment = Style.TextAlignment;
-                    textFormat.ParagraphAlignment = Style.ParagraphAlignment;
-
-                    renderTarget.DrawText(Text, textFormat, rect, brush);
-                }
-            }
+            var brush = SolidColorBrushFactory.GetInstance().Create(textColor);
+            renderTarget.DrawText(Text, Style.TextStyle.TextFormat, rect, brush);
         }
 
         private void DrawBackground(RenderTarget renderTarget, SurfaceStyle backgroundStyle)
@@ -130,32 +123,14 @@ namespace JUnity.Services.UI.Elements
             }
             else
             {
-                using (var brush = new SolidColorBrush(renderTarget, backgroundStyle.Color))
-                {
-                    renderTarget.FillRectangle(rect, brush);
-                }
+                var brush = SolidColorBrushFactory.GetInstance().Create(backgroundStyle.Color);
+                renderTarget.FillRectangle(rect, brush);
             }
         }
 
         public class ButtonStyle
         {
-            public Color TextColor { get; set; }
-
-            public Color DisabledTextColor { get; set; }
-
-            public string FontFamily { get; set; }
-
-            public float FontSize { get; set; }
-
-            public FontWeight FontWeight { get; set; }
-
-            public FontStyle FontStyle { get; set; }
-
-            public FontStretch FontStretch { get; set; }
-
-            public TextAlignment TextAlignment { get; set; }
-
-            public ParagraphAlignment ParagraphAlignment { get; set; }
+            public ButtonTextStyle TextStyle { get; set; }
 
             public SurfaceStyle ActiveBackground { get; set; }
 

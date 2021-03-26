@@ -56,9 +56,9 @@ namespace JUnity.Services.Graphics
         {
             get
             {
-                if (_direct2DBitmap == null || !Engine.Instance.UIRenderer.RenderTarget.Equals(_oldRenderTarget))
+                if (_direct2DBitmap == null || !Engine.Instance.GraphicsRenderer.UIRenderer.RenderTarget.Equals(_oldRenderTarget))
                 {
-                    _oldRenderTarget = Engine.Instance.UIRenderer.RenderTarget;
+                    _oldRenderTarget = Engine.Instance.GraphicsRenderer.UIRenderer.RenderTarget;
                     _direct2DBitmap = Direct2DBitmap.FromWicBitmap(_oldRenderTarget, _wicBitmap);
                 }
 

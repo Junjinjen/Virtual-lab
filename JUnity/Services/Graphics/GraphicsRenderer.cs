@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using JUnity.Services.Graphics.Meshing;
 using JUnity.Services.Graphics.Lightning;
 using JUnity.Services.Graphics.Utilities;
+using JUnity.Services.Graphics.UI;
 
 namespace JUnity.Services.Graphics
 {
@@ -38,6 +39,8 @@ namespace JUnity.Services.Graphics
 
         internal Device Device { get => _device; }
 
+        internal UIRenderer UIRenderer { get; private set; }
+
         internal Texture2D BackBuffer { get; private set; }
 
         internal RenderForm RenderForm { get; private set; }
@@ -58,6 +61,7 @@ namespace JUnity.Services.Graphics
 
             RenderForm = new RenderForm(graphicsSettings.WindowTitle);
             RenderForm.ResizeEnd += RenderForm_ResizeEnd;
+            UIRenderer = new UIRenderer();
 
             GraphicsInitializer.CreateDeviceWithSwapChain(graphicsSettings, RenderForm, _sampleDescription, out _swapChainDescription, out _swapChain, out _device);
 
@@ -87,6 +91,7 @@ namespace JUnity.Services.Graphics
             _device.ImmediateContext.PixelShader.SetSampler(0, samplerState);
 
             RenderForm_ResizeEnd(null, EventArgs.Empty);
+            UIRenderer.Initialize(RenderForm);
         }
 
         public void AddRenderOrder(RenderOrder order)
@@ -123,6 +128,7 @@ namespace JUnity.Services.Graphics
                 _device.ImmediateContext.DrawIndexed(order.Mesh.IndicesCount, 0, 0);
             }
 
+            UIRenderer.RenderUI();
             EndRender();
         }
 
@@ -237,8 +243,8 @@ namespace JUnity.Services.Graphics
             _meshMatricesBufferBuffer.Dispose();
             _materialDescriptionBuffer.Dispose();
 
-            DisposeDictionaryElements(PixelShaders);
-            DisposeDictionaryElements(VertexShaders);
+            Helper.DisposeDictionaryElements(PixelShaders);
+            Helper.DisposeDictionaryElements(VertexShaders);
 
             _depthBuffer.Dispose();
             _depthView.Dispose();
@@ -248,15 +254,6 @@ namespace JUnity.Services.Graphics
             _device.Dispose();
 
             RenderForm.Dispose();
-        }
-
-        private void DisposeDictionaryElements<T>(ReadOnlyDictionary<string, T> dictionary)
-            where T : class, IDisposable
-        {
-            foreach (var item in dictionary)
-            {
-                item.Value.Dispose();
-            }
         }
     }
 }

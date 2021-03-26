@@ -254,6 +254,7 @@ namespace ConsoleApp1
             using (var engine = new Engine(new Init()))
             {
                 engine.GraphicsSettings.BackgroundColor = SharpDX.Color.Gray;
+                engine.GraphicsSettings.VSyncEnabled = false;
                 engine.Run();
             }
         }

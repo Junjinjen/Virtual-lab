@@ -13,7 +13,6 @@ namespace JUnity.Services.Graphics.UI
     {
         private Direct2DFactory _direct2DFactory;
         private DirectWriteFactory _directWriteFactory;
-        private RenderTarget _renderTarget;
 
         private RenderTargetProperties _renderTargetProperties;
         private readonly List<UIElement> _drawOrder = new List<UIElement>();
@@ -44,18 +43,18 @@ namespace JUnity.Services.Graphics.UI
 
         private void RenderForm_ResizeBegin(object sender, EventArgs e)
         {
-            _renderTarget?.Dispose();
+            RenderTarget?.Dispose();
         }
 
         private void RenderForm_ResizeEnd(object sender, EventArgs e)
         {
             using (var surface = Engine.Instance.GraphicsRenderer.BackBuffer.QueryInterface<Surface>())
             {
-                _renderTarget = new RenderTarget(_direct2DFactory, surface, _renderTargetProperties);
+                RenderTarget = new RenderTarget(_direct2DFactory, surface, _renderTargetProperties);
             }
 
-            _renderTarget.AntialiasMode = AntialiasMode.PerPrimitive;
-            _renderTarget.TextAntialiasMode = TextAntialiasMode.Cleartype;
+            RenderTarget.AntialiasMode = AntialiasMode.PerPrimitive;
+            RenderTarget.TextAntialiasMode = TextAntialiasMode.Cleartype;
         }
 
         public void AddElementToDrawOrder(UIElement element)
@@ -65,20 +64,20 @@ namespace JUnity.Services.Graphics.UI
 
         public void RenderUI()
         {
-            _renderTarget.BeginDraw();
+            RenderTarget.BeginDraw();
 
             foreach (var element in _drawOrder)
             {
-                element.Render(_renderTarget);
+                element.Render(RenderTarget);
             }
 
             _drawOrder.Clear();
-            _renderTarget.EndDraw();
+            RenderTarget.EndDraw();
         }
 
         public void Dispose()
         {
-            _renderTarget.Dispose();
+            RenderTarget.Dispose();
             _direct2DFactory.Dispose();
         }
     }
