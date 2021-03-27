@@ -11,7 +11,7 @@ namespace JUnity.Services.Graphics.Utilities
     {
         private readonly Device _device;
         private readonly Buffer _buffer;
-        private readonly DataStream _dataStream;
+        //private readonly DataStream _dataStream;
 
         public ConstantBuffer(Device device)
         {
@@ -20,34 +20,34 @@ namespace JUnity.Services.Graphics.Utilities
             var size = Marshal.SizeOf<T>();
             _buffer = new Buffer(device, new BufferDescription
             {
-                Usage = ResourceUsage.Default,
+                Usage = ResourceUsage.Dynamic,
                 BindFlags = BindFlags.ConstantBuffer,
                 SizeInBytes = size,
-                CpuAccessFlags = CpuAccessFlags.None,
+                CpuAccessFlags = CpuAccessFlags.Write,
                 OptionFlags = ResourceOptionFlags.None,
                 StructureByteStride = 0
             });
 
-            _dataStream = new DataStream(size, true, true);
+            //_dataStream = new DataStream(size, true, true);
         }
 
         public Buffer Buffer { get => _buffer; }
 
         public void Update(T value)
         {
-            //_device.ImmediateContext.MapSubresource(_buffer, MapMode.WriteDiscard, MapFlags.None, out var dataStream);
-            //dataStream.Write(value);
-            //_device.ImmediateContext.UnmapSubresource(_buffer, 0);
+            _device.ImmediateContext.MapSubresource(_buffer, MapMode.WriteDiscard, MapFlags.None, out var dataStream);
+            Marshal.StructureToPtr(value, dataStream.DataPointer, false);
+            _device.ImmediateContext.UnmapSubresource(_buffer, 0);
 
-            Marshal.StructureToPtr(value, _dataStream.DataPointer, false);
+            //Marshal.StructureToPtr(value, _dataStream.DataPointer, false);
 
-            var dataBox = new DataBox(_dataStream.DataPointer, 0, 0);
-            _device.ImmediateContext.UpdateSubresource(dataBox, _buffer, 0);
+            //var dataBox = new DataBox(_dataStream.DataPointer, 0, 0);
+            //_device.ImmediateContext.UpdateSubresource(dataBox, _buffer, 0);
         }
 
         public void Dispose()
         {
-            _dataStream?.Dispose();
+            //_dataStream?.Dispose();
             _buffer?.Dispose();
         }
     }
