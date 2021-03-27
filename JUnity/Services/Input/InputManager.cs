@@ -115,8 +115,9 @@ namespace JUnity.Services.Input
 
         public Vector2 GetCursorPosition()
         {
-            return new Vector2((Cursor.Position.X - _renderForm.DesktopLocation.X) / (float)_renderForm.Width,
-                (Cursor.Position.Y - _renderForm.DesktopLocation.Y) / (float)_renderForm.Height);
+            var cursorPosition = _renderForm.PointToClient(Cursor.Position);
+            return new Vector2(cursorPosition.X / (float)_renderForm.ClientRectangle.Width,
+                cursorPosition.Y / (float)_renderForm.ClientRectangle.Height);
         }
 
         public int GetScrollDeltaValue()
