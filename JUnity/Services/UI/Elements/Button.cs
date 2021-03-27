@@ -1,4 +1,6 @@
 ﻿using JUnity.Services.Graphics.UI.Styling;
+using JUnity.Services.Graphics.UI.Surfaces;
+using JUnity.Services.Graphics.UI.Surfaces.Interfaces;
 using JUnity.Services.Graphics.Utilities;
 using JUnity.Services.Input;
 using SharpDX;
@@ -22,30 +24,30 @@ namespace JUnity.Services.UI.Elements
             {
                 TextStyle = new ButtonTextStyle
                 {
-                    TextColor = Color.Black,
-                    DisabledTextColor = new Color(175, 160, 175, 255),
-                    FontFamily = "Consolas",
-                    FontSize = 12.0f,
-                    FontStretch = FontStretch.Normal,
-                    FontStyle = FontStyle.Normal,
-                    FontWeight = FontWeight.Normal,
-                    ParagraphAlignment = ParagraphAlignment.Center,
-                    TextAlignment = TextAlignment.Center,
+                    TextFormat = new Graphics.UI.Styling.TextFormat
+                    {
+                        FontFamily = "Consolas",
+                        FontSize = 12.0f,
+                        FontStretch = FontStretch.Normal,
+                        FontStyle = FontStyle.Normal,
+                        FontWeight = FontWeight.Normal,
+                        ParagraphAlignment = ParagraphAlignment.Center,
+                        TextAlignment = TextAlignment.Center,
+                    },
+                    Color = Color.Black,
+                    DisabledColor = new Color(160, 160, 160, 255),
                 },
-                ActiveBackground = new SurfaceStyle
+                ActiveBackground = new SolidColorRectangle
                 {
                     Color = new Color(225, 225, 225, 255),
-                    Opacity = 1.0f,
                 },
-                DisabledBackground = new SurfaceStyle
+                DisabledBackground = new SolidColorRectangle
                 {
                     Color = new Color(204, 204, 204, 255),
-                    Opacity = 1.0f,
                 },
-                PressedBackground = new SurfaceStyle
+                PressedBackground = new SolidColorRectangle
                 {
                     Color = new Color(204, 228, 247, 255),
-                    Opacity = 1.0f,
                 },
             };
         }
@@ -84,59 +86,46 @@ namespace JUnity.Services.UI.Elements
 
         protected internal override void Render(RenderTarget renderTarget)
         {
+            var rect = new RectangleF(Position.X * renderTarget.Size.Width, Position.Y * renderTarget.Size.Height,
+                   Width * renderTarget.Size.Width, Height * renderTarget.Size.Height);
+
             if (Active)
             {
                 if (_isPressed)
                 {
-                    DrawBackground(renderTarget, Style.PressedBackground);
+                    Style.PressedBackground.Draw(renderTarget, rect);
                 }
                 else
                 {
-                    DrawBackground(renderTarget, Style.ActiveBackground);
+                    Style.ActiveBackground.Draw(renderTarget, rect);
                 }
 
-                DrawText(renderTarget, Style.TextStyle.TextColor);
+                DrawText(renderTarget, rect, Style.TextStyle.Color);
             }
             else
             {
-                DrawBackground(renderTarget, Style.DisabledBackground);
-                DrawText(renderTarget, Style.TextStyle.DisabledTextColor);
+                Style.DisabledBackground.Draw(renderTarget, rect);
+                DrawText(renderTarget, rect, Style.TextStyle.DisabledColor);
             }
         }
 
-        private void DrawText(RenderTarget renderTarget, Color textColor)
+        private void DrawText(RenderTarget renderTarget, RectangleF rect, Color textColor)
         {
-            var rect = new RectangleF(Position.X * renderTarget.Size.Width, Position.Y * renderTarget.Size.Height,
-                Width * renderTarget.Size.Width, Height * renderTarget.Size.Height);
-            var brush = SolidColorBrushFactory.GetInstance().Create(textColor);
-            renderTarget.DrawText(Text, Style.TextStyle.TextFormat, rect, brush);
-        }
+            var brush = UICommonFactory.GetInstance().CreateSolidColorBrush(textColor);
+            var textFormat = UICommonFactory.GetInstance().CreateTextFormat(Style.TextStyle.TextFormat);
 
-        private void DrawBackground(RenderTarget renderTarget, SurfaceStyle backgroundStyle)
-        {
-            var rect = new RectangleF(Position.X * renderTarget.Size.Width, Position.Y * renderTarget.Size.Height,
-                Width * renderTarget.Size.Width, Height * renderTarget.Size.Height);
-            if (backgroundStyle.Texture != null)
-            {
-                renderTarget.DrawBitmap(backgroundStyle.Texture.Bitmap, rect,
-                    backgroundStyle.Opacity, BitmapInterpolationMode.Linear);
-            }
-            else
-            {
-                var brush = SolidColorBrushFactory.GetInstance().Create(backgroundStyle.Color);
-                renderTarget.FillRectangle(rect, brush);
-            }
+            renderTarget.DrawText(Text, textFormat, rect, brush);
         }
 
         public class ButtonStyle
         {
             public ButtonTextStyle TextStyle { get; set; }
 
-            public SurfaceStyle ActiveBackground { get; set; }
+            public IRectangleSurface ActiveBackground { get; set; }
 
-            public SurfaceStyle DisabledBackground { get; set; }
+            public IRectangleSurface DisabledBackground { get; set; }
 
-            public SurfaceStyle PressedBackground { get; set; }
+            public IRectangleSurface PressedBackground { get; set; }
         }
     }
 }

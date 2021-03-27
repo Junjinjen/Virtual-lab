@@ -5,12 +5,13 @@ namespace JUnity.Services.Graphics.Meshing
 {
     public sealed class Material
     {
+        private RasterizerStateDescription _rasterizerStateDescription;
         private MaterialDescription _description;
         private Texture _texture;
 
         public Material()
         {
-            RasterizerState = new RasterizerStateDescription
+            _rasterizerStateDescription = new RasterizerStateDescription
             {
                 CullMode = CullMode.Back,
                 FillMode = FillMode.Solid,
@@ -22,6 +23,12 @@ namespace JUnity.Services.Graphics.Meshing
         }
 
         internal MaterialDescription Description { get => _description; }
+
+        internal RasterizerStateDescription RasterizerState { get => _rasterizerStateDescription; }
+
+        public CullMode CullMode { get => _rasterizerStateDescription.CullMode; set => _rasterizerStateDescription.CullMode = value; }
+
+        public FillMode FillMode { get => _rasterizerStateDescription.FillMode; set => _rasterizerStateDescription.FillMode = value; }
 
         public Texture Texture
         {
@@ -39,8 +46,6 @@ namespace JUnity.Services.Graphics.Meshing
                 }
             }
         }
-
-        public RasterizerStateDescription RasterizerState { get; set; }
 
         public Vector3 EmissivityCoefficient
         {

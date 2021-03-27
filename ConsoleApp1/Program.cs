@@ -20,28 +20,28 @@ namespace ConsoleApp1
                     {
                         Position = new Vector4(-1.0f, 1.0f, -1.0f, 1.0f),
                         Normal = new Vector4(0.0f, 0.0f, -1.0f, 1.0f),
-                        Color = new Vector4(1.0f, 0.0f, 0.0f, 1.0f),
+                        Color = new Vector4(1.0f, 0.0f, 0.0f, 0.5f),
                         TextureCoordinate = new Vector2(0.25f, 0.25f)
                     },
                     new VertexDescription // front 1
                     {
                         Position = new Vector4(-1.0f, -1.0f, -1.0f, 1.0f),
                         Normal = new Vector4(0.0f, 0.0f, -1.0f, 1.0f),
-                        Color = new Vector4(1.0f, 0.0f, 0.0f, 1.0f),
+                        Color = new Vector4(1.0f, 0.0f, 0.0f, 0.5f),
                         TextureCoordinate = new Vector2(0.25f, 0.5f)
                     },
                     new VertexDescription // front 2
                     {
                         Position = new Vector4(1.0f, -1.0f, -1.0f, 1.0f),
                         Normal = new Vector4(0.0f, 0.0f, -1.0f, 1.0f),
-                        Color = new Vector4(1.0f, 0.0f, 0.0f, 1.0f),
+                        Color = new Vector4(1.0f, 0.0f, 0.0f, 0.5f),
                         TextureCoordinate = new Vector2(0.5f, 0.5f)
                     },
                     new VertexDescription // front 3
                     {
                         Position = new Vector4(1.0f, 1.0f, -1.0f, 1.0f),
                         Normal = new Vector4(0.0f, 0.0f, -1.0f, 1.0f),
-                        Color = new Vector4(1.0f, 0.0f, 0.0f, 1.0f),
+                        Color = new Vector4(1.0f, 0.0f, 0.0f, 0.5f),
                         TextureCoordinate = new Vector2(0.5f, 0.25f)
                     },
                     new VertexDescription // right 4
@@ -196,6 +196,7 @@ namespace ConsoleApp1
             };
 
             var mesh = new Mesh(vertexes, indeces, new Material());
+            //mesh.Material.CullMode = SharpDX.Direct3D11.CullMode.None;
 
             var bmp = new Bitmap("texture.png");
             var buff = new List<SharpDX.Color>();
@@ -217,6 +218,8 @@ namespace ConsoleApp1
 
             //mesh.Material.Texture = new Texture(buff.ToArray(), bmp.Width, bmp.Width);
             mesh.Material.Texture = new Texture("texture.png");
+            mesh.Material.FillMode = SharpDX.Direct3D11.FillMode.Wireframe;
+            mesh.Material.CullMode = SharpDX.Direct3D11.CullMode.None;
 
             var go = new GameObject();
             go.AddComponent<MeshRenderer>().Initialize(mesh, "vx1", "px1");
@@ -236,12 +239,16 @@ namespace ConsoleApp1
             Engine.Instance.GraphicsRenderer.Camera.Position = new Vector3(0, 0, -5);
             Engine.Instance.GraphicsRenderer.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
 
-            Engine.Instance.UIController.RegisterElement(new Button
+            var tttt = new Button
             {
                 Width = 0.5f,
                 Height = 0.5f,
                 Text = "Hello world",
-            });
+            };
+
+            tttt.Active = false;
+
+            Engine.Instance.UIController.RegisterElement(tttt);
 
             GameObjectFactory.CreateAndRegister<Go>();
         }

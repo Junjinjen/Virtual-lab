@@ -83,8 +83,11 @@
     <Compile Include="Services\Graphics\Meshing\RasterizerStateFactory.cs" />
     <Compile Include="Services\Graphics\Meshing\RenderOrder.cs" />
     <Compile Include="Services\Graphics\UI\Styling\ButtonTextStyle.cs" />
-    <Compile Include="Services\Graphics\UI\Styling\SurfaceStyle.cs" />
+    <Compile Include="Services\Graphics\UI\Styling\TextFormat.cs" />
     <Compile Include="Services\Graphics\UI\Styling\TextStyle.cs" />
+    <Compile Include="Services\Graphics\UI\Surfaces\Interfaces\IRectangleSurface.cs" />
+    <Compile Include="Services\Graphics\UI\Surfaces\SolidColorRectangle.cs" />
+    <Compile Include="Services\Graphics\UI\Surfaces\TexturedRectangle.cs" />
     <Compile Include="Services\Graphics\UI\UIRenderer.cs" />
     <Compile Include="Services\Graphics\Utilities\ConstantBuffer.cs" />
     <Compile Include="Services\Graphics\Utilities\GraphicsInitializer.cs" />
@@ -106,7 +109,7 @@
     <Compile Include="Services\Graphics\Meshing\VertexDescription.cs" />
     <Compile Include="Services\Graphics\Utilities\Helper.cs" />
     <Compile Include="Services\Graphics\Utilities\IncludeHandler.cs" />
-    <Compile Include="Services\Graphics\Utilities\SolidColorBrushFactory.cs" />
+    <Compile Include="Services\Graphics\Utilities\UICommonFactory.cs" />
     <Compile Include="Services\Input\InputManager.cs" />
     <Compile Include="Services\UI\UIController.cs" />
     <Compile Include="Services\UI\Elements\Button.cs" />

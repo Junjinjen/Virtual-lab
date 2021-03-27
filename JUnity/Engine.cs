@@ -1,5 +1,4 @@
 ﻿using JUnity.Services.Graphics;
-using JUnity.Services.Graphics.UI;
 using JUnity.Services.Graphics.Utilities;
 using JUnity.Services.Input;
 using JUnity.Services.UI;
