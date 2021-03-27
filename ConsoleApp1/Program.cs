@@ -1,4 +1,5 @@
 ﻿using JUnity;
+using JUnity.Components;
 using JUnity.Components.Rendering;
 using JUnity.Services.Graphics;
 using JUnity.Services.Graphics.Meshing;
@@ -10,6 +11,33 @@ using System.Drawing;
 
 namespace ConsoleApp1
 {
+    class fasdf : Script
+    {
+        Button tttt = new Button
+        {
+            Width = 0.3f,
+            Height = 0.2f,
+            Text = "Hello world",
+        };
+
+        public fasdf(GameObject obj)
+            : base(obj)
+        {
+            tttt.Click += (o, x) => System.Console.WriteLine("Click");
+        }
+
+        public override void Start()
+        {
+            Canvas.RegisterElement(tttt);
+        }
+
+        public override void FixedUpdate(double deltaTime)
+        {
+            Object.Rotation *= Quaternion.RotationAxis(Vector3.Right, 0.01f);
+            Object.Rotation *= Quaternion.RotationAxis(Vector3.Up, 0.005f);
+        }
+    }
+
     class Go : IGameObjectCreator
     {
         public GameObject Create()
@@ -104,21 +132,21 @@ namespace ConsoleApp1
                     {
                         Position = new Vector4(-1.0f, 1.0f, 1.0f, 1.0f),
                         Normal = new Vector4(-1.0f, 0.0f, 0.0f, 1.0f),
-                        Color = new Vector4(1.0f, 1.0f, 0.0f, 0.5f),
+                        Color = new Vector4(1.0f, 1.0f, 0.0f, 1.0f),
                         TextureCoordinate = new Vector2(0.0f, 0.25f)
                     },
                     new VertexDescription // left 13
                     {
                         Position = new Vector4(-1.0f, -1.0f, 1.0f, 1.0f),
                         Normal = new Vector4(-1.0f, 0.0f, 0.0f, 1.0f),
-                        Color = new Vector4(1.0f, 1.0f, 0.0f, 0.5f),
+                        Color = new Vector4(1.0f, 1.0f, 0.0f, 1.0f),
                         TextureCoordinate = new Vector2(0.0f, 0.5f)
                     },
                     new VertexDescription // left 14
                     {
                         Position = new Vector4(-1.0f, -1.0f, -1.0f, 1.0f),
                         Normal = new Vector4(-1.0f, 0.0f, 0.0f, 1.0f),
-                        Color = new Vector4(1.0f, 1.0f, 0.0f, 0.5f),
+                        Color = new Vector4(1.0f, 1.0f, 0.0f, 1.0f),
                         TextureCoordinate = new Vector2(0.25f, 0.5f)
                     },
                     new VertexDescription // left 15
@@ -198,32 +226,33 @@ namespace ConsoleApp1
             var mesh = new Mesh(vertexes, indeces, new Material());
             //mesh.Material.CullMode = SharpDX.Direct3D11.CullMode.None;
 
-            var bmp = new Bitmap("texture.png");
-            var buff = new List<SharpDX.Color>();
+            //var bmp = new Bitmap("texture.png");
+            //var buff = new List<SharpDX.Color>();
 
-            for (int j = 0; j < bmp.Height; j++)
-            {
-                for (int i = 0; i < bmp.Width; i++)
-                {
-                    var pixel = bmp.GetPixel(i, j);
-                    buff.Add(new SharpDX.Color
-                    {
-                        A = pixel.A,
-                        B = pixel.B,
-                        G = pixel.G,
-                        R = pixel.R,
-                    });
-                }
-            }
+            //for (int j = 0; j < bmp.Height; j++)
+            //{
+            //    for (int i = 0; i < bmp.Width; i++)
+            //    {
+            //        var pixel = bmp.GetPixel(i, j);
+            //        buff.Add(new SharpDX.Color
+            //        {
+            //            A = pixel.A,
+            //            B = pixel.B,
+            //            G = pixel.G,
+            //            R = pixel.R,
+            //        });
+            //    }
+            //}
 
             //mesh.Material.Texture = new Texture(buff.ToArray(), bmp.Width, bmp.Width);
             mesh.Material.Texture = new Texture("texture.png");
-            mesh.Material.FillMode = SharpDX.Direct3D11.FillMode.Wireframe;
-            mesh.Material.CullMode = SharpDX.Direct3D11.CullMode.None;
+
+            mesh.Material.FillMode = SharpDX.Direct3D11.FillMode.Solid;
+            mesh.Material.CullMode = SharpDX.Direct3D11.CullMode.Back;
 
             var go = new GameObject();
             go.AddComponent<MeshRenderer>().Initialize(mesh, "vx1", "px1");
-            //go.Rotation = Quaternion.RotationLookAtLH(new Vector3(0.5f), Vector3.Up);
+            go.AddScript<fasdf>();
 
             return go;
         }
@@ -239,16 +268,6 @@ namespace ConsoleApp1
             Engine.Instance.GraphicsRenderer.Camera.Position = new Vector3(0, 0, -5);
             Engine.Instance.GraphicsRenderer.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
 
-            var tttt = new Button
-            {
-                Width = 0.5f,
-                Height = 0.5f,
-                Text = "Hello world",
-            };
-
-            tttt.Active = false;
-
-            Engine.Instance.UIController.RegisterElement(tttt);
 
             GameObjectFactory.CreateAndRegister<Go>();
         }
@@ -261,7 +280,7 @@ namespace ConsoleApp1
             using (var engine = new Engine(new Init()))
             {
                 engine.GraphicsSettings.BackgroundColor = SharpDX.Color.Gray;
-                engine.GraphicsSettings.VSyncEnabled = false;
+                //engine.GraphicsSettings.VSyncEnabled = false;
                 engine.Run();
             }
         }

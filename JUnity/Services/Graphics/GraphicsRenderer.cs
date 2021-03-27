@@ -25,7 +25,7 @@ namespace JUnity.Services.Graphics
         private Texture2D _depthBuffer;
         private DepthStencilView _depthView;
         private RenderTargetView _renderView;
-        private RasterizerStateFactory _renderStateFactory;
+        private RasterizerStateFactory _rasterizerStateFactory;
 
         private ConstantBuffer<LightContainer> _lightBuffer;
         private ConstantBuffer<MaterialDescription> _materialDescriptionBuffer;
@@ -33,6 +33,7 @@ namespace JUnity.Services.Graphics
 
         private SampleDescription _sampleDescription;
         private Texture2DDescription _depthBufferDescription;
+        private BlendStateDescription _blendStateDescription;
         private int _syncInterval;
 
         private readonly List<RenderOrder> _drawingQueue = new List<RenderOrder>();
@@ -71,7 +72,7 @@ namespace JUnity.Services.Graphics
 
             CreateConstantBuffers();
 
-            _renderStateFactory = new RasterizerStateFactory(_device);
+            _rasterizerStateFactory = new RasterizerStateFactory(_device);
 
             GraphicsInitializer.InitializeShaders(graphicsSettings.ShadersMetaPath, out var inputSignature, out var vertexShaders, out var pixelShaders);
             VertexShaders = new ReadOnlyDictionary<string, VertexShader>(vertexShaders);
@@ -116,7 +117,7 @@ namespace JUnity.Services.Graphics
                 
                 UpdateMeshMatrices(ref viewProjectionMatrix, order.GameObject, order.Mesh.Scale);
 
-                _device.ImmediateContext.Rasterizer.State = _renderStateFactory.Create(order.Mesh.Material.RasterizerState);
+                _device.ImmediateContext.Rasterizer.State = _rasterizerStateFactory.Create(order.Mesh.Material.RasterizerState);
 
                 _device.ImmediateContext.InputAssembler.PrimitiveTopology = order.Mesh.PrimitiveTopology;
                 _device.ImmediateContext.InputAssembler.SetVertexBuffers(0, order.Mesh.VertexBufferBinding);
@@ -191,6 +192,27 @@ namespace JUnity.Services.Graphics
                 OptionFlags = ResourceOptionFlags.None
             };
 
+            _blendStateDescription = new BlendStateDescription
+            {
+                AlphaToCoverageEnable = false,
+                IndependentBlendEnable = false,
+            };
+
+            _blendStateDescription.RenderTarget[0] = new RenderTargetBlendDescription
+            {
+                IsBlendEnabled = true,
+
+                SourceBlend = BlendOption.SourceAlpha,
+                DestinationBlend = BlendOption.InverseSourceAlpha,
+                BlendOperation = BlendOperation.Add,
+
+                SourceAlphaBlend = BlendOption.InverseDestinationAlpha,
+                DestinationAlphaBlend = BlendOption.One,
+                AlphaBlendOperation = BlendOperation.Add,
+
+                RenderTargetWriteMask = ColorWriteMaskFlags.All,
+            };
+
             _syncInterval = graphicsSettings.VSyncEnabled ? 1 : 0;
         }
 
@@ -218,9 +240,11 @@ namespace JUnity.Services.Graphics
             _depthBuffer = new Texture2D(_device, _depthBufferDescription);
 
             _depthView = new DepthStencilView(_device, _depthBuffer);
+            var blendState = new BlendState(_device, _blendStateDescription);
 
             _device.ImmediateContext.Rasterizer.SetViewport(new Viewport(0, 0, RenderForm.ClientSize.Width, RenderForm.ClientSize.Height, 0.0f, 1.0f));
             _device.ImmediateContext.OutputMerger.SetTargets(_depthView, _renderView);
+            _device.ImmediateContext.OutputMerger.SetBlendState(blendState);
 
             Camera.UpdateAspectRatio();
         }
