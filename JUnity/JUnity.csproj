@@ -77,6 +77,9 @@
     <Compile Include="Components\GameComponent.cs" />
     <Compile Include="Components\Interfaces\IFixedUpdatableComponent.cs" />
     <Compile Include="Components\Interfaces\IUniqueComponent.cs" />
+    <Compile Include="Components\Lighning\DirectionLight.cs" />
+    <Compile Include="Components\Lighning\PointLight.cs" />
+    <Compile Include="Components\Lighning\SpotLight.cs" />
     <Compile Include="Components\Rendering\MeshRenderer.cs" />
     <Compile Include="Services\Graphics\Camera.cs" />
     <Compile Include="Services\Graphics\Meshing\MeshMatricesBuffer.cs" />
@@ -92,11 +95,11 @@
     <Compile Include="Services\Graphics\Utilities\ConstantBuffer.cs" />
     <Compile Include="Services\Graphics\Utilities\GraphicsInitializer.cs" />
     <Compile Include="Services\Graphics\Utilities\GraphicsSettings.cs" />
-    <Compile Include="Services\Graphics\Lightning\DirectionalLight.cs" />
+    <Compile Include="Services\Graphics\Lightning\DirectionalLightDescription.cs" />
     <Compile Include="Services\Graphics\Lightning\LightContainer.cs" />
     <Compile Include="Services\Graphics\Lightning\LightManager.cs" />
-    <Compile Include="Services\Graphics\Lightning\PointLight.cs" />
-    <Compile Include="Services\Graphics\Lightning\SpotLight.cs" />
+    <Compile Include="Services\Graphics\Lightning\PointLightDescription.cs" />
+    <Compile Include="Services\Graphics\Lightning\SpotLightDescription.cs" />
     <Compile Include="Services\Graphics\Meshing\Material.cs" />
     <Compile Include="Services\Graphics\Meshing\Mesh.cs" />
     <Compile Include="Components\Script.cs" />

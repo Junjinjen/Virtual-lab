@@ -24,13 +24,13 @@ namespace JUnity.Services.Graphics.Lightning
         public int ActiveSpotLights;
 
         [FieldOffset(48), MarshalAs(UnmanagedType.ByValArray, SizeConst = GraphicsSettings.MaxLightsPerTypeCount)]
-        public SpotLight[] SpotLights;
+        public SpotLightDescription[] SpotLights;
 
         [FieldOffset(48 + 64 * GraphicsSettings.MaxLightsPerTypeCount), MarshalAs(UnmanagedType.ByValArray, SizeConst = GraphicsSettings.MaxLightsPerTypeCount)]
-        public PointLight[] PointLights;
+        public PointLightDescription[] PointLights;
 
         [FieldOffset(48 + 64 * GraphicsSettings.MaxLightsPerTypeCount + 48 * GraphicsSettings.MaxLightsPerTypeCount),
             MarshalAs(UnmanagedType.ByValArray, SizeConst = GraphicsSettings.MaxLightsPerTypeCount)]
-        public DirectionalLight[] DirectionalLights;
+        public DirectionalLightDescription[] DirectionalLights;
     }
 }

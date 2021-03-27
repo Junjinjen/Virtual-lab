@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace JUnity.Services.Graphics.Lightning
 {
     [StructLayout(LayoutKind.Explicit, Size = 64)]
-    internal struct SpotLight
+    internal struct SpotLightDescription
     {
         [FieldOffset(0)]
         public Vector3 Position;
@@ -16,7 +16,7 @@ namespace JUnity.Services.Graphics.Lightning
         public float Angle;
 
         [FieldOffset(32)]
-        public Vector3 Color;
+        public Color3 Color;
 
         [FieldOffset(48)]
         public Vector3 Attenuation;

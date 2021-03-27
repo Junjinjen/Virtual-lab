@@ -1,4 +1,5 @@
 ﻿using JUnity.Utilities;
+using System.Collections.Generic;
 
 namespace JUnity.Components
 {
@@ -21,6 +22,24 @@ namespace JUnity.Components
         }
 
         public Canvas Canvas { get; }
+
+        public TComponent AddComponent<TComponent>()
+            where TComponent : GameComponent
+        {
+            return Object.AddComponent<TComponent>();
+        }
+
+        public List<TComponent> GetComponents<TComponent>()
+            where TComponent : GameComponent
+        {
+            return Object.GetComponents<TComponent>();
+        }
+
+        public TComponent GetComponent<TComponent>()
+            where TComponent : GameComponent
+        {
+            return Object.GetComponent<TComponent>();
+        }
 
         public virtual void Start() { }
 

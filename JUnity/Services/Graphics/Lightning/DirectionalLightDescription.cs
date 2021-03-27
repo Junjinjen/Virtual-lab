@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 namespace JUnity.Services.Graphics.Lightning
 {
     [StructLayout(LayoutKind.Explicit, Size = 32)]
-    internal struct DirectionalLight
+    internal struct DirectionalLightDescription
     {
         [FieldOffset(0)]
         public Vector3 Direction;
 
         [FieldOffset(16)]
-        public Vector3 Color;
+        public Color3 Color;
     }
 }

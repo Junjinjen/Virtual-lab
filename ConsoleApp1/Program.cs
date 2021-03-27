@@ -1,5 +1,6 @@
 ﻿using JUnity;
 using JUnity.Components;
+using JUnity.Components.Lighning;
 using JUnity.Components.Rendering;
 using JUnity.Services.Graphics;
 using JUnity.Services.Graphics.Meshing;
@@ -15,16 +16,8 @@ namespace ConsoleApp1
     {
         Button tttt = new Button
         {
-            Width = 0.5f,
-            Height = 0.5f,
-            Text = "Hello world",
-        };
-
-        Button tttt1 = new Button
-        {
-            Position = new Vector2(0.1f, 0.1f),
-            Width = 0.5f,
-            Height = 0.5f,
+            Width = 0.3f,
+            Height = 0.2f,
             Text = "Hello world",
         };
 
@@ -32,22 +25,11 @@ namespace ConsoleApp1
             : base(obj)
         {
             tttt.Click += (o, x) => System.Console.WriteLine("Click");
-            tttt1.Click += (o, x) => System.Console.WriteLine("Click1");
         }
 
         public override void Start()
         {
             Canvas.RegisterElement(tttt);
-            Canvas.RegisterElement(tttt1);
-        }
-
-        public override void Update(double deltaTime)
-        {
-            Engine.Instance.GraphicsRenderer.LightManager.AddDirectionalLight(new JUnity.Services.Graphics.Lightning.DirectionalLight
-            {
-                Color = new Vector3(1f, 1f, 1f),
-                Direction = new Vector3(1f)
-            });
         }
 
         public override void FixedUpdate(double deltaTime)

@@ -10,9 +10,9 @@ namespace JUnity.Services.Graphics.Lightning
 
         public LightManager()
         {
-            _lightContainer.DirectionalLights = new DirectionalLight[GraphicsSettings.MaxLightsPerTypeCount];
-            _lightContainer.PointLights = new PointLight[GraphicsSettings.MaxLightsPerTypeCount];
-            _lightContainer.SpotLights = new SpotLight[GraphicsSettings.MaxLightsPerTypeCount];
+            _lightContainer.DirectionalLights = new DirectionalLightDescription[GraphicsSettings.MaxLightsPerTypeCount];
+            _lightContainer.PointLights = new PointLightDescription[GraphicsSettings.MaxLightsPerTypeCount];
+            _lightContainer.SpotLights = new SpotLightDescription[GraphicsSettings.MaxLightsPerTypeCount];
         }
 
         public Vector3 CameraPosition
@@ -39,7 +39,7 @@ namespace JUnity.Services.Graphics.Lightning
             }
         }
 
-        public void AddDirectionalLight(DirectionalLight light)
+        public void AddDirectionalLight(DirectionalLightDescription light)
         {
             if (_lightContainer.ActiveDirectionalLights + 1 > GraphicsSettings.MaxLightsPerTypeCount)
             {
@@ -49,7 +49,7 @@ namespace JUnity.Services.Graphics.Lightning
             _lightContainer.DirectionalLights[_lightContainer.ActiveDirectionalLights++] = light;
         }
 
-        public void AddPointLight(PointLight light)
+        public void AddPointLight(PointLightDescription light)
         {
             if (_lightContainer.ActivePointLights + 1 > GraphicsSettings.MaxLightsPerTypeCount)
             {
@@ -59,7 +59,7 @@ namespace JUnity.Services.Graphics.Lightning
             _lightContainer.PointLights[_lightContainer.ActivePointLights++] = light;
         }
 
-        public void AddSpotLight(SpotLight light)
+        public void AddSpotLight(SpotLightDescription light)
         {
             if (_lightContainer.ActiveSpotLights + 1 > GraphicsSettings.MaxLightsPerTypeCount)
             {
