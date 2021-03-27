@@ -7,7 +7,7 @@
             Owner = owner;
         }
 
-        public GameObject Owner { get; }
+        internal GameObject Owner { get; }
 
         internal virtual void Start() { }
 

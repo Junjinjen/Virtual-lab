@@ -31,6 +31,15 @@ namespace ConsoleApp1
             Canvas.RegisterElement(tttt);
         }
 
+        public override void Update(double deltaTime)
+        {
+            Engine.Instance.GraphicsRenderer.LightManager.AddDirectionalLight(new JUnity.Services.Graphics.Lightning.DirectionalLight
+            {
+                Color = new Vector3(1f, 0f, 0f),
+                Direction = new Vector3(1f)
+            });
+        }
+
         public override void FixedUpdate(double deltaTime)
         {
             Object.Rotation *= Quaternion.RotationAxis(Vector3.Right, 0.01f);
@@ -248,7 +257,7 @@ namespace ConsoleApp1
             mesh.Material.Texture = new Texture("texture.png");
 
             mesh.Material.FillMode = SharpDX.Direct3D11.FillMode.Solid;
-            mesh.Material.CullMode = SharpDX.Direct3D11.CullMode.Back;
+            mesh.Material.CullMode = SharpDX.Direct3D11.CullMode.None;
 
             var go = new GameObject();
             go.AddComponent<MeshRenderer>().Initialize(mesh, "vx1", "px1");
@@ -267,7 +276,6 @@ namespace ConsoleApp1
             Engine.Instance.GraphicsRenderer.Camera.NearDistance = 0.001f;
             Engine.Instance.GraphicsRenderer.Camera.Position = new Vector3(0, 0, -5);
             Engine.Instance.GraphicsRenderer.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
-
 
             GameObjectFactory.CreateAndRegister<Go>();
         }

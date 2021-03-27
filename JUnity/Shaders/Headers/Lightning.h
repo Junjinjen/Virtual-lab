@@ -29,9 +29,9 @@ cbuffer LightContainer : register(b0)
 {
 	float3 cameraPosition;
 	int activeDirectionalLights;
+	float3 globalAmbient;
 	int activePointLights;
 	int activeSpotLights;
-	float3 globalAmbient;
 	SpotLight spotLights[MAX_LIGHTS_PER_TYPE];
 	PointLight pointLights[MAX_LIGHTS_PER_TYPE];
 	DirectionalLight directionalLights[MAX_LIGHTS_PER_TYPE];

@@ -1,6 +1,6 @@
 ﻿#include "Headers/Vertex.h"
 #include "Headers/Pixel.h"
-//#include "Headers/Lightning.h"
+#include "Headers/Lightning.h"
 
 VertexShaderOutput VS(VertexShaderInput input)
 {
@@ -16,5 +16,9 @@ float4 PS(VertexShaderOutput input) : SV_Target
 {
 	float mipLevel = meshTexture.CalculateLevelOfDetail(textureSampler, input.textureCoordinate);
 	float4 texColor = meshTexture.SampleLevel(textureSampler, input.textureCoordinate, mipLevel);
-	return input.color;
+	
+    input.color.xyz = 0;
+    input.color.xyz = directionalLights[0].color;
+	
+    return input.color;
 }
