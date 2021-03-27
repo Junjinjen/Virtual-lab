@@ -17,8 +17,5 @@ float4 PS(VertexShaderOutput input) : SV_Target
 	float mipLevel = meshTexture.CalculateLevelOfDetail(textureSampler, input.textureCoordinate);
 	float4 texColor = meshTexture.SampleLevel(textureSampler, input.textureCoordinate, mipLevel);
 	
-    input.color.xyz = 0;
-    input.color.xyz = directionalLights[0].color;
-	
     return input.color;
 }

@@ -35,7 +35,7 @@ namespace ConsoleApp1
         {
             Engine.Instance.GraphicsRenderer.LightManager.AddDirectionalLight(new JUnity.Services.Graphics.Lightning.DirectionalLight
             {
-                Color = new Vector3(0f, 1f, 0f),
+                Color = new Vector3(1f, 1f, 1f),
                 Direction = new Vector3(1f)
             });
         }
@@ -288,7 +288,7 @@ namespace ConsoleApp1
             using (var engine = new Engine(new Init()))
             {
                 engine.GraphicsSettings.BackgroundColor = SharpDX.Color.Gray;
-                engine.GraphicsSettings.VSyncEnabled = false;
+                //engine.GraphicsSettings.VSyncEnabled = false;
                 engine.Run();
             }
         }
