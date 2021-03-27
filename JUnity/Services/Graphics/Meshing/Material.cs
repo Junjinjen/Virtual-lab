@@ -19,6 +19,10 @@ namespace JUnity.Services.Graphics.Meshing
                 IsMultisampleEnabled = true,
                 IsAntialiasedLineEnabled = true,
                 IsDepthClipEnabled = true,
+                IsScissorEnabled = false,
+                DepthBias = 0,
+                DepthBiasClamp = 0,
+                SlopeScaledDepthBias = 0,
             };
         }
 

@@ -87,11 +87,11 @@ namespace JUnity.Services.UI
 
         internal void CreateDrawRequest()
         {
-            foreach (var element in _elements)
+            for (int i = 0; i < _elements.Count; i++)
             {
-                if (element.IsVisible)
+                if (_elements[i].IsVisible)
                 {
-                    Engine.Instance.GraphicsRenderer.UIRenderer.AddElementToDrawOrder(element);
+                    Engine.Instance.GraphicsRenderer.UIRenderer.AddElementToDrawOrder(_elements[i]);
                 }
             }
         }

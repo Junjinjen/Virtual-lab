@@ -108,25 +108,25 @@ namespace JUnity.Services.Graphics
             UpdateLightning();
             var viewProjectionMatrix = Matrix.Multiply(Camera.GetViewMatrixTema(), Camera.GetPojectionMatrix());
 
-            foreach (var order in _drawingQueue)
+            for (int i = 0; i < _drawingQueue.Count; i++)
             {
-                if (order.Mesh.Material != null)
+                if (_drawingQueue[i].Mesh.Material != null)
                 {
-                    UpdateMaterial(order.Mesh.Material);
+                    UpdateMaterial(_drawingQueue[i].Mesh.Material);
                 }
-                
-                UpdateMeshMatrices(ref viewProjectionMatrix, order.GameObject, order.Mesh.Scale);
 
-                _device.ImmediateContext.Rasterizer.State = _rasterizerStateFactory.Create(order.Mesh.Material.RasterizerState);
+                UpdateMeshMatrices(ref viewProjectionMatrix, _drawingQueue[i].GameObject, _drawingQueue[i].Mesh.Scale);
 
-                _device.ImmediateContext.InputAssembler.PrimitiveTopology = order.Mesh.PrimitiveTopology;
-                _device.ImmediateContext.InputAssembler.SetVertexBuffers(0, order.Mesh.VertexBufferBinding);
-                _device.ImmediateContext.InputAssembler.SetIndexBuffer(order.Mesh.IndexBuffer, Format.R32_UInt, 0);
+                _device.ImmediateContext.Rasterizer.State = _rasterizerStateFactory.Create(_drawingQueue[i].Mesh.Material.RasterizerState);
 
-                _device.ImmediateContext.VertexShader.Set(order.VertexShader);
-                _device.ImmediateContext.PixelShader.Set(order.PixelShader);
+                _device.ImmediateContext.InputAssembler.PrimitiveTopology = _drawingQueue[i].Mesh.PrimitiveTopology;
+                _device.ImmediateContext.InputAssembler.SetVertexBuffers(0, _drawingQueue[i].Mesh.VertexBufferBinding);
+                _device.ImmediateContext.InputAssembler.SetIndexBuffer(_drawingQueue[i].Mesh.IndexBuffer, Format.R32_UInt, 0);
 
-                _device.ImmediateContext.DrawIndexed(order.Mesh.IndicesCount, 0, 0);
+                _device.ImmediateContext.VertexShader.Set(_drawingQueue[i].VertexShader);
+                _device.ImmediateContext.PixelShader.Set(_drawingQueue[i].PixelShader);
+
+                _device.ImmediateContext.DrawIndexed(_drawingQueue[i].Mesh.IndicesCount, 0, 0);
             }
 
             UIRenderer.RenderUI();
