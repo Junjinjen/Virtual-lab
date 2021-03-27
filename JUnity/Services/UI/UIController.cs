@@ -87,7 +87,7 @@ namespace JUnity.Services.UI
 
         internal void CreateDrawRequest()
         {
-            for (int i = 0; i < _elements.Count; i++)
+            for (int i = _elements.Count - 1; i >= 0; i--)
             {
                 if (_elements[i].IsVisible)
                 {
