@@ -45,6 +45,14 @@ namespace JUnity.Utilities
             }
         }
 
+        public GameObject this[int index]
+        {
+            get
+            {
+                return _objects[index];
+            }
+        }
+
         public GameObject Find(string name)
         {
             var gameObject = _objects.FirstOrDefault(x => x.Name == name);

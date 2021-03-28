@@ -493,9 +493,11 @@ namespace ConsoleApp1
             //var colba = GameObjectFactory.CreateAndRegister<Go>();
             //colba.Scale = new Vector3(1.5f, 2, 1.5f);
 
-            var tmp = MeshLoader.LoadScene(@"C:\Users\Junjinjen\Desktop\untitled.fbx");
+            var tmp = MeshLoader.LoadScene(@"teapot.fbx");
             var go = new GameObject();
-            go.AddComponent<MeshRenderer>().Initialize(tmp[0].NodeMeshes[0], "vx1", "px1");
+            go.AddComponent<MeshRenderer>().Initialize(tmp[0].NodeMeshes[1], "vx1", "px1");
+            go.Children.Add(new GameObject());
+            go.Children[0].AddComponent<MeshRenderer>().Initialize(tmp[0].NodeMeshes[0], "vx1", "px1");
             go.AddScript<fasdf>();
 
             scene.Add(go);
