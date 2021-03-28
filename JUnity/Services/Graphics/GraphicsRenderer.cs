@@ -61,10 +61,14 @@ namespace JUnity.Services.Graphics
             CreateSharedFields(graphicsSettings);
 
             RenderForm = new RenderForm(graphicsSettings.WindowTitle);
-            RenderForm.IsFullscreen = !graphicsSettings.IsWindowed;
+            //RenderForm.IsFullscreen = !graphicsSettings.IsWindowed;
             UIRenderer = new UIRenderer();
 
             GraphicsInitializer.CreateDeviceWithSwapChain(graphicsSettings, RenderForm, _sampleDescription, out _swapChainDescription, out _swapChain, out _device);
+            if (!graphicsSettings.IsWindowed)
+            {
+                _swapChain.SetFullscreenState(true, null);
+            }
 
             var factory = _swapChain.GetParent<Factory>();
             factory.MakeWindowAssociation(RenderForm.Handle, WindowAssociationFlags.IgnoreAll);

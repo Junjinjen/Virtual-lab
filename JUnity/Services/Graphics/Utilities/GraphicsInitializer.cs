@@ -24,7 +24,7 @@ namespace JUnity.Services.Graphics.Utilities
                     renderForm.ClientSize.Height,
                     new Rational(graphicsSettings.FullScreenFpsLimit, 1),
                     Format.R8G8B8A8_UNorm),
-                IsWindowed = graphicsSettings.IsWindowed,
+                IsWindowed = true,
                 OutputHandle = renderForm.Handle,
                 SampleDescription = sampleDescription,
                 SwapEffect = SwapEffect.Discard,
@@ -69,7 +69,7 @@ namespace JUnity.Services.Graphics.Utilities
 
             var flags = ShaderFlags.None;
 #if DEBUG
-            flags |= ShaderFlags.Debug;
+            flags |= ShaderFlags.Debug | ShaderFlags.SkipOptimization;
 #endif
 
             foreach (var shaderInfo in vertexShadersInfo)
