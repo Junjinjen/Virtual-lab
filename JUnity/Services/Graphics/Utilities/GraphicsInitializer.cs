@@ -33,7 +33,7 @@ namespace JUnity.Services.Graphics.Utilities
 
             var deviceCreationFlags = DeviceCreationFlags.BgraSupport;
 #if DEBUG
-            Configuration.EnableObjectTracking = true;
+            SharpDX.Configuration.EnableObjectTracking = true;
             deviceCreationFlags |= DeviceCreationFlags.Debug;
 #endif
 

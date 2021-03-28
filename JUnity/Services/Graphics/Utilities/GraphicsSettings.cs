@@ -39,7 +39,7 @@ namespace JUnity.Services.Graphics.Utilities
 
         public bool VSyncEnabled { get; set; }
 
-        public Color BackgroundColor { get; set; }
+        public Color4 BackgroundColor { get; set; }
     }
 
     public enum TextureSampling

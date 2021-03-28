@@ -7,7 +7,7 @@ namespace JUnity.Services.Graphics.UI.Surfaces
 {
     public class SolidColorRectangle : IRectangleSurface
     {
-        public Color Color { get; set; }
+        public Color4 Color { get; set; }
 
         public void Draw(RenderTarget renderTarget, RectangleF rectangle)
         {

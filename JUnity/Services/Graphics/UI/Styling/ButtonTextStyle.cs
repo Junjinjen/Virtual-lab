@@ -4,6 +4,6 @@ namespace JUnity.Services.Graphics.UI.Styling
 {
     public class ButtonTextStyle : TextStyle
     {
-        public Color DisabledColor { get; set; }
+        public Color4 DisabledColor { get; set; }
     }
 }

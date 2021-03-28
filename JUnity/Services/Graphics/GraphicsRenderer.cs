@@ -50,7 +50,7 @@ namespace JUnity.Services.Graphics
 
         internal Camera Camera { get; private set; }
 
-        public Color BackgroundColor { get; set; }
+        public Color4 BackgroundColor { get; set; }
 
         public ReadOnlyDictionary<string, VertexShader> VertexShaders { get; private set; }
 

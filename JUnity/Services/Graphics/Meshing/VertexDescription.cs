@@ -8,7 +8,7 @@ namespace JUnity.Services.Graphics.Meshing
     {
         public Vector4 Position;
         public Vector4 Normal;
-        public Vector4 Color;
+        public Color4 Color;
         public Vector2 TextureCoordinate;
     }
 }
