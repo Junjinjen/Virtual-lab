@@ -90,14 +90,7 @@ namespace JUnity.Utilities
 
         public IEnumerator<NodeDescription> GetEnumerator()
         {
-            foreach (var root in _meshes)
-            {
-                yield return root;
-                foreach (var obj in root.Children)
-                {
-                    yield return obj;
-                }
-            }
+            return _meshes.GetEnumerator();
         }
 
         public bool Remove(NodeDescription item)
