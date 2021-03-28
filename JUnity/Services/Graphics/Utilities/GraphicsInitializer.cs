@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using SharpDX;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
@@ -130,6 +129,51 @@ namespace JUnity.Services.Graphics.Utilities
             }
 
             return new SamplerState(Engine.Instance.GraphicsRenderer.Device, desc);
+        }
+
+        public static void CreateSampleAndDepthBufferDescriptions(GraphicsSettings graphicsSettings, out SampleDescription sampleDescription,
+            out Texture2DDescription depthBufferDescription)
+        {
+            sampleDescription = new SampleDescription(graphicsSettings.MultisamplesPerPixel, graphicsSettings.MultisamplerQuality);
+            depthBufferDescription = new Texture2DDescription()
+            {
+                Format = Format.D32_Float_S8X24_UInt,
+                ArraySize = 1,
+                MipLevels = 1,
+                Width = 0,
+                Height = 0,
+                SampleDescription = sampleDescription,
+                Usage = ResourceUsage.Default,
+                BindFlags = BindFlags.DepthStencil,
+                CpuAccessFlags = CpuAccessFlags.None,
+                OptionFlags = ResourceOptionFlags.None
+            };
+        }
+
+        public static BlendStateDescription CreateBlendStateDescription()
+        {
+            var blendStateDescription = new BlendStateDescription
+            {
+                AlphaToCoverageEnable = false,
+                IndependentBlendEnable = false,
+            };
+
+            blendStateDescription.RenderTarget[0] = new RenderTargetBlendDescription
+            {
+                IsBlendEnabled = true,
+
+                SourceBlend = BlendOption.SourceAlpha,
+                DestinationBlend = BlendOption.InverseSourceAlpha,
+                BlendOperation = BlendOperation.Add,
+
+                SourceAlphaBlend = BlendOption.InverseDestinationAlpha,
+                DestinationAlphaBlend = BlendOption.One,
+                AlphaBlendOperation = BlendOperation.Add,
+
+                RenderTargetWriteMask = ColorWriteMaskFlags.All,
+            };
+
+            return blendStateDescription;
         }
 
         private class ShaderInfo

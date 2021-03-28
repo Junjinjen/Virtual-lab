@@ -177,41 +177,9 @@ namespace JUnity.Services.Graphics
                 GlobalAmbient = graphicsSettings.GlobalAmbientOcclusion
             };
 
-            _sampleDescription = new SampleDescription(graphicsSettings.MultisamplesPerPixel, graphicsSettings.MultisamplerQuality);
-            _depthBufferDescription = new Texture2DDescription()
-            {
-                Format = Format.D32_Float_S8X24_UInt,
-                ArraySize = 1,
-                MipLevels = 1,
-                Width = 0,
-                Height = 0,
-                SampleDescription = _sampleDescription,
-                Usage = ResourceUsage.Default,
-                BindFlags = BindFlags.DepthStencil,
-                CpuAccessFlags = CpuAccessFlags.None,
-                OptionFlags = ResourceOptionFlags.None
-            };
+            GraphicsInitializer.CreateSampleAndDepthBufferDescriptions(graphicsSettings, out _sampleDescription, out _depthBufferDescription);
 
-            _blendStateDescription = new BlendStateDescription
-            {
-                AlphaToCoverageEnable = false,
-                IndependentBlendEnable = false,
-            };
-
-            _blendStateDescription.RenderTarget[0] = new RenderTargetBlendDescription
-            {
-                IsBlendEnabled = true,
-
-                SourceBlend = BlendOption.SourceAlpha,
-                DestinationBlend = BlendOption.InverseSourceAlpha,
-                BlendOperation = BlendOperation.Add,
-
-                SourceAlphaBlend = BlendOption.InverseDestinationAlpha,
-                DestinationAlphaBlend = BlendOption.One,
-                AlphaBlendOperation = BlendOperation.Add,
-
-                RenderTargetWriteMask = ColorWriteMaskFlags.All,
-            };
+            _blendStateDescription = GraphicsInitializer.CreateBlendStateDescription();
 
             _syncInterval = graphicsSettings.VSyncEnabled ? 1 : 0;
         }
