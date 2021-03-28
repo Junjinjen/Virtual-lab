@@ -34,7 +34,7 @@ namespace ConsoleApp1
 
         public override void FixedUpdate(double deltaTime)
         {
-            //Object.Rotation *= Quaternion.RotationAxis(Vector3.Right, 0.01f);
+            Object.Rotation *= Quaternion.RotationAxis(Vector3.Right, 0.01f);
             Object.Rotation *= Quaternion.RotationAxis(Vector3.Up, 0.01f);
         }
     }
@@ -448,26 +448,20 @@ namespace ConsoleApp1
             var mesh = new Mesh(vertexes, indeces, new Material());
             //mesh.Material.CullMode = SharpDX.Direct3D11.CullMode.None;
 
-            //var bmp = new Bitmap("texture.png");
-            //var buff = new List<SharpDX.Color>();
+            var bmp = new Bitmap("texture.png");
+            var buff = new List<SharpDX.Color>();
 
-            //for (int j = 0; j < bmp.Height; j++)
-            //{
-            //    for (int i = 0; i < bmp.Width; i++)
-            //    {
-            //        var pixel = bmp.GetPixel(i, j);
-            //        buff.Add(new SharpDX.Color
-            //        {
-            //            A = pixel.A,
-            //            B = pixel.B,
-            //            G = pixel.G,
-            //            R = pixel.R,
-            //        });
-            //    }
-            //}
+            for (int j = 0; j < bmp.Height; j++)
+            {
+                for (int i = 0; i < bmp.Width; i++)
+                {
+                    var pixel = bmp.GetPixel(i, j);
+                    buff.Add(new SharpDX.Color(pixel.R, pixel.G, pixel.B, pixel.A));
+                }
+            }
 
-            //mesh.Material.Texture = new Texture(buff.ToArray(), bmp.Width, bmp.Width);
-            mesh.Material.Texture = new Texture("texture.png");
+            mesh.Material.Texture = new Texture(buff.ToArray(), bmp.Width, bmp.Width);
+            //mesh.Material.Texture = new Texture("texture.png");
 
             var go = new GameObject();
 
@@ -501,7 +495,7 @@ namespace ConsoleApp1
 
             var tmp = MeshLoader.LoadScene(@"C:\Users\Junjinjen\Desktop\untitled.fbx");
             var go = new GameObject();
-            go.AddComponent<MeshRenderer>().Initialize(tmp[1].Children[1].NodeMeshes[0], "vx1", "px1");
+            go.AddComponent<MeshRenderer>().Initialize(tmp[0].NodeMeshes[0], "vx1", "px1");
             go.AddScript<fasdf>();
 
             scene.Add(go);

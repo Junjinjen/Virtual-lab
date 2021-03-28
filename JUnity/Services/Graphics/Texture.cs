@@ -32,7 +32,7 @@ namespace JUnity.Services.Graphics
             }
         }
 
-        public Texture(Color4[] data, int width, int height, int mipLevels = -1)
+        public Texture(Color[] data, int width, int height, int mipLevels = -1)
         {
             _mipLevels = mipLevels;
 

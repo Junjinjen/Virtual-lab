@@ -11,7 +11,7 @@ namespace JUnity.Services.Graphics.Utilities
         private static UICommonFactory _instance;
         private RenderTarget _oldRenderTarget;
 
-        private readonly Dictionary<Color4, SolidColorBrush> _brushes = new Dictionary<Color4, SolidColorBrush>();
+        private readonly Dictionary<Color, SolidColorBrush> _brushes = new Dictionary<Color, SolidColorBrush>();
         private readonly Dictionary<JUnityTextFormat, DirectWriteTextFormat> _textFormats = new Dictionary<JUnityTextFormat, DirectWriteTextFormat>();
 
         private UICommonFactory()
@@ -28,7 +28,7 @@ namespace JUnity.Services.Graphics.Utilities
             return _instance;
         }
 
-        public SolidColorBrush CreateSolidColorBrush(Color4 color)
+        public SolidColorBrush CreateSolidColorBrush(Color color)
         {
             if (!Engine.Instance.GraphicsRenderer.UIRenderer.RenderTarget.Equals(_oldRenderTarget))
             {

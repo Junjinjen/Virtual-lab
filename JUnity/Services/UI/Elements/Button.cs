@@ -34,20 +34,20 @@ namespace JUnity.Services.UI.Elements
                         ParagraphAlignment = ParagraphAlignment.Center,
                         TextAlignment = TextAlignment.Center,
                     },
-                    Color = Color4.Black,
-                    DisabledColor = new Color4(160, 160, 160, 255),
+                    Color = Color.Black,
+                    DisabledColor = new Color(160, 160, 160, 255),
                 },
                 ActiveBackground = new SolidColorRectangle
                 {
-                    Color = new Color4(225, 225, 225, 255),
+                    Color = new Color(225, 225, 225, 255),
                 },
                 DisabledBackground = new SolidColorRectangle
                 {
-                    Color = new Color4(204, 204, 204, 255),
+                    Color = new Color(204, 204, 204, 255),
                 },
                 PressedBackground = new SolidColorRectangle
                 {
-                    Color = new Color4(204, 228, 247, 255),
+                    Color = new Color(204, 228, 247, 255),
                 },
             };
         }
@@ -109,7 +109,7 @@ namespace JUnity.Services.UI.Elements
             }
         }
 
-        private void DrawText(RenderTarget renderTarget, RectangleF rect, Color4 textColor)
+        private void DrawText(RenderTarget renderTarget, RectangleF rect, Color textColor)
         {
             var brush = UICommonFactory.GetInstance().CreateSolidColorBrush(textColor);
             var textFormat = UICommonFactory.GetInstance().CreateTextFormat(Style.TextStyle.TextFormat);

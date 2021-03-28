@@ -1,7 +1,6 @@
 ﻿using Assimp;
 using JUnity.Services.Graphics.Meshing;
 using SharpDX;
-using System.Collections.Generic;
 using JunityMesh = JUnity.Services.Graphics.Meshing.Mesh;
 using JunityMaterial = JUnity.Services.Graphics.Meshing.Material;
 using JUnity.Services.Graphics;
@@ -21,7 +20,7 @@ namespace JUnity.Utilities
             var meshCollection = new NodeCollection();
 
             var context = new AssimpContext();
-            var scene = context.ImportFile(filename, PostProcessPreset.TargetRealTimeMaximumQuality);
+            var scene = context.ImportFile(filename, PostProcessPreset.TargetRealTimeMaximumQuality | PostProcessSteps.MakeLeftHanded);
             foreach (var node in scene.RootNode.Children)
             {
                 var meshDesc = CreateDescriptionFromNode(node, scene);
@@ -188,11 +187,11 @@ namespace JUnity.Utilities
             Marshal.Copy(bitmapData.Scan0, bytes, 0, length);
             bitmap.UnlockBits(bitmapData);
 
-            var colors = new Color4[bitmap.Width * bitmap.Height];
+            var colors = new Color[bitmap.Width * bitmap.Height];
             int j = 0;
-            for (int i = 0; i < colors.Length; i++)
+            for (int i = colors.Length - 1; i >= 0; i--)
             {
-                colors[i] = new Color4(bytes[j++], bytes[j++], bytes[j++], bytes[j++]);
+                colors[i] = new Color(bytes[j++], bytes[j++], bytes[j++], bytes[j++]);
             }
 
             return new Texture(colors, bitmap.Width, bitmap.Height, MipLevels);
@@ -200,7 +199,7 @@ namespace JUnity.Utilities
 
         private static Texture CreateTextureFromTexelArray(Texel[] data, int width, int height)
         {
-            var sharpdxData = data.Select(x => new Color4(x.R, x.G, x.B, x.A)).ToArray();
+            var sharpdxData = data.Select(x => new Color(x.R, x.G, x.B, x.A)).ToArray();
             return new Texture(sharpdxData, width, height, MipLevels);
         }
 
