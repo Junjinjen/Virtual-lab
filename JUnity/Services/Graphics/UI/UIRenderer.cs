@@ -42,17 +42,13 @@ namespace JUnity.Services.Graphics.UI
 
         private void OnResize(object sender, EventArgs e)
         {
-            if (!Engine.Instance.GraphicsRenderer.Minimized)
+            using (var surface = Engine.Instance.GraphicsRenderer.BackBuffer.QueryInterface<Surface>())
             {
-
-                using (var surface = Engine.Instance.GraphicsRenderer.BackBuffer.QueryInterface<Surface>())
-                {
-                    RenderTarget = new RenderTarget(_direct2DFactory, surface, _renderTargetProperties);
-                }
-
-                RenderTarget.AntialiasMode = AntialiasMode.PerPrimitive;
-                RenderTarget.TextAntialiasMode = TextAntialiasMode.Cleartype;
+                RenderTarget = new RenderTarget(_direct2DFactory, surface, _renderTargetProperties);
             }
+
+            RenderTarget.AntialiasMode = AntialiasMode.PerPrimitive;
+            RenderTarget.TextAntialiasMode = TextAntialiasMode.Cleartype;
         }
 
         public void AddElementToDrawOrder(UIElement element)

@@ -22,7 +22,7 @@ namespace JUnity.Services.Graphics.Utilities
                 BufferCount = 1,
                 ModeDescription = new ModeDescription(renderForm.ClientSize.Width,
                     renderForm.ClientSize.Height,
-                    new Rational(graphicsSettings.Numerator, graphicsSettings.Denominator),
+                    new Rational(graphicsSettings.FullScreenFpsLimit, 1),
                     Format.R8G8B8A8_UNorm),
                 IsWindowed = graphicsSettings.IsWindowed,
                 OutputHandle = renderForm.Handle,
@@ -67,9 +67,14 @@ namespace JUnity.Services.Graphics.Utilities
             inputSignature = null;
             var shadersFolder = Path.GetDirectoryName(shadersMetaPath);
 
+            var flags = ShaderFlags.None;
+#if DEBUG
+            flags |= ShaderFlags.Debug;
+#endif
+
             foreach (var shaderInfo in vertexShadersInfo)
             {
-                var vertexShaderByteCode = ShaderBytecode.CompileFromFile(Path.Combine(shadersFolder, shaderInfo.FileName), shaderInfo.EntryPoint, "vs_5_0", include: new IncludeHandler(shadersFolder));
+                var vertexShaderByteCode = ShaderBytecode.CompileFromFile(Path.Combine(shadersFolder, shaderInfo.FileName), shaderInfo.EntryPoint, "vs_5_0", flags, include: new IncludeHandler(shadersFolder));
                 var vertexShader = new VertexShader(Engine.Instance.GraphicsRenderer.Device, vertexShaderByteCode);
 
                 vertexShaders.Add(shaderInfo.Name, vertexShader);
@@ -89,7 +94,7 @@ namespace JUnity.Services.Graphics.Utilities
 
             foreach (var shaderInfo in pixelShadersInfo)
             {
-                var pixelShaderByteCode = ShaderBytecode.CompileFromFile(Path.Combine(shadersFolder, shaderInfo.FileName), shaderInfo.EntryPoint, "ps_5_0", include: new IncludeHandler(shadersFolder));
+                var pixelShaderByteCode = ShaderBytecode.CompileFromFile(Path.Combine(shadersFolder, shaderInfo.FileName), shaderInfo.EntryPoint, "ps_5_0", flags, include: new IncludeHandler(shadersFolder));
                 var pixelShader = new PixelShader(Engine.Instance.GraphicsRenderer.Device, pixelShaderByteCode);
 
                 pixelShaders.Add(shaderInfo.Name, pixelShader);

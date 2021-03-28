@@ -10,8 +10,7 @@ namespace JUnity.Services.Graphics.Utilities
         {
             WindowTitle = "JUnity window",
             IsWindowed = true,
-            Numerator = 60,
-            Denominator = 1,
+            FullScreenFpsLimit = 60,
             ShadersMetaPath = "Shaders/ShadersMeta.xml",
             MultisamplesPerPixel = 1,
             MultisamplerQuality = 0,
@@ -23,9 +22,7 @@ namespace JUnity.Services.Graphics.Utilities
 
         public bool IsWindowed { get; set; }
 
-        public int Numerator { get; set; }
-
-        public int Denominator { get; set; }
+        public int FullScreenFpsLimit { get; set; }
 
         public string ShadersMetaPath { get; set; }
 

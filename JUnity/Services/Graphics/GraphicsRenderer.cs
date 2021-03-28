@@ -38,8 +38,6 @@ namespace JUnity.Services.Graphics
 
         private readonly List<RenderOrder> _drawingQueue = new List<RenderOrder>();
 
-        internal bool Minimized { get; set; }
-
         internal Device Device { get => _device; }
 
         internal UIRenderer UIRenderer { get; private set; }
@@ -63,7 +61,7 @@ namespace JUnity.Services.Graphics
             CreateSharedFields(graphicsSettings);
 
             RenderForm = new RenderForm(graphicsSettings.WindowTitle);
-            RenderForm.Resize += OnResize;
+            RenderForm.IsFullscreen = !graphicsSettings.IsWindowed;
             UIRenderer = new UIRenderer();
 
             GraphicsInitializer.CreateDeviceWithSwapChain(graphicsSettings, RenderForm, _sampleDescription, out _swapChainDescription, out _swapChain, out _device);
@@ -93,7 +91,9 @@ namespace JUnity.Services.Graphics
             var samplerState = GraphicsInitializer.CreateSamplerState(graphicsSettings.TextureSampling);
             _device.ImmediateContext.PixelShader.SetSampler(0, samplerState);
 
+            RenderForm.Resize += OnResize;
             OnResize(null, EventArgs.Empty);
+
             UIRenderer.Initialize(RenderForm);
         }
 
@@ -104,38 +104,35 @@ namespace JUnity.Services.Graphics
 
         public void RenderScene()
         {
-            if (!Minimized)
+            ClearBuffers();
+            LightManager.CameraPosition = Camera.Position;
+
+            UpdateLightning();
+            var viewProjectionMatrix = Matrix.Multiply(Camera.GetViewMatrixTema(), Camera.GetPojectionMatrix());
+
+            for (int i = 0; i < _drawingQueue.Count; i++)
             {
-                ClearBuffers();
-                LightManager.CameraPosition = Camera.Position;
-
-                UpdateLightning();
-                var viewProjectionMatrix = Matrix.Multiply(Camera.GetViewMatrixTema(), Camera.GetPojectionMatrix());
-
-                for (int i = 0; i < _drawingQueue.Count; i++)
+                if (_drawingQueue[i].Mesh.Material != null)
                 {
-                    if (_drawingQueue[i].Mesh.Material != null)
-                    {
-                        UpdateMaterial(_drawingQueue[i].Mesh.Material);
-                    }
-
-                    UpdateMeshMatrices(ref viewProjectionMatrix, _drawingQueue[i].GameObject, _drawingQueue[i].Mesh.Scale);
-
-                    _device.ImmediateContext.Rasterizer.State = _rasterizerStateFactory.Create(_drawingQueue[i].Mesh.Material.RasterizerState);
-
-                    _device.ImmediateContext.InputAssembler.PrimitiveTopology = _drawingQueue[i].Mesh.PrimitiveTopology;
-                    _device.ImmediateContext.InputAssembler.SetVertexBuffers(0, _drawingQueue[i].Mesh.VertexBufferBinding);
-                    _device.ImmediateContext.InputAssembler.SetIndexBuffer(_drawingQueue[i].Mesh.IndexBuffer, Format.R32_UInt, 0);
-
-                    _device.ImmediateContext.VertexShader.Set(_drawingQueue[i].VertexShader);
-                    _device.ImmediateContext.PixelShader.Set(_drawingQueue[i].PixelShader);
-
-                    _device.ImmediateContext.DrawIndexed(_drawingQueue[i].Mesh.IndicesCount, 0, 0);
+                    UpdateMaterial(_drawingQueue[i].Mesh.Material);
                 }
 
-                UIRenderer.RenderUI();
-                EndRender();
+                UpdateMeshMatrices(ref viewProjectionMatrix, _drawingQueue[i].GameObject, _drawingQueue[i].Mesh.Scale);
+
+                _device.ImmediateContext.Rasterizer.State = _rasterizerStateFactory.Create(_drawingQueue[i].Mesh.Material.RasterizerState);
+
+                _device.ImmediateContext.InputAssembler.PrimitiveTopology = _drawingQueue[i].Mesh.PrimitiveTopology;
+                _device.ImmediateContext.InputAssembler.SetVertexBuffers(0, _drawingQueue[i].Mesh.VertexBufferBinding);
+                _device.ImmediateContext.InputAssembler.SetIndexBuffer(_drawingQueue[i].Mesh.IndexBuffer, Format.R32_UInt, 0);
+
+                _device.ImmediateContext.VertexShader.Set(_drawingQueue[i].VertexShader);
+                _device.ImmediateContext.PixelShader.Set(_drawingQueue[i].PixelShader);
+
+                _device.ImmediateContext.DrawIndexed(_drawingQueue[i].Mesh.IndicesCount, 0, 0);
             }
+
+            UIRenderer.RenderUI();
+            EndRender();
         }
 
         private void UpdateMeshMatrices(ref Matrix viewProjectionMatrix, GameObject gameObject, Vector3 meshScale)
@@ -198,38 +195,27 @@ namespace JUnity.Services.Graphics
 
         private void OnResize(object sender, EventArgs args)
         {
-            if (RenderForm.WindowState == System.Windows.Forms.FormWindowState.Minimized)
-            {
-                Minimized = true;
-                return;
-            }
-            else
-            {
-                Minimized = false;
-                
-                _device.ImmediateContext.Flush();
-                RenderForm.Invalidate();
-                RenderForm.Update();
-            }
-
             BackBuffer?.Dispose();
             _renderView?.Dispose();
             _depthBuffer?.Dispose();
             _depthView?.Dispose();
             UIRenderer.RenderTarget?.Dispose();
 
-            _swapChain.ResizeBuffers(_swapChainDescription.BufferCount, RenderForm.ClientSize.Width, RenderForm.ClientSize.Height, Format.Unknown, SwapChainFlags.None);
+            var width = RenderForm.ClientSize.Width;
+            var height = RenderForm.ClientSize.Height;
+
+            _swapChain.ResizeBuffers(_swapChainDescription.BufferCount, width, height, Format.Unknown, SwapChainFlags.None);
             BackBuffer = Texture2D.FromSwapChain<Texture2D>(_swapChain, 0);
             _renderView = new RenderTargetView(_device, BackBuffer);
 
-            _depthBufferDescription.Width = RenderForm.ClientSize.Width;
-            _depthBufferDescription.Height = RenderForm.ClientSize.Height;
+            _depthBufferDescription.Width = width;
+            _depthBufferDescription.Height = height;
             _depthBuffer = new Texture2D(_device, _depthBufferDescription);
 
             _depthView = new DepthStencilView(_device, _depthBuffer);
             var blendState = new BlendState(_device, _blendStateDescription);
 
-            _device.ImmediateContext.Rasterizer.SetViewport(new Viewport(0, 0, RenderForm.ClientSize.Width, RenderForm.ClientSize.Height, 0.0f, 1.0f));
+            _device.ImmediateContext.Rasterizer.SetViewport(new Viewport(0, 0, width, height, 0.0f, 1.0f));
             _device.ImmediateContext.OutputMerger.SetTargets(_depthView, _renderView);
             _device.ImmediateContext.OutputMerger.SetBlendState(blendState);
 
