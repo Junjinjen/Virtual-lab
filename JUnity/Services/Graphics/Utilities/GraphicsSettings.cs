@@ -9,8 +9,7 @@ namespace JUnity.Services.Graphics.Utilities
         internal static readonly GraphicsSettings Default = new GraphicsSettings
         {
             WindowTitle = "JUnity window",
-            IsWindowed = true,
-            FullScreenFpsLimit = 60,
+            Borderless = false,
             ShadersMetaPath = "Shaders/ShadersMeta.xml",
             MultisamplesPerPixel = 1,
             MultisamplerQuality = 0,
@@ -20,9 +19,7 @@ namespace JUnity.Services.Graphics.Utilities
 
         public string WindowTitle { get; set; }
 
-        public bool IsWindowed { get; set; }
-
-        public int FullScreenFpsLimit { get; set; }
+        public bool Borderless { get; set; }
 
         public string ShadersMetaPath { get; set; }
 

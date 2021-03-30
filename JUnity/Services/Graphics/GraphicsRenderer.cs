@@ -63,17 +63,21 @@ namespace JUnity.Services.Graphics
             CreateSharedFields(graphicsSettings);
 
             RenderForm = new RenderForm(graphicsSettings.WindowTitle);
+            RenderForm.Resize += OnResize;
+
             UIRenderer = new UIRenderer();
 
             GraphicsInitializer.CreateDeviceWithSwapChain(graphicsSettings, RenderForm, _sampleDescription, out _swapChainDescription, out _swapChain, out _device);
-            if (!graphicsSettings.IsWindowed)
-            {
-                _swapChain.SetFullscreenState(true, null);
-            }
-
             var factory = _swapChain.GetParent<Factory>();
             factory.MakeWindowAssociation(RenderForm.Handle, WindowAssociationFlags.IgnoreAll);
             factory.Dispose();
+
+            if (graphicsSettings.Borderless)
+            {
+                RenderForm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+                RenderForm.AllowUserResizing = false;
+                RenderForm.ClientSize = new System.Drawing.Size(1920, 1080);
+            }
 
             CreateConstantBuffers();
 
@@ -96,7 +100,6 @@ namespace JUnity.Services.Graphics
             var samplerState = GraphicsInitializer.CreateSamplerState(graphicsSettings.TextureSampling);
             _device.ImmediateContext.PixelShader.SetSampler(0, samplerState);
 
-            RenderForm.Resize += OnResize;
             OnResize(null, EventArgs.Empty);
 
             UIRenderer.Initialize(RenderForm);
@@ -205,17 +208,6 @@ namespace JUnity.Services.Graphics
 
         private void OnResize(object sender, EventArgs args)
         {
-            if (RenderForm.WindowState == System.Windows.Forms.FormWindowState.Minimized)
-            {
-                _isMinimized = true;
-                return;
-            }
-            else if (_isMinimized)
-            {
-                _isMinimized = false;
-                return;
-            }
-
             BackBuffer?.Dispose();
             _renderTargetView?.Dispose();
             _depthBuffer?.Dispose();

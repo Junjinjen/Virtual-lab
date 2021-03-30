@@ -22,14 +22,13 @@ namespace JUnity.Services.Graphics.Utilities
                 BufferCount = 1,
                 ModeDescription = new ModeDescription(renderForm.ClientSize.Width,
                     renderForm.ClientSize.Height,
-                    new Rational(graphicsSettings.FullScreenFpsLimit, 1),
+                    new Rational(240, 1),
                     Format.R8G8B8A8_UNorm),
                 IsWindowed = true,
                 OutputHandle = renderForm.Handle,
                 SampleDescription = sampleDescription,
                 SwapEffect = SwapEffect.Discard,
                 Usage = Usage.RenderTargetOutput,
-                Flags = SwapChainFlags.AllowModeSwitch,
             };
 
             var deviceCreationFlags = DeviceCreationFlags.BgraSupport;
