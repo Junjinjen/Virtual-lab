@@ -244,7 +244,7 @@ namespace JUnity.Services.Graphics
 
             _device.ImmediateContext.Rasterizer.SetViewport(new Viewport(0, 0, BackBuffer.Description.Width,
                 BackBuffer.Description.Height, 0.0f, 1.0f));
-            _device.ImmediateContext.OutputMerger.SetTargets(_depthView, _renderView);
+            _device.ImmediateContext.OutputMerger.SetTargets(_depthStencilView, _renderTargetView);
             _device.ImmediateContext.OutputMerger.SetBlendState(blendState);
 
             Camera.UpdateAspectRatio();
