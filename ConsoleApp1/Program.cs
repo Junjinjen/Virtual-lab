@@ -1,4 +1,5 @@
-﻿using JUnity;
+﻿
+using JUnity;
 using JUnity.Components;
 using JUnity.Components.Lighning;
 using JUnity.Components.Rendering;
@@ -512,7 +513,7 @@ namespace ConsoleApp1
             {
                 engine.GraphicsSettings.BackgroundColor = SharpDX.Color.Gray;
                 //engine.GraphicsSettings.VSyncEnabled = false;
-                //engine.GraphicsSettings.IsWindowed = true;
+                //engine.GraphicsSettings.IsWindowed = false;
                 engine.Run();
             }
         }
