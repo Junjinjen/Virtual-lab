@@ -28,7 +28,8 @@ namespace JUnity.Services.Graphics.Utilities
                 OutputHandle = renderForm.Handle,
                 SampleDescription = sampleDescription,
                 SwapEffect = SwapEffect.Discard,
-                Usage = Usage.RenderTargetOutput
+                Usage = Usage.RenderTargetOutput,
+                Flags = SwapChainFlags.AllowModeSwitch,
             };
 
             var deviceCreationFlags = DeviceCreationFlags.BgraSupport;
