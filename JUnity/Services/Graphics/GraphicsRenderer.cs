@@ -63,7 +63,13 @@ namespace JUnity.Services.Graphics
             CreateSharedFields(graphicsSettings);
 
             RenderForm = new RenderForm(graphicsSettings.WindowTitle);
-            RenderForm.Resize += OnResize;
+            
+            if (graphicsSettings.Borderless)
+            {
+                RenderForm.AllowUserResizing = false;
+                RenderForm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+                RenderForm.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            }
 
             UIRenderer = new UIRenderer();
 
@@ -71,13 +77,6 @@ namespace JUnity.Services.Graphics
             var factory = _swapChain.GetParent<Factory>();
             factory.MakeWindowAssociation(RenderForm.Handle, WindowAssociationFlags.IgnoreAll);
             factory.Dispose();
-
-            if (graphicsSettings.Borderless)
-            {
-                RenderForm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-                RenderForm.AllowUserResizing = false;
-                RenderForm.ClientSize = new System.Drawing.Size(1920, 1080);
-            }
 
             CreateConstantBuffers();
 
@@ -100,6 +99,7 @@ namespace JUnity.Services.Graphics
             var samplerState = GraphicsInitializer.CreateSamplerState(graphicsSettings.TextureSampling);
             _device.ImmediateContext.PixelShader.SetSampler(0, samplerState);
 
+            RenderForm.Resize += OnResize;
             OnResize(null, EventArgs.Empty);
 
             UIRenderer.Initialize(RenderForm);
