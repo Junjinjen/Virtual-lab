@@ -40,17 +40,17 @@ namespace JUnity.Services.Graphics
 
         private readonly List<RenderOrder> _drawingQueue = new List<RenderOrder>();
 
-        internal Device Device { get => _device; }
+        public Device Device { get => _device; }
 
-        internal UIRenderer UIRenderer { get; private set; }
+        public UIRenderer UIRenderer { get; private set; }
 
-        internal Texture2D BackBuffer { get; private set; }
+        public Texture2D BackBuffer { get; private set; }
 
-        internal RenderForm RenderForm { get; private set; }
+        public RenderForm RenderForm { get; private set; }
 
-        internal LightManager LightManager { get; private set; }
+        public LightManager LightManager { get; private set; }
 
-        internal Camera Camera { get; private set; }
+        public Camera Camera { get; private set; }
 
         public Color4 BackgroundColor { get; set; }
 

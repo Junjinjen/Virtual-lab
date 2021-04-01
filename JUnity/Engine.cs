@@ -7,9 +7,7 @@ using SharpDX.Windows;
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("ConsoleApp1")]
 namespace JUnity
 {
     public sealed class Engine : IDisposable

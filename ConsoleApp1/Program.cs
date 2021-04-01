@@ -476,11 +476,13 @@ namespace ConsoleApp1
     {
         public void Seed(GameObjectCollection scene)
         {
-            Engine.Instance.GraphicsRenderer.Camera.Fov = MathUtil.DegreesToRadians(90);
-            Engine.Instance.GraphicsRenderer.Camera.DrawDistance = 100;
-            Engine.Instance.GraphicsRenderer.Camera.NearDistance = 0.001f;
-            Engine.Instance.GraphicsRenderer.Camera.Position = new Vector3(0, 0, -5);
-            Engine.Instance.GraphicsRenderer.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
+            var prov = new CameraProvider();
+
+            prov.Camera.Fov = MathUtil.DegreesToRadians(90);
+            prov.Camera.DrawDistance = 100;
+            prov.Camera.NearDistance = 0.001f;
+            prov.Camera.Position = new Vector3(0, 0, -5);
+            prov.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
 
             //var tmp = GameObjectFactory.CreateAndRegister<Back>();
             //tmp.AddScript<fasdf>();
