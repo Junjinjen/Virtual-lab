@@ -1,8 +1,7 @@
-﻿using JUnity.Services.UI.Elements;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace JUnity.Components
+namespace JUnity.Components.UI
 {
     public sealed class Canvas : IDisposable
     {

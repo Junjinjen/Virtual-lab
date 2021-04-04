@@ -79,13 +79,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\CameraProvider.cs" />
-    <Compile Include="Components\Canvas.cs" />
+    <Compile Include="Components\UI\Canvas.cs" />
     <Compile Include="Components\GameComponent.cs" />
     <Compile Include="Components\Interfaces\IFixedUpdatableComponent.cs" />
     <Compile Include="Components\Interfaces\IUniqueComponent.cs" />
     <Compile Include="Components\Lighning\DirectionLight.cs" />
     <Compile Include="Components\Lighning\PointLight.cs" />
     <Compile Include="Components\Lighning\SpotLight.cs" />
+    <Compile Include="Components\Physics\Rigidbody.cs" />
     <Compile Include="Components\Rendering\MeshRenderer.cs" />
     <Compile Include="Services\Graphics\Camera.cs" />
     <Compile Include="Services\Graphics\Meshing\MeshMatricesBuffer.cs" />
@@ -121,8 +122,8 @@
     <Compile Include="Services\Graphics\Utilities\UICommonFactory.cs" />
     <Compile Include="Services\Input\InputManager.cs" />
     <Compile Include="Services\UI\UIController.cs" />
-    <Compile Include="Services\UI\Elements\Button.cs" />
-    <Compile Include="Services\UI\Elements\UIElement.cs" />
+    <Compile Include="Components\UI\Button.cs" />
+    <Compile Include="Components\UI\UIElement.cs" />
     <Compile Include="Utilities\GameObjectCollection.cs" />
     <Compile Include="Utilities\GameObjectFactory.cs" />
     <Compile Include="Utilities\IGameObjectCreator.cs" />

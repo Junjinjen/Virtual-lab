@@ -1,4 +1,5 @@
-﻿using JUnity.Utilities;
+﻿using JUnity.Components.UI;
+using JUnity.Utilities;
 using System.Collections.Generic;
 
 namespace JUnity.Components

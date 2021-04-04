@@ -3,12 +3,13 @@ using JUnity.Services.Graphics.UI.Surfaces;
 using JUnity.Services.Graphics.UI.Surfaces.Interfaces;
 using JUnity.Services.Graphics.Utilities;
 using JUnity.Services.Input;
+using JUnity.Services.UI;
 using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.DirectWrite;
 using System;
 
-namespace JUnity.Services.UI.Elements
+namespace JUnity.Components.UI
 {
     public class Button : UIElement
     {
@@ -24,7 +25,7 @@ namespace JUnity.Services.UI.Elements
             {
                 TextStyle = new ButtonTextStyle
                 {
-                    TextFormat = new Graphics.UI.Styling.TextFormat
+                    TextFormat = new Services.Graphics.UI.Styling.TextFormat
                     {
                         FontFamily = "Consolas",
                         FontSize = 12.0f,

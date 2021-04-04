@@ -2,7 +2,7 @@
 using SharpDX;
 using SharpDX.Direct2D1;
 
-namespace JUnity.Services.UI.Elements
+namespace JUnity.Components.UI
 {
     public abstract class UIElement
     {

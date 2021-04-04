@@ -2,10 +2,11 @@
 using JUnity;
 using JUnity.Components;
 using JUnity.Components.Lighning;
+using JUnity.Components.Physics;
 using JUnity.Components.Rendering;
+using JUnity.Components.UI;
 using JUnity.Services.Graphics;
 using JUnity.Services.Graphics.Meshing;
-using JUnity.Services.UI.Elements;
 using JUnity.Utilities;
 using SharpDX;
 using System.Collections.Generic;
@@ -31,6 +32,7 @@ namespace ConsoleApp1
         public override void Start()
         {
             Canvas.RegisterElement(tttt);
+            AddComponent<Rigidbody>();
         }
 
         public override void FixedUpdate(double deltaTime)
@@ -504,12 +506,12 @@ namespace ConsoleApp1
             go.Children.Add(new GameObject());
             go.Children[0].AddComponent<MeshRenderer>().Initialize(tmp[0].Children[0].NodeMeshes[0], "vx1", "px1");
             go.Children[0].Position = Vector3.Up * 5;
-            go.Children[0].AddScript<fasdf>();
+            //go.Children[0].AddScript<fasdf>();
 
             go.Children[0].Children.Add(new GameObject());
             go.Children[0].Children[0].AddComponent<MeshRenderer>().Initialize(tmp[0].Children[1].NodeMeshes[0], "vx1", "px1");
             go.Children[0].Children[0].Position = Vector3.Right * 4;
-            go.Children[0].Children[0].AddScript<fasdf>();
+            //go.Children[0].Children[0].AddScript<fasdf>();
 
             go.AddScript<fasdf>();
 
