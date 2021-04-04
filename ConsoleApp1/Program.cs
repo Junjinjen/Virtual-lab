@@ -515,7 +515,7 @@ namespace ConsoleApp1
             {
                 engine.GraphicsSettings.BackgroundColor = SharpDX.Color.Gray;
                 //engine.GraphicsSettings.VSyncEnabled = false;
-                engine.GraphicsSettings.Borderless = true;
+                //engine.GraphicsSettings.Borderless = true;
                 engine.Run();
             }
         }

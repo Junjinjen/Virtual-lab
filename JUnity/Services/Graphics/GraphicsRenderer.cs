@@ -223,7 +223,7 @@ namespace JUnity.Services.Graphics
                 _isMinimized = false;
             }
 
-            _swapChain.ResizeBuffers(_swapChainDescription.BufferCount, 0, 0, Format.Unknown, SwapChainFlags.None);
+            _swapChain.ResizeBuffers(_swapChainDescription.BufferCount, 0, 0, Format.R8G8B8A8_UNorm, SwapChainFlags.None);
             BackBuffer = Texture2D.FromSwapChain<Texture2D>(_swapChain, 0);
             _renderTargetView = new RenderTargetView(_device, BackBuffer);
 
@@ -236,6 +236,7 @@ namespace JUnity.Services.Graphics
 
             _device.ImmediateContext.Rasterizer.SetViewport(new Viewport(0, 0, BackBuffer.Description.Width,
                 BackBuffer.Description.Height, 0.0f, 1.0f));
+
             _device.ImmediateContext.OutputMerger.SetTargets(_depthStencilView, _renderTargetView);
             _device.ImmediateContext.OutputMerger.SetBlendState(blendState);
 
@@ -250,7 +251,7 @@ namespace JUnity.Services.Graphics
 
         private void EndRender()
         {
-            _swapChain.Present(_syncInterval, PresentFlags.Restart);
+            _swapChain.Present(_syncInterval, PresentFlags.None);
             LightManager.ResetLight();
             _drawingQueue.Clear();
         }

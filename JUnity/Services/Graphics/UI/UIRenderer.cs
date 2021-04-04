@@ -32,7 +32,7 @@ namespace JUnity.Services.Graphics.UI
                 DpiX = 0,
                 DpiY = 0,
                 MinLevel = FeatureLevel.Level_10,
-                PixelFormat = new PixelFormat(Format.Unknown, SharpDX.Direct2D1.AlphaMode.Premultiplied),
+                PixelFormat = new PixelFormat(Format.R8G8B8A8_UNorm, SharpDX.Direct2D1.AlphaMode.Premultiplied),
                 Type = RenderTargetType.Hardware,
                 Usage = RenderTargetUsage.None,
             };
