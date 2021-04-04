@@ -25,8 +25,8 @@ namespace JUnity
             Name = name;
             IsActive = true;
             Children = new GameObjectCollection(this);
-            Scale = Vector3.One;
-            Rotation = Quaternion.Identity;
+            LocalScale = Vector3.One;
+            LocalRotation = Quaternion.Identity;
         }
 
         public TComponent AddComponent<TComponent>()
@@ -132,11 +132,17 @@ namespace JUnity
 
         public GameObjectCollection Children { get; }
 
-        public Quaternion Rotation { get; set; }
+        public Vector3 LocalPosition { get; set; }
 
-        public Vector3 Position { get; set; }
+        public Quaternion LocalRotation { get; set; }
 
-        public Vector3 Scale { get; set; }
+        public Vector3 LocalScale { get; set; }
+
+        internal Quaternion Rotation { get => Parent != null ?  Quaternion.Multiply(Parent.Rotation, LocalRotation) : LocalRotation; }
+
+        internal Vector3 Position { get => Parent != null ?  Vector3.Transform(LocalPosition, Parent.Rotation) + Parent.Position : LocalPosition; }
+
+        internal Vector3 Scale { get => Parent != null?  LocalScale * Parent.Scale : LocalScale; }
 
         internal void OnStartup()
         {

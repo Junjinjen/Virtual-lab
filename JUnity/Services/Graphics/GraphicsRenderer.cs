@@ -130,7 +130,7 @@ namespace JUnity.Services.Graphics
                     UpdateMaterial(_drawingQueue[i].Mesh.Material);
                 }
 
-                UpdateMeshMatrices(ref viewProjectionMatrix, _drawingQueue[i].GameObject, _drawingQueue[i].Mesh.Scale);
+                UpdateMeshMatrices(ref viewProjectionMatrix, _drawingQueue[i].GameObject);
 
                 _device.ImmediateContext.Rasterizer.State = _rasterizerStateFactory.Create(_drawingQueue[i].Mesh.Material.RasterizerState);
 
@@ -148,9 +148,9 @@ namespace JUnity.Services.Graphics
             EndRender();
         }
 
-        private void UpdateMeshMatrices(ref Matrix viewProjectionMatrix, GameObject gameObject, Vector3 meshScale)
+        private void UpdateMeshMatrices(ref Matrix viewProjectionMatrix, GameObject gameObject)
         {
-            var worldMatrix = Matrix.Scaling(gameObject.Scale * meshScale) * Matrix.RotationQuaternion(gameObject.Rotation) * Matrix.Translation(gameObject.Position);
+            var worldMatrix = Matrix.Scaling(gameObject.Scale) * Matrix.RotationQuaternion(gameObject.Rotation) * Matrix.Translation(gameObject.Position);
 
             var matrices = new MeshMatrices
             {

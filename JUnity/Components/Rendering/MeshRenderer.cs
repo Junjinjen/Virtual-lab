@@ -20,8 +20,6 @@ namespace JUnity.Components.Rendering
 
         public bool Active { get; set; }
 
-        public Vector3 Scale { get => _mesh.Scale; set => _mesh.Scale = value; }
-
         public Material Material { get => _mesh.Material; set => _mesh.Material = value; }
 
         public void SetMesh(Mesh mesh)

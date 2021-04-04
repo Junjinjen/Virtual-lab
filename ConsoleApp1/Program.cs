@@ -35,8 +35,8 @@ namespace ConsoleApp1
 
         public override void FixedUpdate(double deltaTime)
         {
-            Object.Rotation *= Quaternion.RotationAxis(Vector3.Right, 0.01f);
-            Object.Rotation *= Quaternion.RotationAxis(Vector3.Up, 0.01f);
+            Object.LocalRotation *= Quaternion.RotationAxis(Vector3.Right, 0.01f);
+            Object.LocalRotation *= Quaternion.RotationAxis(Vector3.Up, 0.01f);
         }
     }
 
@@ -500,7 +500,11 @@ namespace ConsoleApp1
             var go = new GameObject();
             go.AddComponent<MeshRenderer>().Initialize(tmp[0].NodeMeshes[1], "vx1", "px1");
             go.Children.Add(new GameObject());
-            go.Children[0].AddComponent<MeshRenderer>().Initialize(tmp[0].NodeMeshes[0], "vx1", "px1");
+            go.Children[0].AddComponent<MeshRenderer>().Initialize(tmp[0].NodeMeshes[1], "vx1", "px1");
+            go.Children[0].LocalPosition = Vector3.Up * 2;
+            go.Children[0].Children.Add(new GameObject());
+            go.Children[0].Children[0].AddComponent<MeshRenderer>().Initialize(tmp[0].NodeMeshes[1], "vx1", "px1");
+            go.Children[0].Children[0].LocalPosition = Vector3.Left * 2;
             go.AddScript<fasdf>();
 
             scene.Add(go);
