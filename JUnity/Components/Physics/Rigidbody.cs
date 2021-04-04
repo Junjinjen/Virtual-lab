@@ -1,11 +1,16 @@
 ﻿using JUnity.Components.Interfaces;
+using JUnity.Components.Physics.Colliders;
 using SharpDX;
+using System.Collections.Generic;
 
 namespace JUnity.Components.Physics
 {
     public sealed class Rigidbody : GameComponent, IFixedUpdatableComponent, IUniqueComponent
     {
         private const float GravityForce = 10.0f;
+
+        private readonly static List<Collider> _colliders = new List<Collider>();
+        private readonly List<Collider> _myColliders = new List<Collider>();
         private Vector3 _impulse;
 
         internal Rigidbody(GameObject owner)
@@ -26,6 +31,12 @@ namespace JUnity.Components.Physics
 
         public Vector3 AirResistance { get; set; }
 
+        public void AddCollider(Collider collider)
+        {
+            collider.Register(this);
+            _myColliders.Add(collider);
+        }
+
         public void AddImpulse(Vector3 impulse)
         {
             _impulse += impulse;
@@ -44,6 +55,14 @@ namespace JUnity.Components.Physics
             attachedForce -= AirResistance * Velocity;
             Velocity += attachedForce / Mass * (float)deltaTime;
             Owner.Position += Velocity * (float)deltaTime;
+        }
+
+        public override void Dispose()
+        {
+            foreach (var collider in Colliders)
+            {
+                _colliders.Remove(collider);
+            }
         }
     }
 }

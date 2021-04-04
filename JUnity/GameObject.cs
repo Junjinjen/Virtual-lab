@@ -5,13 +5,17 @@ using JUnity.Components.Interfaces;
 using JUnity.Utilities;
 using SharpDX;
 using System.Collections.Generic;
+using JUnity.Components.UI;
 
 namespace JUnity
 {
     public sealed class GameObject
     {
         private const string DefaultName = "Unnamed object";
+
         private Script _script;
+        private readonly Canvas _canvas;
+
         private readonly List<GameComponent> _components = new List<GameComponent>();
         private readonly List<GameComponent> _fixedComponents = new List<GameComponent>();
 
@@ -33,6 +37,7 @@ namespace JUnity
             Name = name;
             IsActive = true;
             Children = new GameObjectCollection(this);
+            _canvas = new Canvas();
 
             _positionMatrix = Matrix.Identity;
             _scaleMatrix = Matrix.Identity;
@@ -40,6 +45,68 @@ namespace JUnity
             Position = Vector3.Zero;
             Rotation = Quaternion.Identity;
             Scale = Vector3.One;
+        }
+
+        public event EventHandler<TranslationEventArgs> OnTranslation;
+        public event EventHandler<RotationEventArgs> OnRotation;
+        public event EventHandler<ScaleEventArgs> OnScale;
+
+        public bool IsActive { get; set; }
+
+        public string Name { get; }
+
+        public Script Script { get => _script; }
+
+        public Canvas Canvas { get => _canvas; }
+
+        public GameObject Parent { get; internal set; }
+
+        public GameObjectCollection Children { get; }
+
+        public Vector3 Position
+        {
+            get => _positionMatrix.TranslationVector;
+            set
+            {
+                _positionMatrix.TranslationVector = value;
+                _isWorldMatrixRequairesRecompute = true;
+
+                OnTranslation?.Invoke(this, new TranslationEventArgs
+                {
+                    Position = value,
+                });
+            }
+        }
+
+        public Quaternion Rotation
+        {
+            get => _rotationQuaternion;
+            set
+            {
+                _rotationQuaternion = value;
+                Matrix.RotationQuaternion(ref _rotationQuaternion, out _rotationMatrix);
+                _isWorldMatrixRequairesRecompute = true;
+
+                OnRotation?.Invoke(this, new RotationEventArgs
+                {
+                    Rotation = value,
+                });
+            }
+        }
+
+        public Vector3 Scale
+        {
+            get => _scaleMatrix.ScaleVector;
+            set
+            {
+                _scaleMatrix.ScaleVector = value;
+                _isWorldMatrixRequairesRecompute = true;
+
+                OnScale?.Invoke(this, new ScaleEventArgs
+                {
+                    Scale = value,
+                });
+            }
         }
 
         public TComponent AddComponent<TComponent>()
@@ -137,45 +204,6 @@ namespace JUnity
             return null;
         }  
         
-        public bool IsActive { get; set; }
-
-        public string Name { get; }
-
-        public GameObject Parent { get; internal set; }
-
-        public GameObjectCollection Children { get; }
-
-        public Vector3 Position
-        {
-            get => _positionMatrix.TranslationVector;
-            set
-            {
-                _positionMatrix.TranslationVector = value;
-                _isWorldMatrixRequairesRecompute = true;
-            }
-        }
-
-        public Quaternion Rotation
-        {
-            get => _rotationQuaternion;
-            set
-            {
-                _rotationQuaternion = value;
-                Matrix.RotationQuaternion(ref _rotationQuaternion, out _rotationMatrix);
-                _isWorldMatrixRequairesRecompute = true;
-            }
-        }
-
-        public Vector3 Scale
-        {
-            get => _scaleMatrix.ScaleVector;
-            set
-            {
-                _scaleMatrix.ScaleVector = value;
-                _isWorldMatrixRequairesRecompute = true;
-            }
-        }
-
         internal Matrix GetWorldMatrix()
         {
             if (_isWorldMatrixRequairesRecompute)
@@ -223,5 +251,38 @@ namespace JUnity
                 component.CallComponent(deltaTime);
             }
         }
+
+        public void Destroy()
+        {
+            _script?.OnDestroy();
+            _canvas.Dispose();
+
+            foreach (var component in _components)
+            {
+                component.Dispose();
+            }
+
+            foreach (var component in _fixedComponents)
+            {
+                component.Dispose();
+            }
+
+            Engine.Instance.Scene.Remove(this);
+        }
+    }
+
+    public sealed class TranslationEventArgs : EventArgs
+    {
+        public Vector3 Position { get; set; }
+    }
+
+    public sealed class RotationEventArgs : EventArgs
+    {
+        public Quaternion Rotation { get; set; }
+    }
+
+    public sealed class ScaleEventArgs : EventArgs
+    {
+        public Vector3 Scale { get; set; }
     }
 }

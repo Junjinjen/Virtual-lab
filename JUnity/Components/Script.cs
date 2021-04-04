@@ -9,7 +9,6 @@ namespace JUnity.Components
         protected Script(GameObject owner)
         {
             Object = owner;
-            Canvas = new Canvas();
         }
 
         public GameObject Object { get; }
@@ -22,7 +21,7 @@ namespace JUnity.Components
             }
         }
 
-        public Canvas Canvas { get; }
+        public Canvas Canvas { get => Object.Canvas; }
 
         public TComponent AddComponent<TComponent>()
             where TComponent : GameComponent
@@ -48,10 +47,6 @@ namespace JUnity.Components
 
         public virtual void FixedUpdate(double deltaTime) { }
 
-        public void Destroy()
-        {
-            Engine.Instance.Scene.Remove(Object);
-            Canvas.Dispose();
-        }
+        public virtual void OnDestroy() { }
     }
 }

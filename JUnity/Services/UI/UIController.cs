@@ -76,7 +76,7 @@ namespace JUnity.Services.UI
             {
                 foreach (var pair in _mouseUpListeners)
                 {
-                    if (pair.Value.Equals(element))
+                    if (pair.Value != null && pair.Value.Equals(element))
                     {
                         _mouseUpListeners[pair.Key] = null;
                         return;

@@ -79,6 +79,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\CameraProvider.cs" />
+    <Compile Include="Components\Physics\Colliders\BoxCollider.cs" />
+    <Compile Include="Components\Physics\Colliders\Collider.cs" />
     <Compile Include="Components\UI\Canvas.cs" />
     <Compile Include="Components\GameComponent.cs" />
     <Compile Include="Components\Interfaces\IFixedUpdatableComponent.cs" />

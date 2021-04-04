@@ -39,6 +39,7 @@ namespace JUnity.Services.Graphics
         private bool _isMinimized;
 
         private readonly List<RenderOrder> _drawingQueue = new List<RenderOrder>();
+        private readonly List<RenderOrder> _alwaysOnTopDrawingQueue = new List<RenderOrder>();
 
         public Device Device { get => _device; }
 
@@ -110,6 +111,11 @@ namespace JUnity.Services.Graphics
             _drawingQueue.Add(order);
         }
 
+        public void AddOnTopRenderOrder(RenderOrder order)
+        {
+            _alwaysOnTopDrawingQueue.Add(order);
+        }
+
         public void RenderScene()
         {
             if (_isMinimized)
@@ -125,30 +131,40 @@ namespace JUnity.Services.Graphics
 
             for (int i = 0; i < _drawingQueue.Count; i++)
             {
-                if (_drawingQueue[i].Mesh.Material != null)
-                {
-                    UpdateMaterial(_drawingQueue[i].Mesh.Material);
-                }
+                Draw(_drawingQueue[i], ref viewProjectionMatrix);
+            }
 
-                UpdateMeshMatrices(ref viewProjectionMatrix, _drawingQueue[i]);
-
-                _device.ImmediateContext.Rasterizer.State = _rasterizerStateFactory.Create(_drawingQueue[i].Mesh.Material.RasterizerState);
-
-                _device.ImmediateContext.InputAssembler.PrimitiveTopology = _drawingQueue[i].Mesh.PrimitiveTopology;
-                _device.ImmediateContext.InputAssembler.SetVertexBuffers(0, _drawingQueue[i].Mesh.VertexBufferBinding);
-                _device.ImmediateContext.InputAssembler.SetIndexBuffer(_drawingQueue[i].Mesh.IndexBuffer, Format.R32_UInt, 0);
-
-                _device.ImmediateContext.VertexShader.Set(_drawingQueue[i].VertexShader);
-                _device.ImmediateContext.PixelShader.Set(_drawingQueue[i].PixelShader);
-
-                _device.ImmediateContext.DrawIndexed(_drawingQueue[i].Mesh.IndicesCount, 0, 0);
+            for (int i = 0; i < _alwaysOnTopDrawingQueue.Count; i++)
+            {
+                Draw(_alwaysOnTopDrawingQueue[i], ref viewProjectionMatrix);
             }
 
             UIRenderer.RenderUI();
             EndRender();
         }
 
-        private void UpdateMeshMatrices(ref Matrix viewProjectionMatrix, RenderOrder renderOrder)
+        private void Draw(RenderOrder renderOrder, ref Matrix viewProjectionMatrix)
+        {
+            if (renderOrder.Mesh.Material != null)
+            {
+                UpdateMaterial(renderOrder.Mesh.Material);
+            }
+
+            UpdateMeshMatrices(ref viewProjectionMatrix, ref renderOrder);
+
+            _device.ImmediateContext.Rasterizer.State = _rasterizerStateFactory.Create(renderOrder.Mesh.Material.RasterizerState);
+
+            _device.ImmediateContext.InputAssembler.PrimitiveTopology = renderOrder.Mesh.PrimitiveTopology;
+            _device.ImmediateContext.InputAssembler.SetVertexBuffers(0, renderOrder.Mesh.VertexBufferBinding);
+            _device.ImmediateContext.InputAssembler.SetIndexBuffer(renderOrder.Mesh.IndexBuffer, Format.R32_UInt, 0);
+
+            _device.ImmediateContext.VertexShader.Set(renderOrder.VertexShader);
+            _device.ImmediateContext.PixelShader.Set(renderOrder.PixelShader);
+
+            _device.ImmediateContext.DrawIndexed(renderOrder.Mesh.IndicesCount, 0, 0);
+        }
+
+        private void UpdateMeshMatrices(ref Matrix viewProjectionMatrix, ref RenderOrder renderOrder)
         {
             var meshMatrices = new MeshMatrices
             {
@@ -252,6 +268,7 @@ namespace JUnity.Services.Graphics
             _swapChain.Present(_syncInterval, PresentFlags.Restart);
             LightManager.ResetLight();
             _drawingQueue.Clear();
+            _alwaysOnTopDrawingQueue.Clear();
         }
 
         public void Dispose()
