@@ -11,12 +11,12 @@ namespace JUnity.Components.Physics.Colliders
         {
         }
 
-        public override void DrawCollider(GraphicsRenderer graphicsRenderer)
+        internal override void DrawCollider(GraphicsRenderer graphicsRenderer)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void ResolveCollision(Collider other)
+        internal override void ResolveCollision(Collider other)
         {
             throw new System.NotImplementedException();
         }
