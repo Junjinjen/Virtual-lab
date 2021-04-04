@@ -32,9 +32,15 @@ namespace JUnity.Utilities
 
         private static NodeDescription CreateDescriptionFromNode(Node node, Scene scene)
         {
+            var transform = ToSharpDXMatrix(node.Transform);
+            transform.Decompose(out var scale, out var rotation, out var position);
+
             var desc = new NodeDescription
             {
                 Name = node.Name,
+                Position = position,
+                Rotation = rotation,
+                Scale = scale,
             };
 
             if (node.HasMeshes)
@@ -232,6 +238,32 @@ namespace JUnity.Utilities
         private static Vector2 ToSharpDXTexCoord(Vector3D coord)
         {
             return new Vector2(coord.X, coord.Y);
+        }
+
+        private static Matrix ToSharpDXMatrix(Matrix4x4 matrix)
+        {
+            return new Matrix
+            {
+                M11 = matrix.A1,
+                M12 = matrix.A2,
+                M13 = matrix.A3,
+                M14 = matrix.A4,
+
+                M21 = matrix.B1,
+                M22 = matrix.B2,
+                M23 = matrix.B3,
+                M24 = matrix.B4,
+
+                M31 = matrix.C1,
+                M32 = matrix.C2,
+                M33 = matrix.C3,
+                M34 = matrix.C4,
+
+                M41 = matrix.D1,
+                M42 = matrix.D2,
+                M43 = matrix.D3,
+                M44 = matrix.D4,
+            };
         }
     }
 }

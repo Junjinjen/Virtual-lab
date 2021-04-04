@@ -1,4 +1,5 @@
 ﻿using JUnity.Services.Graphics.Meshing;
+using SharpDX;
 using System.Collections.Generic;
 
 namespace JUnity.Utilities
@@ -12,6 +13,12 @@ namespace JUnity.Utilities
         }
 
         public string Name { get; internal set; }
+
+        public Vector3 Position { get; set; }
+
+        public Quaternion Rotation { get; set; }
+
+        public Vector3 Scale { get; set; }
 
         public List<Mesh> NodeMeshes { get; }
 

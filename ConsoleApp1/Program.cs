@@ -498,15 +498,18 @@ namespace ConsoleApp1
 
             var tmp = MeshLoader.LoadScene(@"untitled.fbx");
             var go = new GameObject();
+            go.Position = Vector3.Left * 3;
             go.AddComponent<MeshRenderer>().Initialize(tmp[0].NodeMeshes[0], "vx1", "px1");
 
             go.Children.Add(new GameObject());
             go.Children[0].AddComponent<MeshRenderer>().Initialize(tmp[0].Children[0].NodeMeshes[0], "vx1", "px1");
             go.Children[0].Position = Vector3.Up * 5;
+            go.Children[0].AddScript<fasdf>();
 
             go.Children[0].Children.Add(new GameObject());
             go.Children[0].Children[0].AddComponent<MeshRenderer>().Initialize(tmp[0].Children[1].NodeMeshes[0], "vx1", "px1");
-            go.Children[0].Children[0].Position = Vector3.Right * 5;
+            go.Children[0].Children[0].Position = Vector3.Right * 4;
+            go.Children[0].Children[0].AddScript<fasdf>();
 
             go.AddScript<fasdf>();
 
