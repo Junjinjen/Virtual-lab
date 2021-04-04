@@ -130,7 +130,7 @@ namespace JUnity.Services.Graphics
                     UpdateMaterial(_drawingQueue[i].Mesh.Material);
                 }
 
-                UpdateMeshMatrices(ref viewProjectionMatrix, _drawingQueue[i].GameObject, _drawingQueue[i].Mesh.Scale);
+                UpdateMeshMatrices(ref viewProjectionMatrix, _drawingQueue[i]);
 
                 _device.ImmediateContext.Rasterizer.State = _rasterizerStateFactory.Create(_drawingQueue[i].Mesh.Material.RasterizerState);
 
@@ -148,21 +148,19 @@ namespace JUnity.Services.Graphics
             EndRender();
         }
 
-        private void UpdateMeshMatrices(ref Matrix viewProjectionMatrix, GameObject gameObject, Vector3 meshScale)
+        private void UpdateMeshMatrices(ref Matrix viewProjectionMatrix, RenderOrder renderOrder)
         {
-            var worldMatrix = Matrix.Scaling(gameObject.Scale * meshScale) * Matrix.RotationQuaternion(gameObject.Rotation) * Matrix.Translation(gameObject.Position);
-
-            var matrices = new MeshMatrices
+            var meshMatrices = new MeshMatrices
             {
-                WorldMatrix = worldMatrix,
-                WorldViewProjectionMatrix = Matrix.Multiply(worldMatrix, viewProjectionMatrix),
-                InverseWorldMatrix = Matrix.Invert(worldMatrix),
+                WorldMatrix = renderOrder.WorldMatrix,
+                WorldViewProjectionMatrix = Matrix.Multiply(renderOrder.WorldMatrix, viewProjectionMatrix),
+                InverseWorldMatrix = Matrix.Invert(renderOrder.WorldMatrix),
             };
 
-            matrices.WorldMatrix.Transpose();
-            matrices.WorldViewProjectionMatrix.Transpose();
+            meshMatrices.WorldMatrix.Transpose();
+            meshMatrices.WorldViewProjectionMatrix.Transpose();
 
-            _meshMatricesBufferBuffer.Update(matrices);
+            _meshMatricesBufferBuffer.Update(meshMatrices);
             _device.ImmediateContext.VertexShader.SetConstantBuffer(MeshMatricesSlot, _meshMatricesBufferBuffer.Buffer);
         }
 
@@ -251,7 +249,7 @@ namespace JUnity.Services.Graphics
 
         private void EndRender()
         {
-            _swapChain.Present(_syncInterval, PresentFlags.None);
+            _swapChain.Present(_syncInterval, PresentFlags.Restart);
             LightManager.ResetLight();
             _drawingQueue.Clear();
         }

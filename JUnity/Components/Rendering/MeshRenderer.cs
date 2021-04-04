@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using JUnity.Components.Interfaces;
 using JUnity.Services.Graphics.Meshing;
 using SharpDX;
@@ -19,8 +20,6 @@ namespace JUnity.Components.Rendering
         }
 
         public bool Active { get; set; }
-
-        public Vector3 Scale { get => _mesh.Scale; set => _mesh.Scale = value; }
 
         public Material Material { get => _mesh.Material; set => _mesh.Material = value; }
 
@@ -63,7 +62,7 @@ namespace JUnity.Components.Rendering
                 var order = new RenderOrder
                 {
                     Mesh = _mesh,
-                    GameObject = Owner,
+                    WorldMatrix = Owner.GetWorldMatrix(),
                     PixelShader = _pixelShader,
                     VertexShader = _vertexShader,
                 };

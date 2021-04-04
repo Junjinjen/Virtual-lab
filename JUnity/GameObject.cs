@@ -15,6 +15,14 @@ namespace JUnity
         private readonly List<GameComponent> _components = new List<GameComponent>();
         private readonly List<GameComponent> _fixedComponents = new List<GameComponent>();
 
+        private Quaternion _rotationQuaternion;
+        private Matrix _positionMatrix;
+        private Matrix _rotationMatrix;
+        private Matrix _scaleMatrix;
+
+        private bool _isWorldMatrixRequairesRecompute;
+        private Matrix _worldMatrix;
+
         public GameObject()
             : this(DefaultName)
         {
@@ -25,8 +33,13 @@ namespace JUnity
             Name = name;
             IsActive = true;
             Children = new GameObjectCollection(this);
-            Scale = Vector3.One;
+
+            _positionMatrix = Matrix.Identity;
+            _scaleMatrix = Matrix.Identity;
+
+            Position = Vector3.Zero;
             Rotation = Quaternion.Identity;
+            Scale = Vector3.One;
         }
 
         public TComponent AddComponent<TComponent>()
@@ -132,11 +145,52 @@ namespace JUnity
 
         public GameObjectCollection Children { get; }
 
-        public Quaternion Rotation { get; set; }
+        public Vector3 Position
+        {
+            get => _positionMatrix.TranslationVector;
+            set
+            {
+                _positionMatrix.TranslationVector = value;
+                _isWorldMatrixRequairesRecompute = true;
+            }
+        }
 
-        public Vector3 Position { get; set; }
+        public Quaternion Rotation
+        {
+            get => _rotationQuaternion;
+            set
+            {
+                _rotationQuaternion = value;
+                Matrix.RotationQuaternion(ref _rotationQuaternion, out _rotationMatrix);
+                _isWorldMatrixRequairesRecompute = true;
+            }
+        }
 
-        public Vector3 Scale { get; set; }
+        public Vector3 Scale
+        {
+            get => _scaleMatrix.ScaleVector;
+            set
+            {
+                _scaleMatrix.ScaleVector = value;
+                _isWorldMatrixRequairesRecompute = true;
+            }
+        }
+
+        internal Matrix GetWorldMatrix()
+        {
+            if (_isWorldMatrixRequairesRecompute)
+            {
+                _worldMatrix = _scaleMatrix * _rotationMatrix * _positionMatrix;
+                _isWorldMatrixRequairesRecompute = false;
+            }
+
+            if (Parent != null)
+            {
+                return _worldMatrix * Parent.GetWorldMatrix();
+            }
+
+            return _worldMatrix;
+        }
 
         internal void OnStartup()
         {

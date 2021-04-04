@@ -481,7 +481,7 @@ namespace ConsoleApp1
             prov.Camera.Fov = MathUtil.DegreesToRadians(90);
             prov.Camera.DrawDistance = 100;
             prov.Camera.NearDistance = 0.001f;
-            prov.Camera.Position = new Vector3(0, 0, -5);
+            prov.Camera.Position = new Vector3(0, 0, -15);
             prov.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
 
             //var tmp = GameObjectFactory.CreateAndRegister<Back>();
@@ -496,11 +496,18 @@ namespace ConsoleApp1
             //var colba = GameObjectFactory.CreateAndRegister<Go>();
             //colba.Scale = new Vector3(1.5f, 2, 1.5f);
 
-            var tmp = MeshLoader.LoadScene(@"teapot.fbx");
+            var tmp = MeshLoader.LoadScene(@"untitled.fbx");
             var go = new GameObject();
-            go.AddComponent<MeshRenderer>().Initialize(tmp[0].NodeMeshes[1], "vx1", "px1");
+            go.AddComponent<MeshRenderer>().Initialize(tmp[0].NodeMeshes[0], "vx1", "px1");
+
             go.Children.Add(new GameObject());
-            go.Children[0].AddComponent<MeshRenderer>().Initialize(tmp[0].NodeMeshes[0], "vx1", "px1");
+            go.Children[0].AddComponent<MeshRenderer>().Initialize(tmp[0].Children[0].NodeMeshes[0], "vx1", "px1");
+            go.Children[0].Position = Vector3.Up * 5;
+
+            go.Children[0].Children.Add(new GameObject());
+            go.Children[0].Children[0].AddComponent<MeshRenderer>().Initialize(tmp[0].Children[1].NodeMeshes[0], "vx1", "px1");
+            go.Children[0].Children[0].Position = Vector3.Right * 5;
+
             go.AddScript<fasdf>();
 
             scene.Add(go);
