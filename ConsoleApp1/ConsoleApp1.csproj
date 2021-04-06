@@ -75,6 +75,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="One Sly Move.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Sound_16587.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

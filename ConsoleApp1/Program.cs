@@ -80,7 +80,64 @@ namespace ConsoleApp1
             : base(obj)
         {
             t1.Click += (o, x) => obj.GetComponent<AudioPlayer>().Play();
-            t2.Click += (o, x) => obj.GetComponent<AudioPlayer>().Stop();
+            t2.Click += (o, x) => obj.GetComponent<AudioPlayer>().Pause();
+            t3.Click += (o, x) => obj.GetComponent<AudioPlayer>().IsRepeating = !obj.GetComponent<AudioPlayer>().IsRepeating;
+            t4.Click += (o, x) => obj.GetComponent<AudioPlayer>().Stop();
+        }
+
+        public override void Start()
+        {
+            Canvas.RegisterElement(t1);
+            Canvas.RegisterElement(t2);
+            Canvas.RegisterElement(t3);
+            Canvas.RegisterElement(t4);
+        }
+
+        public override void FixedUpdate(double deltaTime)
+        {
+
+        }
+    }
+
+    class soundScript2 : Script
+    {
+        Button t1 = new Button
+        {
+            Width = 0.2f,
+            Height = 0.2f,
+            Text = "Play 2",
+            Position = new Vector2(0.3f, 0.2f),
+        };
+
+        Button t2 = new Button
+        {
+            Width = 0.2f,
+            Height = 0.2f,
+            Text = "Pause 2",
+            Position = new Vector2(0.5f, 0.2f),
+        };
+
+        Button t3 = new Button
+        {
+            Width = 0.2f,
+            Height = 0.2f,
+            Text = "Repeating 2",
+            Position = new Vector2(0.3f, 0.6f),
+        };
+
+        Button t4 = new Button
+        {
+            Width = 0.2f,
+            Height = 0.2f,
+            Text = "Stop 2",
+            Position = new Vector2(0.5f, 0.6f),
+        };
+
+        public soundScript2(GameObject obj)
+            : base(obj)
+        {
+            t1.Click += (o, x) => obj.GetComponent<AudioPlayer>().Play();
+            t2.Click += (o, x) => obj.GetComponent<AudioPlayer>().Pause();
             t3.Click += (o, x) => obj.GetComponent<AudioPlayer>().IsRepeating = !obj.GetComponent<AudioPlayer>().IsRepeating;
             t4.Click += (o, x) => obj.GetComponent<AudioPlayer>().Stop();
         }
@@ -576,6 +633,12 @@ namespace ConsoleApp1
             gSound.AddScript<soundScript>();
 
             scene.Add(gSound);
+
+            var gSound2 = new GameObject();
+            gSound2.AddComponent<AudioPlayer>().Initialize("One Sly Move.wav");
+            gSound2.AddScript<soundScript2>();
+
+            scene.Add(gSound2);
         }
     }
 

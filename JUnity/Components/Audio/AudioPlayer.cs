@@ -39,7 +39,7 @@ namespace JUnity.Components.Audio
 
             _sourceVoice.BufferEnd += (context) =>
             {
-                if (IsRepeating)
+                if (IsRepeating && !Finished)
                 {
                     _sourceVoice.SubmitSourceBuffer(_audioBuffersRing, _soundStream.DecodedPacketsInfo);
                 }
@@ -58,6 +58,7 @@ namespace JUnity.Components.Audio
         {
             if (Finished)
             {
+                Finished = false;
                 _sourceVoice.SubmitSourceBuffer(_audioBuffersRing, _soundStream.DecodedPacketsInfo);
             }
             _sourceVoice.Start();
@@ -105,6 +106,7 @@ namespace JUnity.Components.Audio
 
         internal override void CallComponent(double deltaTime)
         {
+            // emty ?
         }
     }
 }
