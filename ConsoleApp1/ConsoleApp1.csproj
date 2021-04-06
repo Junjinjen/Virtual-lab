@@ -75,6 +75,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Sound_16587.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="texture.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

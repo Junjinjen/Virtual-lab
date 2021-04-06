@@ -1,6 +1,7 @@
 ﻿
 using JUnity;
 using JUnity.Components;
+using JUnity.Components.Audio;
 using JUnity.Components.Lighning;
 using JUnity.Components.Physics;
 using JUnity.Components.Rendering;
@@ -39,6 +40,62 @@ namespace ConsoleApp1
         {
             Object.Rotation *= Quaternion.RotationAxis(Vector3.Right, 0.01f);
             Object.Rotation *= Quaternion.RotationAxis(Vector3.Up, 0.01f);
+        }
+    }
+
+    class soundScript : Script
+    {
+        Button t1 = new Button
+        {
+            Width = 0.3f,
+            Height = 0.2f,
+            Text = "Play",
+        };
+
+        Button t2 = new Button
+        {
+            Width = 0.3f,
+            Height = 0.2f,
+            Text = "Pause",
+            Position = new Vector2(0.7f, 0.0f),
+        };
+
+        Button t3 = new Button
+        {
+            Width = 0.3f,
+            Height = 0.2f,
+            Text = "Repeating",
+            Position = new Vector2(0.0f, 0.8f),
+        };
+
+        Button t4 = new Button
+        {
+            Width = 0.3f,
+            Height = 0.2f,
+            Text = "Stop",
+            Position = new Vector2(0.7f, 0.8f),
+        };
+
+        public soundScript(GameObject obj)
+            : base(obj)
+        {
+            t1.Click += (o, x) => obj.GetComponent<AudioPlayer>().Play();
+            t2.Click += (o, x) => obj.GetComponent<AudioPlayer>().Stop();
+            t3.Click += (o, x) => obj.GetComponent<AudioPlayer>().IsRepeating = !obj.GetComponent<AudioPlayer>().IsRepeating;
+            t4.Click += (o, x) => obj.GetComponent<AudioPlayer>().Stop();
+        }
+
+        public override void Start()
+        {
+            Canvas.RegisterElement(t1);
+            Canvas.RegisterElement(t2);
+            Canvas.RegisterElement(t3);
+            Canvas.RegisterElement(t4);
+        }
+
+        public override void FixedUpdate(double deltaTime)
+        {
+
         }
     }
 
@@ -513,9 +570,12 @@ namespace ConsoleApp1
             go.Children[0].Children[0].Position = Vector3.Right * 4;
             //go.Children[0].Children[0].AddScript<fasdf>();
 
-            go.AddScript<fasdf>();
+            //go.AddScript<fasdf>();
+            var gSound = new GameObject();
+            gSound.AddComponent<AudioPlayer>().Initialize("Sound_16587.wav");
+            gSound.AddScript<soundScript>();
 
-            scene.Add(go);
+            scene.Add(gSound);
         }
     }
 
