@@ -14,19 +14,33 @@ namespace JUnity.Components.Audio
         private SoundStream _soundStream;
         private AudioBuffer _audioBuffersRing;
 
+
         public AudioPlayer(GameObject owner)
             : base(owner)
         {
-            IsRepeating = true;
-            Finished = false;
+            Repeat = true;
         }
 
-        public void Initialize(string fileName)
+        public bool Repeat { get; set; }
+
+        public bool Finished { get; set; }
+
+        public float Volume
         {
+            get
+            {
+                _sourceVoice.GetVolume(out float value);
+                return value;
+            }
+            set => _sourceVoice.SetVolume(value);
+        }
+
+        public void SetAudio(string fileName)
+        {
+            Dispose();
+
             _soundStream = new SoundStream(File.OpenRead(fileName));
             _sourceVoice = new SourceVoice(_xAudio2, _soundStream.Format);
-
-
 
             _audioBuffersRing = new AudioBuffer()
             {
@@ -39,7 +53,7 @@ namespace JUnity.Components.Audio
 
             _sourceVoice.BufferEnd += (context) =>
             {
-                if (IsRepeating && !Finished)
+                if (Repeat && !Finished)
                 {
                     _sourceVoice.SubmitSourceBuffer(_audioBuffersRing, _soundStream.DecodedPacketsInfo);
                 }
@@ -49,10 +63,8 @@ namespace JUnity.Components.Audio
                 }
             };
 
+            Finished = false;
         }
-
-        public bool IsRepeating { get; set; }
-        public bool Finished { get; set; }
 
         public void Play()
         {
@@ -61,17 +73,8 @@ namespace JUnity.Components.Audio
                 Finished = false;
                 _sourceVoice.SubmitSourceBuffer(_audioBuffersRing, _soundStream.DecodedPacketsInfo);
             }
+
             _sourceVoice.Start();
-        }
-
-
-        public float Volume
-        {
-            get {
-                _sourceVoice.GetVolume(out float value);
-                return value;
-            }
-            set => _sourceVoice.SetVolume(value);
         }
 
         public void Pause()
@@ -88,25 +91,15 @@ namespace JUnity.Components.Audio
 
         public override void Dispose()
         {
-            Stop();
+            _soundStream?.Close();
+            _soundStream?.Dispose();
 
-            _soundStream.Close();
-            _soundStream.Dispose();
-     
-            _sourceVoice.DestroyVoice();
-            _sourceVoice.Dispose();
+            _audioBuffersRing?.Stream.Close();
+            _audioBuffersRing?.Stream.Dispose();
+            
+            _sourceVoice?.DestroyVoice();
+            _sourceVoice?.Dispose();
           
-        }
-
-        public static void DisposePlayer()
-        {
-            masteringVoice.Dispose();
-            _xAudio2.Dispose();
-        }
-
-        internal override void CallComponent(double deltaTime)
-        {
-            // emty ?
         }
     }
 }

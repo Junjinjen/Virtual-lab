@@ -81,7 +81,7 @@ namespace ConsoleApp1
         {
             t1.Click += (o, x) => obj.GetComponent<AudioPlayer>().Play();
             t2.Click += (o, x) => obj.GetComponent<AudioPlayer>().Pause();
-            t3.Click += (o, x) => obj.GetComponent<AudioPlayer>().IsRepeating = !obj.GetComponent<AudioPlayer>().IsRepeating;
+            t3.Click += (o, x) => obj.GetComponent<AudioPlayer>().Repeat = !obj.GetComponent<AudioPlayer>().Repeat;
             t4.Click += (o, x) => obj.GetComponent<AudioPlayer>().Stop();
         }
 
@@ -138,7 +138,7 @@ namespace ConsoleApp1
         {
             t1.Click += (o, x) => obj.GetComponent<AudioPlayer>().Play();
             t2.Click += (o, x) => obj.GetComponent<AudioPlayer>().Pause();
-            t3.Click += (o, x) => obj.GetComponent<AudioPlayer>().IsRepeating = !obj.GetComponent<AudioPlayer>().IsRepeating;
+            t3.Click += (o, x) => obj.GetComponent<AudioPlayer>().Repeat = !obj.GetComponent<AudioPlayer>().Repeat;
             t4.Click += (o, x) => obj.GetComponent<AudioPlayer>().Stop();
         }
 
@@ -629,13 +629,13 @@ namespace ConsoleApp1
 
             //go.AddScript<fasdf>();
             var gSound = new GameObject();
-            gSound.AddComponent<AudioPlayer>().Initialize("Sound_16587.wav");
+            gSound.AddComponent<AudioPlayer>().SetAudio("Sound_16587.wav");
             gSound.AddScript<soundScript>();
 
             scene.Add(gSound);
 
             var gSound2 = new GameObject();
-            gSound2.AddComponent<AudioPlayer>().Initialize("One Sly Move.wav");
+            gSound2.AddComponent<AudioPlayer>().SetAudio("One Sly Move.wav");
             gSound2.AddScript<soundScript2>();
 
             scene.Add(gSound2);

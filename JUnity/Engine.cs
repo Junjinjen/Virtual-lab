@@ -107,7 +107,6 @@ namespace JUnity
         {
             InputManager.Dispose();
             GraphicsRenderer.Dispose();
-            AudioPlayer.DisposePlayer();
         }
     }
 }
