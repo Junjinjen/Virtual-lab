@@ -9,6 +9,7 @@ namespace JUnity.Components.Physics.Colliders
 
         public BoxCollider(Vector3 minimum, Vector3 maximum)
         {
+
         }
 
         internal override void DrawCollider(GraphicsRenderer graphicsRenderer)
