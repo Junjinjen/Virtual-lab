@@ -14,7 +14,7 @@ namespace JUnity.Components
 
         internal virtual void Start() { }
 
-        internal abstract void CallComponent(double deltaTime);
+        internal virtual void CallComponent(double deltaTime) { }
 
         public virtual void Dispose() { }
     }

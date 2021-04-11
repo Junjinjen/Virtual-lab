@@ -8,7 +8,6 @@ namespace JUnity.Components.Physics
     public sealed class Rigidbody : GameComponent, IFixedUpdatableComponent, IUniqueComponent
     {
         private const float GravityForce = 10.0f;
-
         private readonly static List<Collider> _colliders = new List<Collider>();
         private readonly List<Collider> _myColliders = new List<Collider>();
         private Vector3 _impulse;
@@ -59,7 +58,7 @@ namespace JUnity.Components.Physics
 
         public override void Dispose()
         {
-            foreach (var collider in Colliders)
+            foreach (var collider in _colliders)
             {
                 _colliders.Remove(collider);
             }
