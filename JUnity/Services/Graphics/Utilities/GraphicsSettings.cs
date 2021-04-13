@@ -34,6 +34,8 @@ namespace JUnity.Services.Graphics.Utilities
         public bool VSyncEnabled { get; set; }
 
         public Color4 BackgroundColor { get; set; }
+
+        public bool DrawColliders { get; set; }
     }
 
     public enum TextureSampling
