@@ -14,55 +14,39 @@ namespace JUnity.Utilities
 {
     public static class MeshLoader
     {
-        public static int MipLevels { get; set; } = 8;
-
-        public static NodeCollection LoadScene(string filename)
+        public static NodeCollection LoadScene(string filename, int mipLevels = 8)
         {
             var meshCollection = new NodeCollection();
 
             var context = new AssimpContext();
-            var scene = context.ImportFile(filename, PostProcessPreset.ConvertToLeftHanded | PostProcessPreset.TargetRealTimeFast);
+            var scene = context.ImportFile(filename, PostProcessPreset.TargetRealTimeMaximumQuality);
 
             foreach (var node in scene.RootNode.Children)
             {
-                var meshDesc = CreateDescriptionFromNode(node, scene);
+                var meshDesc = CreateDescriptionFromNode(node, scene, mipLevels);
                 meshCollection.Add(meshDesc);
             }
 
             return meshCollection;
         }
 
-        public static void CreateFromYawPitchRoll(SharpDX.Quaternion r, out double yaw, out double pitch, out double roll)
-        {
-            yaw = Math.Atan2(2.0 * (r.Y * r.W + r.X * r.Z), 1.0 - 2.0 * (r.X * r.X + r.Y * r.Y));
-            pitch = Math.Asin(2.0 * (r.X * r.W - r.Y * r.Z));
-            roll = Math.Atan2(2.0 * (r.X * r.Y + r.Z * r.W), 1.0 - 2.0 * (r.X * r.X + r.Z * r.Z));
-
-            yaw = MathUtil.RadiansToDegrees((float)yaw);
-            pitch = MathUtil.RadiansToDegrees((float)pitch);
-            roll = MathUtil.RadiansToDegrees((float)roll);
-        }
-
-        private static NodeDescription CreateDescriptionFromNode(Node node, Scene scene)
+        private static NodeDescription CreateDescriptionFromNode(Node node, Scene scene, int mipLevels)
         {
             node.Transform.Decompose(out var scale, out var rotation, out var position);
-
-            var t1 = ToSharpDXQuaternion(rotation);
-            CreateFromYawPitchRoll(t1, out var yaw, out var pitch, out var roll);
 
             var desc = new NodeDescription
             {
                 Name = node.Name,
-                Position = ToSharpDXVector3(position),
-                Rotation = ToSharpDXQuaternion(rotation),
-                Scale = ToSharpDXVector3(scale),
+                Position = ToSharpDXVector3(position).ToLeftHanded(),
+                Rotation = ToSharpDXQuaternion(rotation).ToLeftHanded(),
+                Scale = ToSharpDXVector3(scale).ToLeftHanded(),
             };
 
             if (node.HasMeshes)
             {
                 foreach (var index in node.MeshIndices)
                 {
-                    desc.NodeMeshes.Add(LoadMeshFromScene(index, scene));
+                    desc.NodeMeshes.Add(LoadMeshFromScene(index, scene, mipLevels));
                 }
             }
 
@@ -70,14 +54,14 @@ namespace JUnity.Utilities
             {
                 foreach (var child in node.Children)
                 {
-                    desc.Children.Add(CreateDescriptionFromNode(child, scene));
+                    desc.Children.Add(CreateDescriptionFromNode(child, scene, mipLevels));
                 }
             }
 
             return desc;
         }
 
-        private static JunityMesh LoadMeshFromScene(int index, Scene scene)
+        private static JunityMesh LoadMeshFromScene(int index, Scene scene, int mipLevels)
         {
             var nodeMesh = scene.Meshes[index];
             var vertices = new VertexDescription[nodeMesh.VertexCount];
@@ -86,12 +70,12 @@ namespace JUnity.Utilities
             {
                 vertices[i] = new VertexDescription
                 {
-                    Position = ToSharpDXVector(nodeMesh.Vertices[i]),
+                    Position = ToSharpDXVector(nodeMesh.Vertices[i]).ToLeftHanded(),
                 };
 
                 if (nodeMesh.HasNormals)
                 {
-                    vertices[i].Normal = ToSharpDXVector(nodeMesh.Normals[i]);
+                    vertices[i].Normal = ToSharpDXVector(nodeMesh.Normals[i]).ToLeftHanded();
                 }
 
                 if (nodeMesh.HasTextureCoords(0))
@@ -109,7 +93,7 @@ namespace JUnity.Utilities
                 }
             }
 
-            var material = LoadMaterialFromIndex(nodeMesh.MaterialIndex, scene);
+            var material = LoadMaterialFromIndex(nodeMesh.MaterialIndex, scene, mipLevels);
 
             SharpDX.Direct3D.PrimitiveTopology primitiveType = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
             switch (nodeMesh.PrimitiveType)
@@ -130,7 +114,7 @@ namespace JUnity.Utilities
             return new JunityMesh(vertices, nodeMesh.GetUnsignedIndices(), material, primitiveType);
         }
 
-        private static JunityMaterial LoadMaterialFromIndex(int index, Scene scene)
+        private static JunityMaterial LoadMaterialFromIndex(int index, Scene scene, int mipLevels)
         {
             var nodeMaterial = scene.Materials[index];
             var answ = new JunityMaterial();
@@ -160,23 +144,23 @@ namespace JUnity.Utilities
             {
                 if (nodeMaterial.TextureDiffuse.FilePath[0] == '*')
                 {
-                    answ.Texture = LoadDiffuseTextureByIndex(nodeMaterial.TextureDiffuse.TextureIndex, scene);
+                    answ.Texture = LoadDiffuseTextureByIndex(nodeMaterial.TextureDiffuse.TextureIndex, scene, mipLevels);
                 }
                 else
                 {
-                    answ.Texture = LoadDiffuseTextureByPath(nodeMaterial.TextureDiffuse.FilePath);
+                    answ.Texture = LoadDiffuseTextureByPath(nodeMaterial.TextureDiffuse.FilePath, mipLevels);
                 }
             }
 
             return answ;
         }
 
-        private static Texture LoadDiffuseTextureByIndex(int index, Scene scene)
+        private static Texture LoadDiffuseTextureByIndex(int index, Scene scene, int mipLevels)
         {
             var nodeTexture = scene.Textures[index];
             if (!nodeTexture.IsCompressed)
             {
-                return CreateTextureFromTexelArray(nodeTexture.NonCompressedData, nodeTexture.Width, nodeTexture.Height);
+                return CreateTextureFromTexelArray(nodeTexture.NonCompressedData, nodeTexture.Width, nodeTexture.Height, mipLevels);
             }
             else
             {
@@ -188,17 +172,17 @@ namespace JUnity.Utilities
                         {
                             using (var rightFormatImage = image.Clone(new System.Drawing.Rectangle(0, 0, image.Width, image.Height), PixelFormat.Format32bppArgb))
                             {
-                                return CreateTextureFromBitmapData(rightFormatImage);
+                                return CreateTextureFromBitmapData(rightFormatImage, mipLevels);
                             }
                         }
 
-                        return CreateTextureFromBitmapData(image);
+                        return CreateTextureFromBitmapData(image, mipLevels);
                     }
                 }
             }
         }
 
-        private static Texture CreateTextureFromBitmapData(System.Drawing.Bitmap bitmap)
+        private static Texture CreateTextureFromBitmapData(System.Drawing.Bitmap bitmap, int mipLevels)
         {
             var bitmapData = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             var length = bitmapData.Stride * bitmapData.Height;
@@ -215,18 +199,18 @@ namespace JUnity.Utilities
                 colors[i] = new Color(bytes[j++], bytes[j++], bytes[j++], bytes[j++]);
             }
 
-            return new Texture(colors, bitmap.Width, bitmap.Height, MipLevels);
+            return new Texture(colors, bitmap.Width, bitmap.Height, mipLevels);
         }
 
-        private static Texture CreateTextureFromTexelArray(Texel[] data, int width, int height)
+        private static Texture CreateTextureFromTexelArray(Texel[] data, int width, int height, int mipLevels)
         {
             var sharpdxData = data.Select(x => new Color(x.R, x.G, x.B, x.A)).ToArray();
-            return new Texture(sharpdxData, width, height, MipLevels);
+            return new Texture(sharpdxData, width, height, mipLevels);
         }
 
-        private static Texture LoadDiffuseTextureByPath(string filename)
+        private static Texture LoadDiffuseTextureByPath(string filename, int mipLevels)
         {
-            return new Texture(filename, MipLevels);
+            return new Texture(filename, mipLevels);
         }
 
         private static Vector4 ToSharpDXVector(Vector3D vector)
@@ -274,6 +258,22 @@ namespace JUnity.Utilities
         private static Vector2 ToSharpDXTexCoord(Vector3D coord)
         {
             return new Vector2(coord.X, coord.Y);
+        }
+
+        private static Vector3 ToLeftHanded(this Vector3 vector)
+        {
+            return new Vector3(vector.X, vector.Y, -vector.Z);
+        }
+
+        private static Vector4 ToLeftHanded(this Vector4 vector)
+        {
+            var vector3 = new Vector3(vector.X, vector.Y, vector.Z);
+            return new Vector4(vector3.ToLeftHanded(), vector.W);
+        }
+
+        private static SharpDX.Quaternion ToLeftHanded(this SharpDX.Quaternion quaternion)
+        {
+            return new SharpDX.Quaternion(quaternion.X, quaternion.Y, -quaternion.Z, quaternion.W);
         }
     }
 }

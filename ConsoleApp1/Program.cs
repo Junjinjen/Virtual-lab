@@ -105,8 +105,8 @@ namespace ConsoleApp1
             //var go = GameObjectFactory.Create(new FbxObjectCreator(@"3_cubes (3).fbx"));
             //var go = GameObjectFactory.Create(new FbxObjectCreator(@"ZF_YUP.fbx"));
 
-            var go = new GameObject();
-            var tmp = MeshLoader.LoadScene(@"personfbx_Z_Y.fbx");
+            //var go = new GameObject();
+            /*var tmp = MeshLoader.LoadScene(@"personfbx_-Y_Z.fbx");
 
             go.Children.Add(new GameObject());
             go.Children.Add(new GameObject());
@@ -126,11 +126,10 @@ namespace ConsoleApp1
 
             go.Children[2].Position = tmp[2].Position;
             go.Children[2].Rotation = tmp[2].Rotation;
-            go.Children[2].Scale = tmp[2].Scale;
-
+            go.Children[2].Scale = tmp[2].Scale;*/
+            //personfbx_-Y_Z.fbx
+            var go = GameObjectFactory.Create(new FbxObjectCreator(@"personfbx_-Y_Z.fbx"));
             //go.Scale = new Vector3(0.1f);
-
-            //var go2 = GameObjectFactory.Create(new FbxObjectCreator(@"personfbx_Z_Y.fbx"));
             go.AddScript<TestScript>();
             scene.Add(go);
         }
