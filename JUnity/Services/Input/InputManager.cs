@@ -95,21 +95,41 @@ namespace JUnity.Services.Input
 
         public bool IsKeyJustPressed(Key key)
         {
+            if (_lastKeyboardState == null)
+            {
+                return false;
+            }
+
             return _keyboardState != null && !_lastKeyboardState.IsPressed(key) && _keyboardState.IsPressed(key);
         }
 
         public bool IsKeyJustPressed(MouseKey key)
         {
+            if (_lastMouseState == null)
+            {
+                return false;
+            }
+
             return _keyboardState != null && !_lastMouseState.Buttons[(int)key] && _mouseState.Buttons[(int)key];
         }
 
         public bool IsKeyJustReleased(Key key)
         {
+            if (_lastKeyboardState == null)
+            {
+                return false;
+            }
+
             return _keyboardState != null && _lastKeyboardState.IsPressed(key) && !_keyboardState.IsPressed(key);
         }
 
         public bool IsKeyJustReleased(MouseKey key)
         {
+            if (_lastMouseState == null)
+            {
+                return false;
+            }
+
             return _keyboardState != null && _lastMouseState.Buttons[(int)key] && !_mouseState.Buttons[(int)key];
         }
 

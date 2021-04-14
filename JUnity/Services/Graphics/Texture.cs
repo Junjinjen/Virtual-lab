@@ -6,6 +6,8 @@ using Direct2DBitmap = SharpDX.Direct2D1.Bitmap;
 using WicBitmap = SharpDX.WIC.Bitmap;
 using SharpDX.WIC;
 using SharpDX.Direct2D1;
+using System.IO;
+using System;
 
 namespace JUnity.Services.Graphics
 {
@@ -21,6 +23,11 @@ namespace JUnity.Services.Graphics
 
         public Texture(string filename, int mipLevels = -1)
         {
+            if (!File.Exists(filename))
+            {
+                throw new ArgumentException("Texture file wasn't found", nameof(filename));
+            }
+
             _mipLevels = mipLevels;
 
             using (var decoder = new BitmapDecoder(_imagingFactory, filename, DecodeOptions.CacheOnDemand))

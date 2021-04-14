@@ -11,6 +11,7 @@ using JUnity.Services.Graphics.Lightning;
 using JUnity.Services.Graphics.Utilities;
 using JUnity.Services.Graphics.UI;
 using System.Threading;
+using JUnity.Utilities;
 
 namespace JUnity.Services.Graphics
 {
@@ -59,7 +60,7 @@ namespace JUnity.Services.Graphics
 
         public ReadOnlyDictionary<string, PixelShader> PixelShaders { get; private set; }
 
-        public void Initialize(GraphicsSettings graphicsSettings)
+        public void Initialize(Settings graphicsSettings)
         {
             CreateSharedFields(graphicsSettings);
 
@@ -197,7 +198,7 @@ namespace JUnity.Services.Graphics
             _device.ImmediateContext.PixelShader.SetConstantBuffer(LightContainerSlot, _lightBuffer.Buffer); // may cause problems, when using multiple shaders
         }
 
-        private void CreateSharedFields(GraphicsSettings graphicsSettings)
+        private void CreateSharedFields(Settings graphicsSettings)
         {
             BackgroundColor = graphicsSettings.BackgroundColor;
             Camera = new Camera();

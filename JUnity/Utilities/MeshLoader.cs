@@ -8,6 +8,7 @@ using System.Linq;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using System;
 
 namespace JUnity.Utilities
 {
@@ -20,7 +21,8 @@ namespace JUnity.Utilities
             var meshCollection = new NodeCollection();
 
             var context = new AssimpContext();
-            var scene = context.ImportFile(filename, PostProcessPreset.TargetRealTimeMaximumQuality | PostProcessSteps.MakeLeftHanded);
+            var scene = context.ImportFile(filename, PostProcessPreset.ConvertToLeftHanded | PostProcessPreset.TargetRealTimeFast);
+
             foreach (var node in scene.RootNode.Children)
             {
                 var meshDesc = CreateDescriptionFromNode(node, scene);
@@ -30,17 +32,30 @@ namespace JUnity.Utilities
             return meshCollection;
         }
 
+        public static void CreateFromYawPitchRoll(SharpDX.Quaternion r, out double yaw, out double pitch, out double roll)
+        {
+            yaw = Math.Atan2(2.0 * (r.Y * r.W + r.X * r.Z), 1.0 - 2.0 * (r.X * r.X + r.Y * r.Y));
+            pitch = Math.Asin(2.0 * (r.X * r.W - r.Y * r.Z));
+            roll = Math.Atan2(2.0 * (r.X * r.Y + r.Z * r.W), 1.0 - 2.0 * (r.X * r.X + r.Z * r.Z));
+
+            yaw = MathUtil.RadiansToDegrees((float)yaw);
+            pitch = MathUtil.RadiansToDegrees((float)pitch);
+            roll = MathUtil.RadiansToDegrees((float)roll);
+        }
+
         private static NodeDescription CreateDescriptionFromNode(Node node, Scene scene)
         {
-            var transform = ToSharpDXMatrix(node.Transform);
-            transform.Decompose(out var scale, out var rotation, out var position);
+            node.Transform.Decompose(out var scale, out var rotation, out var position);
+
+            var t1 = ToSharpDXQuaternion(rotation);
+            CreateFromYawPitchRoll(t1, out var yaw, out var pitch, out var roll);
 
             var desc = new NodeDescription
             {
                 Name = node.Name,
-                Position = position,
-                Rotation = rotation,
-                Scale = scale,
+                Position = ToSharpDXVector3(position),
+                Rotation = ToSharpDXQuaternion(rotation),
+                Scale = ToSharpDXVector3(scale),
             };
 
             if (node.HasMeshes)
@@ -225,6 +240,27 @@ namespace JUnity.Utilities
             };
         }
 
+        private static SharpDX.Quaternion ToSharpDXQuaternion(Assimp.Quaternion quaternion)
+        {
+            return new SharpDX.Quaternion
+            {
+                W = quaternion.W,
+                X = quaternion.X,
+                Y = quaternion.Y,
+                Z = quaternion.Z,
+            };
+        }
+
+        private static Vector3 ToSharpDXVector3(Vector3D vector)
+        {
+            return new Vector3
+            {
+                X = vector.X,
+                Y = vector.Y,
+                Z = vector.Z,
+            };
+        }
+
         private static Vector3 ToMaterialCoefficient(Color4D color)
         {
             return new Vector3(color.R, color.G, color.B);
@@ -238,32 +274,6 @@ namespace JUnity.Utilities
         private static Vector2 ToSharpDXTexCoord(Vector3D coord)
         {
             return new Vector2(coord.X, coord.Y);
-        }
-
-        private static Matrix ToSharpDXMatrix(Matrix4x4 matrix)
-        {
-            return new Matrix
-            {
-                M11 = matrix.A1,
-                M12 = matrix.A2,
-                M13 = matrix.A3,
-                M14 = matrix.A4,
-
-                M21 = matrix.B1,
-                M22 = matrix.B2,
-                M23 = matrix.B3,
-                M24 = matrix.B4,
-
-                M31 = matrix.C1,
-                M32 = matrix.C2,
-                M33 = matrix.C3,
-                M34 = matrix.C4,
-
-                M41 = matrix.D1,
-                M42 = matrix.D2,
-                M43 = matrix.D3,
-                M44 = matrix.D4,
-            };
         }
     }
 }

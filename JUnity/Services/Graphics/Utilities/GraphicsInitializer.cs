@@ -9,12 +9,13 @@ using Device = SharpDX.Direct3D11.Device;
 using System.Xml.Linq;
 using SharpDX.D3DCompiler;
 using System.IO;
+using JUnity.Utilities;
 
 namespace JUnity.Services.Graphics.Utilities
 {
     internal static class GraphicsInitializer
     {
-        public static void CreateDeviceWithSwapChain(GraphicsSettings graphicsSettings, RenderForm renderForm, SampleDescription sampleDescription,
+        public static void CreateDeviceWithSwapChain(Settings graphicsSettings, RenderForm renderForm, SampleDescription sampleDescription,
             out SwapChainDescription swapChainDescription, out SwapChain swapChain, out Device device)
         {
             swapChainDescription = new SwapChainDescription()
@@ -136,7 +137,7 @@ namespace JUnity.Services.Graphics.Utilities
             return new SamplerState(Engine.Instance.GraphicsRenderer.Device, desc);
         }
 
-        public static void CreateSampleAndDepthBufferDescriptions(GraphicsSettings graphicsSettings, out SampleDescription sampleDescription,
+        public static void CreateSampleAndDepthBufferDescriptions(Settings graphicsSettings, out SampleDescription sampleDescription,
             out Texture2DDescription depthBufferDescription)
         {
             sampleDescription = new SampleDescription(graphicsSettings.MultisamplesPerPixel, graphicsSettings.MultisamplerQuality);

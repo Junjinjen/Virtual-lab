@@ -34,7 +34,7 @@ namespace JUnity
 
         public GameObject(string name)
         {
-            Name = name;
+            Name = name ?? DefaultName;
             IsActive = true;
             Children = new GameObjectCollection(this);
             _canvas = new Canvas();

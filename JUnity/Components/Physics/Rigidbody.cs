@@ -9,8 +9,6 @@ namespace JUnity.Components.Physics
     public sealed class Rigidbody : GameComponent, IFixedUpdatableComponent, IUniqueComponent
     {
         private const float GravityForce = 10.0f;
-        private const string DefaultVertexShader = "vx1";
-        private const string DefaultPixelShader = "px1";
 
         private readonly static List<Collider> _colliders = new List<Collider>();
         private readonly List<Collider> _myColliders = new List<Collider>();
@@ -59,7 +57,7 @@ namespace JUnity.Components.Physics
             Velocity += attachedForce / Mass * (float)deltaTime;
             Owner.Position += Velocity * (float)deltaTime;
 
-            if (Engine.Instance.GraphicsSettings.DrawColliders)
+            if (Engine.Instance.Settings.DrawColliders)
             {
                 DrawMyColliders();
             }
@@ -74,8 +72,8 @@ namespace JUnity.Components.Physics
                 {
                     Mesh = mesh,
                     WorldMatrix = Owner.GetWorldMatrix(),
-                    PixelShader = Engine.Instance.GraphicsRenderer.PixelShaders[DefaultPixelShader],
-                    VertexShader = Engine.Instance.GraphicsRenderer.VertexShaders[DefaultVertexShader],
+                    PixelShader = Engine.Instance.GraphicsRenderer.PixelShaders[Engine.Instance.Settings.DefaultPixelShader],
+                    VertexShader = Engine.Instance.GraphicsRenderer.VertexShaders[Engine.Instance.Settings.DefaultVertexShader],
                 });
             }
         }

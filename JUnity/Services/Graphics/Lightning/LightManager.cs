@@ -1,4 +1,4 @@
-﻿using JUnity.Services.Graphics.Utilities;
+﻿using JUnity.Utilities;
 using SharpDX;
 using System;
 
@@ -10,9 +10,9 @@ namespace JUnity.Services.Graphics.Lightning
 
         public LightManager()
         {
-            _lightContainer.DirectionalLights = new DirectionalLightDescription[GraphicsSettings.MaxLightsPerTypeCount];
-            _lightContainer.PointLights = new PointLightDescription[GraphicsSettings.MaxLightsPerTypeCount];
-            _lightContainer.SpotLights = new SpotLightDescription[GraphicsSettings.MaxLightsPerTypeCount];
+            _lightContainer.DirectionalLights = new DirectionalLightDescription[Settings.MaxLightsPerTypeCount];
+            _lightContainer.PointLights = new PointLightDescription[Settings.MaxLightsPerTypeCount];
+            _lightContainer.SpotLights = new SpotLightDescription[Settings.MaxLightsPerTypeCount];
         }
 
         public Vector3 CameraPosition
@@ -41,7 +41,7 @@ namespace JUnity.Services.Graphics.Lightning
 
         public void AddDirectionalLight(DirectionalLightDescription light)
         {
-            if (_lightContainer.ActiveDirectionalLights + 1 > GraphicsSettings.MaxLightsPerTypeCount)
+            if (_lightContainer.ActiveDirectionalLights + 1 > Settings.MaxLightsPerTypeCount)
             {
                 throw new ArgumentOutOfRangeException(nameof(light), "Unable to add direction light. Light limit reached.");
             }
@@ -51,7 +51,7 @@ namespace JUnity.Services.Graphics.Lightning
 
         public void AddPointLight(PointLightDescription light)
         {
-            if (_lightContainer.ActivePointLights + 1 > GraphicsSettings.MaxLightsPerTypeCount)
+            if (_lightContainer.ActivePointLights + 1 > Settings.MaxLightsPerTypeCount)
             {
                 throw new ArgumentOutOfRangeException(nameof(light), "Unable to add point light. Light limit reached.");
             }
@@ -61,7 +61,7 @@ namespace JUnity.Services.Graphics.Lightning
 
         public void AddSpotLight(SpotLightDescription light)
         {
-            if (_lightContainer.ActiveSpotLights + 1 > GraphicsSettings.MaxLightsPerTypeCount)
+            if (_lightContainer.ActiveSpotLights + 1 > Settings.MaxLightsPerTypeCount)
             {
                 throw new ArgumentOutOfRangeException(nameof(light), "Unable to add spot light. Light limit reached.");
             }

@@ -1,6 +1,5 @@
 ﻿using JUnity.Components.Audio;
 using JUnity.Services.Graphics;
-using JUnity.Services.Graphics.Utilities;
 using JUnity.Services.Input;
 using JUnity.Services.UI;
 using JUnity.Utilities;
@@ -16,8 +15,10 @@ namespace JUnity
         private const double FixedUpdatePeriod = 0.01;
         private readonly Stopwatch _stopwatch = new Stopwatch();
         private readonly ISceneInitializer _sceneInitializer;
+        private Settings _settings;
         private long _lastTickCount;
         private double _elapsedTime;
+        private bool _isStarted;
 
         public Engine(ISceneInitializer initializer)
         {
@@ -27,7 +28,7 @@ namespace JUnity
             Scene = new GameObjectCollection(null);
             InputManager = new InputManager();
             GraphicsRenderer = new GraphicsRenderer();
-            GraphicsSettings = GraphicsSettings.Default;
+            Settings = Settings.Default;
             UIController = new UIController();
         }
 
@@ -39,7 +40,19 @@ namespace JUnity
 
         internal GameObjectCollection Scene { get; }
 
-        public GraphicsSettings GraphicsSettings { get; set; }
+        public Settings Settings
+        {
+            get => _settings;
+            set
+            {
+                if (_isStarted)
+                {
+                    throw new InvalidOperationException("Unable to change the settings after Engine start");
+                }
+
+                _settings = value;
+            }
+        }
 
         public InputManager InputManager { get; }
 
@@ -47,7 +60,8 @@ namespace JUnity
 
         public void Run()
         {
-            GraphicsRenderer.Initialize(GraphicsSettings);
+            _isStarted = true;
+            GraphicsRenderer.Initialize(Settings);
             InputManager.Initialize(GraphicsRenderer.RenderForm);
 
             _sceneInitializer.Seed(Scene);

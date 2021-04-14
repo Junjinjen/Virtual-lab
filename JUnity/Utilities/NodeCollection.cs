@@ -9,7 +9,7 @@ namespace JUnity.Utilities
     {
         private readonly List<NodeDescription> _meshes = new List<NodeDescription>();
 
-        public int Count => _meshes.Count + _meshes.Sum(x => x.Children.Count);
+        public int Count => _meshes.Count;
 
         public bool IsReadOnly => false;
 
@@ -21,21 +21,9 @@ namespace JUnity.Utilities
             }
         }
 
-        public NodeDescription this[string name]
-        {
-            get
-            {
-                var answ = Find(name);
-                if (answ != null)
-                {
-                    return answ;
-                }
+        public NodeDescription this[string name] { get => _meshes.First(x => x.Name == name); }
 
-                throw new ArgumentOutOfRangeException(nameof(name), "Mesh with given name wasn't found.");
-            }
-        }
-
-        public NodeDescription Find(string name)
+        public NodeDescription FindInHierarchy(string name)
         {
             var mesh = _meshes.FirstOrDefault(x => x.Name == name);
             if (mesh != null)
@@ -45,7 +33,7 @@ namespace JUnity.Utilities
 
             foreach (var obj in _meshes)
             {
-                var tmp = obj.Children.Find(name);
+                var tmp = obj.Children.FindInHierarchy(name);
                 if (tmp != null)
                 {
                     return tmp;
@@ -67,20 +55,7 @@ namespace JUnity.Utilities
 
         public bool Contains(NodeDescription item)
         {
-            if (_meshes.Contains(item))
-            {
-                return true;
-            }
-
-            foreach (var obj in _meshes)
-            {
-                if (obj.Children.Contains(item))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return _meshes.Contains(item);
         }
 
         public void CopyTo(NodeDescription[] array, int arrayIndex)
@@ -95,20 +70,7 @@ namespace JUnity.Utilities
 
         public bool Remove(NodeDescription item)
         {
-            if (_meshes.Remove(item))
-            {
-                return true;
-            }
-
-            foreach (var obj in _meshes)
-            {
-                if (obj.Children.Remove(item))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return _meshes.Remove(item);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
