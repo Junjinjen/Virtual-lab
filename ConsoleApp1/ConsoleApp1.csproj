@@ -98,6 +98,12 @@
     <None Include="personfbx_-Y_Z.fbx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="personfbx_-Z_Y - Copy %282%29.fbx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="personfbx_-Z_Y - Copy.fbx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="personfbx_-Z_Y.fbx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -111,6 +117,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="personfbx_Z_Y.fbx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="untitled %284%29.fbx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Volkswagen.fbx">

@@ -19,7 +19,7 @@ namespace JUnity.Utilities
             var meshCollection = new NodeCollection();
 
             var context = new AssimpContext();
-            var scene = context.ImportFile(filename, PostProcessPreset.TargetRealTimeMaximumQuality);
+            var scene = context.ImportFile(filename, PostProcessPreset.TargetRealTimeMaximumQuality | PostProcessSteps.FlipWindingOrder);
 
             foreach (var node in scene.RootNode.Children)
             {
@@ -39,7 +39,7 @@ namespace JUnity.Utilities
                 Name = node.Name,
                 Position = ToSharpDXVector3(position).ToLeftHanded(),
                 Rotation = ToSharpDXQuaternion(rotation).ToLeftHanded(),
-                Scale = ToSharpDXVector3(scale).ToLeftHanded(),
+                Scale = ToSharpDXVector3(scale).ToLeftHandedScale(),
             };
 
             if (node.HasMeshes)
@@ -260,6 +260,11 @@ namespace JUnity.Utilities
             return new Vector2(coord.X, coord.Y);
         }
 
+        private static Vector3 ToLeftHandedScale(this Vector3 vector)
+        {
+            return new Vector3(vector.X, vector.Z, vector.Y);
+        }
+
         private static Vector3 ToLeftHanded(this Vector3 vector)
         {
             return new Vector3(vector.X, vector.Y, -vector.Z);
@@ -273,7 +278,7 @@ namespace JUnity.Utilities
 
         private static SharpDX.Quaternion ToLeftHanded(this SharpDX.Quaternion quaternion)
         {
-            return new SharpDX.Quaternion(quaternion.X, quaternion.Y, -quaternion.Z, quaternion.W);
+            return new SharpDX.Quaternion(quaternion.X, quaternion.Y, -quaternion.Z, -quaternion.W);
         }
     }
 }

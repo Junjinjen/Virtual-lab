@@ -82,6 +82,14 @@ namespace ConsoleApp1
             {
                 tmp2 *= Quaternion.RotationAxis(Vector3.UnitZ, -MathUtil.DegreesToRadians(10));
             }
+            if (Engine.Instance.InputManager.IsKeyJustPressed(Key.Z))
+            {
+                tmp2 *= Quaternion.RotationAxis(Vector3.UnitY, -MathUtil.DegreesToRadians(10));
+            }
+            if (Engine.Instance.InputManager.IsKeyJustPressed(Key.X))
+            {
+                tmp2 *= Quaternion.RotationAxis(Vector3.UnitY, MathUtil.DegreesToRadians(10));
+            }
 
             Object.Position = tmp;
             Object.Rotation = tmp2;
@@ -128,8 +136,8 @@ namespace ConsoleApp1
             go.Children[2].Rotation = tmp[2].Rotation;
             go.Children[2].Scale = tmp[2].Scale;*/
             //personfbx_-Y_Z.fbx
-            var go = GameObjectFactory.Create(new FbxObjectCreator(@"personfbx_-Y_Z.fbx"));
-            //go.Scale = new Vector3(0.1f);
+            var go = GameObjectFactory.Create(new FbxObjectCreator(@"Volkswagen.fbx"));
+            go.Scale = new Vector3(0.1f);
             go.AddScript<TestScript>();
             scene.Add(go);
         }
