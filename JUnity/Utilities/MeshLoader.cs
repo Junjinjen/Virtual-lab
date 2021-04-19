@@ -64,6 +64,7 @@ namespace JUnity.Utilities
         private static JunityMesh LoadMeshFromScene(int index, Scene scene, int mipLevels)
         {
             var nodeMesh = scene.Meshes[index];
+            var material = LoadMaterialFromIndex(nodeMesh.MaterialIndex, scene, mipLevels, out var opacity);
             var vertices = new VertexDescription[nodeMesh.VertexCount];
 
             for (int i = 0; i < nodeMesh.VertexCount; i++)
@@ -89,11 +90,9 @@ namespace JUnity.Utilities
                 }
                 else
                 {
-                    vertices[i].Color = Color4.White;
+                    vertices[i].Color = new Color4(Color3.White, opacity);
                 }
             }
-
-            var material = LoadMaterialFromIndex(nodeMesh.MaterialIndex, scene, mipLevels);
 
             SharpDX.Direct3D.PrimitiveTopology primitiveType = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
             switch (nodeMesh.PrimitiveType)
@@ -114,29 +113,30 @@ namespace JUnity.Utilities
             return new JunityMesh(vertices, nodeMesh.GetUnsignedIndices(), material, primitiveType);
         }
 
-        private static JunityMaterial LoadMaterialFromIndex(int index, Scene scene, int mipLevels)
+        private static JunityMaterial LoadMaterialFromIndex(int index, Scene scene, int mipLevels, out float opacity)
         {
             var nodeMaterial = scene.Materials[index];
+            opacity = nodeMaterial.Opacity;
             var answ = new JunityMaterial();
 
             if (nodeMaterial.HasColorAmbient)
             {
-                answ.AmbientCoefficient = ToMaterialCoefficient(nodeMaterial.ColorAmbient);
+                answ.AmbientCoefficient = ToSharpDXColor(nodeMaterial.ColorAmbient);
             }
 
             if (nodeMaterial.HasColorDiffuse)
             {
-                answ.DiffusionCoefficient = ToMaterialCoefficient(nodeMaterial.ColorDiffuse);
+                answ.DiffusionCoefficient = ToSharpDXColor(nodeMaterial.ColorDiffuse);
             }
 
             if (nodeMaterial.HasColorEmissive)
             {
-                answ.EmissivityCoefficient = ToMaterialCoefficient(nodeMaterial.ColorEmissive);
+                answ.EmissivityCoefficient = ToSharpDXColor(nodeMaterial.ColorEmissive);
             }
 
             if (nodeMaterial.HasColorSpecular)
             {
-                answ.SpecularCoefficient = ToMaterialCoefficient(nodeMaterial.ColorSpecular);
+                answ.SpecularCoefficient = ToSharpDXColor(nodeMaterial.ColorSpecular);
                 answ.SpecularPower = nodeMaterial.ShininessStrength;
             }
 
@@ -243,11 +243,6 @@ namespace JUnity.Utilities
                 Y = vector.Y,
                 Z = vector.Z,
             };
-        }
-
-        private static Vector3 ToMaterialCoefficient(Color4D color)
-        {
-            return new Vector3(color.R, color.G, color.B);
         }
 
         private static Color4 ToSharpDXColor(Color4D color)

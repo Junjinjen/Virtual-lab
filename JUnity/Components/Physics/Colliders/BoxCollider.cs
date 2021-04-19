@@ -8,6 +8,8 @@ namespace JUnity.Components.Physics.Colliders
     {
         private readonly Vector3 _minimum;
         private readonly Vector3 _maximum;
+        private Vector3 _worldMinimum;
+        private Vector3 _worldMaximum;
         private BoundingBox _boundingBox;
 
         public BoxCollider(Vector3 minimum, Vector3 maximum)
@@ -16,10 +18,6 @@ namespace JUnity.Components.Physics.Colliders
             _maximum = maximum;
         }
 
-        public Vector3 Minimum { get; private set; }
-
-        public Vector3 Maximum { get; private set; }
-
         internal override Mesh GenerateMesh()
         {
             throw new System.NotImplementedException();
@@ -27,13 +25,20 @@ namespace JUnity.Components.Physics.Colliders
 
         internal override void ResolveCollision(Collider other)
         {
-            throw new System.NotImplementedException();
+            switch (other)
+            {
+                case BoxCollider otherBox:
+                    f();
+                    break;
+                default:
+                    break;
+            }
         }
 
         internal override void WorldMatrixChanged(Matrix worldMatrix)
         {
-            Minimum = Vector3.TransformCoordinate(_minimum, worldMatrix);
-            Maximum = Vector3.TransformCoordinate(_maximum, worldMatrix);
+            _worldMinimum = Vector3.TransformCoordinate(_minimum, worldMatrix);
+            _worldMaximum = Vector3.TransformCoordinate(_maximum, worldMatrix);
             UpdateBoundingBox();
         }
 

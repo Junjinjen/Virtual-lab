@@ -24,6 +24,7 @@ namespace JUnity.Components.Physics.Colliders
             if (_isWorldMatrixChanged)
             {
                 WorldMatrixChanged(Rigidbody.Owner.GetWorldMatrix());
+                _isWorldMatrixChanged = false;
             }
 
             ResolveCollision(other);

@@ -51,25 +51,25 @@ namespace JUnity.Services.Graphics.Meshing
             }
         }
 
-        public Vector3 EmissivityCoefficient
+        public Color4 EmissivityCoefficient
         {
             get => _description.EmissivityCoefficient;
             set => _description.EmissivityCoefficient = value;
         }
 
-        public Vector3 AmbientCoefficient
+        public Color4 AmbientCoefficient
         {
             get => _description.AmbientCoefficient;
             set => _description.AmbientCoefficient = value;
         }
 
-        public Vector3 DiffusionCoefficient
+        public Color4 DiffusionCoefficient
         {
             get => _description.DiffusionCoefficient;
             set => _description.DiffusionCoefficient = value;
         }
 
-        public Vector3 SpecularCoefficient
+        public Color4 SpecularCoefficient
         {
             get => _description.SpecularCoefficient;
             set => _description.SpecularCoefficient = value;

@@ -3,25 +3,25 @@ using System.Runtime.InteropServices;
 
 namespace JUnity.Services.Graphics.Meshing
 {
-    [StructLayout(LayoutKind.Explicit, Size = 64)]
+    [StructLayout(LayoutKind.Explicit, Size = 80)]
     internal struct MaterialDescription
     {
         [FieldOffset(0)]
-        public Vector3 EmissivityCoefficient;
-
-        [FieldOffset(12)]
-        public float SpecularPower;
+        public Color4 EmissivityCoefficient;
 
         [FieldOffset(16)]
-        public Vector3 AmbientCoefficient;
+        public Color4 AmbientCoefficient;
 
         [FieldOffset(32)]
-        public Vector3 DiffusionCoefficient;
+        public Color4 DiffusionCoefficient;
 
         [FieldOffset(48)]
-        public Vector3 SpecularCoefficient;
+        public Color4 SpecularCoefficient;
 
-        [FieldOffset(60)]
+        [FieldOffset(64)]
+        public float SpecularPower;
+
+        [FieldOffset(68)]
         public bool IsTexturePresent;
     }
 }

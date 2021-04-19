@@ -36,6 +36,7 @@ namespace JUnity.Components.Physics
         {
             collider.Register(this);
             _myColliders.Add(collider);
+            _colliders.Add(collider);
         }
 
         public void AddImpulse(Vector3 impulse)

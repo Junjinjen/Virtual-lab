@@ -39,11 +39,11 @@ cbuffer LightContainer : register(b0)
 
 cbuffer MaterialDescription : register(b1)
 {
-	float3 emissivityCoefficient;
+	float4 emissivityCoefficient;
+	float4 ambientCoefficient;
+	float4 diffusionCoefficient;
+	float4 specularCoefficient;
 	float specularPower;
-	float3 ambientCoefficient;
-	float3 diffusionCoefficient;
-	float3 specularCoefficient;
 	bool isTexturePresent;
 }
 
