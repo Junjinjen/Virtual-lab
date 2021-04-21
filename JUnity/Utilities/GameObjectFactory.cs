@@ -23,5 +23,12 @@ namespace JUnity.Utilities
             Engine.Instance.Scene.Add(gameObject);
             return gameObject;
         }
+
+        public static GameObject CreateAndRegister(IGameObjectCreator creator)
+        {
+            var gameObject = Create(creator);
+            Engine.Instance.Scene.Add(gameObject);
+            return gameObject;
+        }
     }
 }
