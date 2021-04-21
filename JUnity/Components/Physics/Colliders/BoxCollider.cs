@@ -28,7 +28,6 @@ namespace JUnity.Components.Physics.Colliders
             switch (other)
             {
                 case BoxCollider otherBox:
-                    f();
                     break;
                 default:
                     break;

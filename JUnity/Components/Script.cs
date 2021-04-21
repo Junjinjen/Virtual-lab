@@ -6,12 +6,7 @@ namespace JUnity.Components
 {
     public abstract class Script
     {
-        protected Script(GameObject owner)
-        {
-            Object = owner;
-        }
-
-        public GameObject Object { get; }
+        public GameObject Object { get; internal set; }
 
         public GameObjectCollection Scene
         {

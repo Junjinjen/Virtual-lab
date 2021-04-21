@@ -17,6 +17,8 @@ namespace JUnity.Components.Rendering
             : base(owner)
         {
             Active = true;
+            SetVertexShader(Engine.Instance.Settings.DefaultVertexShader);
+            SetPixelShader(Engine.Instance.Settings.DefaultPixelShader);
         }
 
         public bool Active { get; set; }

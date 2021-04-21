@@ -55,7 +55,19 @@ namespace JUnity
 
         public string Name { get; }
 
-        public Script Script { get => _script; }
+        public Script Script
+        {
+            get => _script;
+            set
+            {
+                if (_script != null)
+                {
+                    throw new InvalidOperationException("Unable to add script component. Dublication detected.");
+                }
+
+                _script = value;
+            }
+        }
 
         public Canvas Canvas { get => _canvas; }
 
@@ -133,13 +145,8 @@ namespace JUnity
         public TScript AddScript<TScript>()
             where TScript : Script
         {
-            if (_script != null)
-            {
-                throw new InvalidOperationException("Unable to add script component. Dublication detected.");
-            }
-
-            var script = CreateInstance<TScript>();
-            _script = script;
+            var script = Activator.CreateInstance<TScript>();
+            Script = script;
 
             return script;
         }
@@ -222,6 +229,7 @@ namespace JUnity
 
         internal void OnStartup()
         {
+            _script.Object = this;
             _script?.Start();
             foreach (var component in _components)
             {
