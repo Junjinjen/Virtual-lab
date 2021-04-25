@@ -1,7 +1,7 @@
 ﻿using SharpDX;
 using SharpDX.Direct2D1;
 
-namespace JUnity.Services.Graphics.UI.Surfaces.Interfaces
+namespace JUnity.Services.UI.Surfaces.Interfaces
 {
     public interface IRectangleSurface
     {

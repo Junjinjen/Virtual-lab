@@ -16,11 +16,11 @@ namespace ConsoleApp1
 {
     class TestScript : Script
     {
-        TextBox tttt = new TextBox
+        FloatTextBox tttt = new FloatTextBox
         {
             Width = 0.3f,
             Height = 0.2f,
-            Text = "Hello world",
+            Value = 14.53f
         };
 
         public TestScript()

@@ -2,7 +2,7 @@
 using SharpDX;
 using SharpDX.Direct2D1;
 
-namespace JUnity.Services.Graphics.UI.Styling
+namespace JUnity.Services.UI.Styling
 {
     public class Border
     {

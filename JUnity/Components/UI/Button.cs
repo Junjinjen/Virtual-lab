@@ -1,9 +1,9 @@
-﻿using JUnity.Services.Graphics.UI.Styling;
-using JUnity.Services.Graphics.UI.Surfaces;
-using JUnity.Services.Graphics.UI.Surfaces.Interfaces;
-using JUnity.Services.Graphics.Utilities;
+﻿using JUnity.Services.Graphics.Utilities;
 using JUnity.Services.Input;
 using JUnity.Services.UI;
+using JUnity.Services.UI.Styling;
+using JUnity.Services.UI.Surfaces;
+using JUnity.Services.UI.Surfaces.Interfaces;
 using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.DirectWrite;
@@ -25,7 +25,7 @@ namespace JUnity.Components.UI
             {
                 TextStyle = new DisablingTextStyle
                 {
-                    TextFormat = new Services.Graphics.UI.Styling.TextFormat
+                    TextFormat = new Services.UI.Styling.TextFormat
                     {
                         FontFamily = "Consolas",
                         FontSize = 12.0f,

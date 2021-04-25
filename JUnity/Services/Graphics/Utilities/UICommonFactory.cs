@@ -1,7 +1,7 @@
 ﻿using SharpDX;
 using SharpDX.Direct2D1;
 using System.Collections.Generic;
-using JUnityTextFormat = JUnity.Services.Graphics.UI.Styling.TextFormat;
+using JUnityTextFormat = JUnity.Services.UI.Styling.TextFormat;
 using DirectWriteTextFormat = SharpDX.DirectWrite.TextFormat;
 
 namespace JUnity.Services.Graphics.Utilities

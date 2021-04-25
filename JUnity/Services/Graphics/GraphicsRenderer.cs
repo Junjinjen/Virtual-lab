@@ -9,9 +9,9 @@ using System.Collections.ObjectModel;
 using JUnity.Services.Graphics.Meshing;
 using JUnity.Services.Graphics.Lightning;
 using JUnity.Services.Graphics.Utilities;
-using JUnity.Services.Graphics.UI;
 using System.Threading;
 using JUnity.Utilities;
+using JUnity.Services.UI;
 
 namespace JUnity.Services.Graphics
 {

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using Direct2DFactory = SharpDX.Direct2D1.Factory;
 using DirectWriteFactory = SharpDX.DirectWrite.Factory;
 
-namespace JUnity.Services.Graphics.UI
+namespace JUnity.Services.UI
 {
     internal sealed class UIRenderer : IDisposable
     {

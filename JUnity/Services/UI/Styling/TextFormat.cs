@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace JUnity.Services.Graphics.UI.Styling
+namespace JUnity.Services.UI.Styling
 {
     public sealed class TextFormat : IEquatable<TextFormat>
     {

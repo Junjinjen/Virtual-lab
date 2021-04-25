@@ -1,8 +1,9 @@
-﻿using JUnity.Services.Graphics.UI.Surfaces.Interfaces;
+﻿using JUnity.Services.Graphics;
+using JUnity.Services.UI.Surfaces.Interfaces;
 using SharpDX;
 using SharpDX.Direct2D1;
 
-namespace JUnity.Services.Graphics.UI.Surfaces
+namespace JUnity.Services.UI.Surfaces
 {
     public class TexturedRectangle : IRectangleSurface
     {

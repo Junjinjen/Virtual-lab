@@ -1,9 +1,9 @@
-﻿using JUnity.Services.Graphics.UI.Surfaces.Interfaces;
-using JUnity.Services.Graphics.Utilities;
+﻿using JUnity.Services.Graphics.Utilities;
+using JUnity.Services.UI.Surfaces.Interfaces;
 using SharpDX;
 using SharpDX.Direct2D1;
 
-namespace JUnity.Services.Graphics.UI.Surfaces
+namespace JUnity.Services.UI.Surfaces
 {
     public class SolidColorRectangle : IRectangleSurface
     {

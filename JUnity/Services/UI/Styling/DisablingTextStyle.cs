@@ -1,6 +1,6 @@
 ﻿using SharpDX;
 
-namespace JUnity.Services.Graphics.UI.Styling
+namespace JUnity.Services.UI.Styling
 {
     public class DisablingTextStyle : TextStyle
     {

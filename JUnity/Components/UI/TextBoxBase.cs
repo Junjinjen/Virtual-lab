@@ -1,8 +1,8 @@
-﻿using JUnity.Services.Graphics.UI.Styling;
-using JUnity.Services.Graphics.UI.Surfaces;
-using JUnity.Services.Graphics.UI.Surfaces.Interfaces;
+﻿using JUnity.Services.UI.Surfaces;
 using JUnity.Services.Graphics.Utilities;
 using JUnity.Services.Input;
+using JUnity.Services.UI.Styling;
+using JUnity.Services.UI.Surfaces.Interfaces;
 using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.DirectInput;
@@ -10,23 +10,25 @@ using SharpDX.DirectWrite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using JUnity.Services.UI.KeybordHandlers;
 
 namespace JUnity.Components.UI
 {
-    public class TextBox : UIElement
+    public abstract class TextBoxBase<TStyle> : UIElement
+        where TStyle : TextBoxBaseStyle, new()
     {
+        private readonly IKeyboardHandler _keyboardHandler;
         private List<Key> _lastPressedKeys = new List<Key>();
-        private bool _isInFocus;
 
-        public TextBox()
+        protected TextBoxBase(IKeyboardHandler keyboardHandler)
         {
+            _keyboardHandler = keyboardHandler;
             Active = true;
-            Style = new TextBoxStyle
+            Style = new TStyle
             {
                 TextStyle = new DisablingTextStyle
                 {
-                    TextFormat = new Services.Graphics.UI.Styling.TextFormat
+                    TextFormat = new Services.UI.Styling.TextFormat
                     {
                         FontFamily = "Consolas",
                         FontSize = 12.0f,
@@ -65,6 +67,8 @@ namespace JUnity.Components.UI
             };
         }
 
+        protected string RawText { get; set; }
+
         public event EventHandler Focus;
         public event EventHandler FocusLost;
 
@@ -72,75 +76,31 @@ namespace JUnity.Components.UI
 
         public bool ReadOnly { get; set; }
 
-        public TextBoxStyle Style { get; set; }
+        public bool Focused { get; private set; }
 
-        public string Text { get; set; }
+        public TStyle Style { get; set; }
 
         internal override void HandleMouseDown(Vector2 mousePosition, MouseKey key)
         {
             if (Active && !ReadOnly)
             {
                 Engine.Instance.UIController.SetFocus(this);
-                _isInFocus = true;
+                Focused = true;
                 Focus?.Invoke(this, EventArgs.Empty);
             }
         }
 
         internal override void OnFocusLost()
         {
-            _isInFocus = false;
+            Focused = false;
             FocusLost?.Invoke(this, EventArgs.Empty);
         }
 
         internal override void HandleKeyboardInput(KeyboardState keyboardState)
         {
             var newKeys = keyboardState.PressedKeys.Except(_lastPressedKeys);
+            RawText = _keyboardHandler.HandleInput(RawText, newKeys, keyboardState.PressedKeys);
 
-            var builder = new StringBuilder(Text);
-            foreach (var key in newKeys)
-            {
-                switch (key)
-                {
-                    case Key.D1:
-                        builder.Append(1);
-                        break;
-                    case Key.D2:
-                        builder.Append(2);
-                        break;
-                    case Key.D3:
-                        builder.Append(3);
-                        break;
-                    case Key.D4:
-                        builder.Append(4);
-                        break;
-                    case Key.D5:
-                        builder.Append(5);
-                        break;
-                    case Key.D6:
-                        builder.Append(6);
-                        break;
-                    case Key.D7:
-                        builder.Append(7);
-                        break;
-                    case Key.D8:
-                        builder.Append(8);
-                        break;
-                    case Key.D9:
-                        builder.Append(9);
-                        break;
-                    case Key.D0:
-                        builder.Append(0);
-                        break;
-                    case Key.Back:
-                        if (builder.Length > 0)
-                        {
-                            builder.Remove(builder.Length - 1, 1);
-                        }
-                        break;
-                }
-            }
-
-            Text = builder.ToString();
             _lastPressedKeys = keyboardState.PressedKeys;
         }
 
@@ -154,7 +114,7 @@ namespace JUnity.Components.UI
                 Style.ActiveBackground.Draw(renderTarget, rect);
                 DrawText(renderTarget, rect, Style.TextStyle.Color);
 
-                if (_isInFocus)
+                if (Focused)
                 {
                     Style.FocusedBorder.Draw(renderTarget, rect);
                 }
@@ -171,16 +131,16 @@ namespace JUnity.Components.UI
             }
         }
 
-        private void DrawText(RenderTarget renderTarget, RectangleF rect, Color textColor)
+        protected void DrawText(RenderTarget renderTarget, RectangleF rect, Color textColor)
         {
             var brush = UICommonFactory.GetInstance().CreateSolidColorBrush(textColor);
             var textFormat = UICommonFactory.GetInstance().CreateTextFormat(Style.TextStyle.TextFormat);
 
-            renderTarget.DrawText(Text, textFormat, rect, brush);
+            renderTarget.DrawText(RawText, textFormat, rect, brush);
         }
     }
 
-    public class TextBoxStyle
+    public class TextBoxBaseStyle
     {
         public DisablingTextStyle TextStyle { get; set; }
 
