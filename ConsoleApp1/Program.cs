@@ -23,6 +23,14 @@ namespace ConsoleApp1
             Value = 14.53f
         };
 
+        FloatTextBox tttt2 = new FloatTextBox
+        {
+            Position = new Vector2(0, 0.2f),
+            Width = 0.3f,
+            Height = 0.2f,
+            Value = 14.53f
+        };
+
         public TestScript()
         {
             tttt.Focus += (o,x) => System.Console.WriteLine("Focus");
@@ -32,6 +40,7 @@ namespace ConsoleApp1
         public override void Start()
         {
             Canvas.RegisterElement(tttt);
+            Canvas.RegisterElement(tttt2);
             //AddComponent<Rigidbody>();
         }
 

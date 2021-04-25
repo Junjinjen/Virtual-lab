@@ -10,7 +10,6 @@ namespace JUnity.Components.UI
 {
     public class FloatTextBox : TextBoxBase<FloatTextBoxStyle>
     {
-        private bool _hasFormatError;
         private float _value;
 
         public FloatTextBox()
@@ -18,7 +17,7 @@ namespace JUnity.Components.UI
         {
             Style.FormatErrorBorder = new Border
             {
-                Color = new SharpDX.Color(214, 0, 68),
+                Color = new Color(214, 0, 68),
                 Width = 0.5f,
             };
         }
@@ -33,12 +32,14 @@ namespace JUnity.Components.UI
             }
         }
 
+        public bool HasFormatError { get; private set; }
+
         internal override void HandleKeyboardInput(KeyboardState keyboardState)
         {
             base.HandleKeyboardInput(keyboardState);
             var text = RawText.Replace(',', '.');
 
-            _hasFormatError = !float.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out _value);
+            HasFormatError = !float.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out _value);
         }
 
         protected internal override void Render(RenderTarget renderTarget)
@@ -51,7 +52,7 @@ namespace JUnity.Components.UI
                 Style.ActiveBackground.Draw(renderTarget, rect);
                 DrawText(renderTarget, rect, Style.TextStyle.Color);
 
-                if (_hasFormatError)
+                if (HasFormatError)
                 {
                     Style.FormatErrorBorder.Draw(renderTarget, rect);
                 }
