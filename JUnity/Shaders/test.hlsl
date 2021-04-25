@@ -14,8 +14,14 @@ VertexShaderOutput VS(VertexShaderInput input)
 
 float4 PS(VertexShaderOutput input) : SV_Target
 {
-	float mipLevel = meshTexture.CalculateLevelOfDetail(textureSampler, input.textureCoordinate);
-	float4 texColor = meshTexture.SampleLevel(textureSampler, input.textureCoordinate, mipLevel);
-    input.color.xyz = diffusionCoefficient;
-    return input.color * texColor;
+    if (isTexturePresent)
+    {
+		float mipLevel = meshTexture.CalculateLevelOfDetail(textureSampler, input.textureCoordinate);
+		float4 texColor = meshTexture.SampleLevel(textureSampler, input.textureCoordinate, mipLevel);
+        input.color = texColor;
+    }
+	
+    input.color.xyz *= diffusionCoefficient;
+	
+    return input.color;
 }

@@ -135,8 +135,8 @@ namespace ConsoleApp1
             go.Children[2].Rotation = tmp[2].Rotation;
             go.Children[2].Scale = tmp[2].Scale;*/
             //personfbx_-Y_Z.fbx
-            var go = GameObjectFactory.Create(new FbxObjectCreator(@"textured.fbx"));
-            go.Scale = new Vector3(0.01f);
+            var go = GameObjectFactory.Create(new FbxObjectCreator(@"Volkswagen.fbx"));
+            go.Scale = new Vector3(0.1f);
             go.Position = Vector3.Zero;
             go.AddScript<TestScript>();
             scene.Add(go);

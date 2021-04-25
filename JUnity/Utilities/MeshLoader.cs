@@ -18,7 +18,7 @@ namespace JUnity.Utilities
             var meshCollection = new NodeCollection();
 
             var context = new AssimpContext();
-            var scene = context.ImportFile(filename, PostProcessPreset.TargetRealTimeMaximumQuality | PostProcessSteps.FlipWindingOrder);
+            var scene = context.ImportFile(filename, PostProcessPreset.TargetRealTimeMaximumQuality);
 
             foreach (var node in scene.RootNode.Children)
             {
@@ -38,14 +38,14 @@ namespace JUnity.Utilities
                 Name = node.Name,
                 Position = ToSharpDXVector3(position).ToLeftHanded(),
                 Rotation = ToSharpDXQuaternion(rotation).ToLeftHanded(),
-                Scale = ToSharpDXVector3(scale).ToLeftHandedScale(),
+                Scale = Vector3.One,
             };
 
             if (node.HasMeshes)
             {
                 foreach (var index in node.MeshIndices)
                 {
-                    desc.NodeMeshes.Add(LoadMeshFromScene(index, scene, mipLevels, new Vector4(ToSharpDXVector3(scale).ToLeftHandedScale(), 1)));
+                    desc.NodeMeshes.Add(LoadMeshFromScene(index, scene, mipLevels, ToSharpDXVector3(scale).ToLeftHandedScale()));
                 }
             }
 
@@ -149,6 +149,11 @@ namespace JUnity.Utilities
                 {
                     answ.Texture = LoadDiffuseTextureByPath(nodeMaterial.TextureDiffuse.FilePath, mipLevels);
                 }
+            }
+
+            if (opacity < 1f)
+            {
+                answ.CullMode = SharpDX.Direct3D11.CullMode.None;
             }
 
             return answ;
@@ -255,14 +260,14 @@ namespace JUnity.Utilities
             return new Vector2(coord.X, coord.Y);
         }
 
-        private static Vector3 ToLeftHandedScale(this Vector3 vector)
+        private static Vector4 ToLeftHandedScale(this Vector3 vector)
         {
-            return new Vector3(vector.X, vector.Z, vector.Y);
+            return new Vector4(vector.X, vector.Z, vector.Y, 1);
         }
 
         private static Vector3 ToLeftHanded(this Vector3 vector)
         {
-            return new Vector3(-vector.X, vector.Y, -vector.Z);
+            return new Vector3(vector.X, vector.Y, -vector.Z);
         }
 
         private static Vector4 ToLeftHanded(this Vector4 vector)
