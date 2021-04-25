@@ -1,6 +1,7 @@
 ﻿using JUnity.Services.Input;
 using SharpDX;
 using SharpDX.Direct2D1;
+using SharpDX.DirectInput;
 
 namespace JUnity.Components.UI
 {
@@ -23,6 +24,10 @@ namespace JUnity.Components.UI
         internal virtual void HandleMouseUp(Vector2 mousePosition, MouseKey key) { }
 
         internal virtual void HandleMouseScroll(Vector2 mousePosition, int deltaScrollValue) { }
+
+        internal virtual void HandleKeyboardInput(KeyboardState keyboardState) { }
+
+        internal virtual void OnFocusLost() { }
 
         protected internal abstract void Render(RenderTarget renderTarget);
     }

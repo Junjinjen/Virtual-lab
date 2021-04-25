@@ -46,11 +46,9 @@ namespace JUnity.Services.Input
 
         public void Update()
         {
-            _lastKeyboardState = _keyboardState;
-            _keyboardState = _keyboard.GetCurrentState();
-
             _lastMouseState = _mouseState;
             _mouseState = _mouse.GetCurrentState();
+
             if (_lastMouseState != null)
             {
                 var position = GetCursorPosition();
@@ -80,6 +78,13 @@ namespace JUnity.Services.Input
                     Engine.Instance.UIController.HandleMouseScroll(position, _mouseState.Z);
                     _mouseState.Z = 0;
                 }
+            }
+
+            var newKeyboardState = _keyboard.GetCurrentState();
+            if (!Engine.Instance.UIController.HandleFocusedKeyboardInput(newKeyboardState))
+            {
+                _lastKeyboardState = _keyboardState;
+                _keyboardState = newKeyboardState;
             }
         }
 

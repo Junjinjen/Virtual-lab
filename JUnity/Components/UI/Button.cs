@@ -23,7 +23,7 @@ namespace JUnity.Components.UI
             Active = true;
             Style = new ButtonStyle
             {
-                TextStyle = new ButtonTextStyle
+                TextStyle = new DisablingTextStyle
                 {
                     TextFormat = new Services.Graphics.UI.Styling.TextFormat
                     {
@@ -120,7 +120,7 @@ namespace JUnity.Components.UI
 
         public class ButtonStyle
         {
-            public ButtonTextStyle TextStyle { get; set; }
+            public DisablingTextStyle TextStyle { get; set; }
 
             public IRectangleSurface ActiveBackground { get; set; }
 

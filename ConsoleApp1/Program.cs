@@ -16,7 +16,7 @@ namespace ConsoleApp1
 {
     class TestScript : Script
     {
-        Button tttt = new Button
+        TextBox tttt = new TextBox
         {
             Width = 0.3f,
             Height = 0.2f,
@@ -25,7 +25,8 @@ namespace ConsoleApp1
 
         public TestScript()
         {
-            tttt.Click += (o, x) => System.Console.WriteLine("Click");
+            tttt.Focus += (o,x) => System.Console.WriteLine("Focus");
+            tttt.FocusLost += (o,x) => System.Console.WriteLine("Focus lost");
         }
 
         public override void Start()
@@ -135,7 +136,7 @@ namespace ConsoleApp1
             go.Children[2].Rotation = tmp[2].Rotation;
             go.Children[2].Scale = tmp[2].Scale;*/
             //personfbx_-Y_Z.fbx
-            var go = GameObjectFactory.Create(new FbxObjectCreator(@"Volkswagen.fbx"));
+            var go = GameObjectFactory.Create(new FbxObjectCreator(@"colbochka.fbx"));
             go.Scale = new Vector3(0.1f);
             go.Position = Vector3.Zero;
             go.AddScript<TestScript>();

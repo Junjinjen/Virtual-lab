@@ -94,6 +94,9 @@
     <None Include="car_-z_y.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="colbochka.fbx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="lomaem_sanya.fbx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

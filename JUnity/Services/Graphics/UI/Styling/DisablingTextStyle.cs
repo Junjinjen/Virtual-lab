@@ -2,7 +2,7 @@
 
 namespace JUnity.Services.Graphics.UI.Styling
 {
-    public class ButtonTextStyle : TextStyle
+    public class DisablingTextStyle : TextStyle
     {
         public Color DisabledColor { get; set; }
     }

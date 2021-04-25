@@ -1,12 +1,14 @@
 ﻿using JUnity.Components.UI;
 using JUnity.Services.Input;
 using SharpDX;
+using SharpDX.DirectInput;
 using System.Collections.Generic;
 
 namespace JUnity.Services.UI
 {
     internal sealed class UIController
     {
+        private UIElement _focusedElement;
         private readonly List<UIElement> _elements = new List<UIElement>();
         private readonly Dictionary<MouseKey, UIElement> _mouseUpListeners = new Dictionary<MouseKey, UIElement>
         {
@@ -30,12 +32,21 @@ namespace JUnity.Services.UI
             {
                 if (element.IsVisible && UIHelper.IsCursorOverElement(mousePosition, element))
                 {
+                    if (_focusedElement != element)
+                    {
+                        _focusedElement?.OnFocusLost();
+                        _focusedElement = null;
+                    }
+
                     element.HandleMouseDown(mousePosition, key);
                     _mouseUpListeners[key] = element;
 
                     return true;
                 }
             }
+
+            _focusedElement?.OnFocusLost();
+            _focusedElement = null;
 
             return false;
         }
@@ -82,10 +93,29 @@ namespace JUnity.Services.UI
                         return;
                     }
                 }
+
+                _focusedElement = _focusedElement == element ? null : _focusedElement;
             }
         }
 
-        internal void CreateDrawRequest()
+        public bool HandleFocusedKeyboardInput(KeyboardState keyboardState)
+        {
+            if (_focusedElement != null)
+            {
+                _focusedElement.HandleKeyboardInput(keyboardState);
+                return true;
+            }
+
+            return false;
+        }
+
+        public void SetFocus(UIElement element)
+        {
+            _focusedElement?.OnFocusLost();
+            _focusedElement = element;
+        }
+
+        public void CreateDrawRequest()
         {
             for (int i = _elements.Count - 1; i >= 0; i--)
             {

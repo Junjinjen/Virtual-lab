@@ -230,13 +230,15 @@
     <Compile Include="Components\Lighning\SpotLight.cs" />
     <Compile Include="Components\Physics\Rigidbody.cs" />
     <Compile Include="Components\Rendering\MeshRenderer.cs" />
+    <Compile Include="Components\UI\TextBox.cs" />
     <Compile Include="Services\Graphics\Camera.cs" />
     <Compile Include="Services\Graphics\Meshing\MeshMatricesBuffer.cs" />
     <Compile Include="Services\Graphics\Meshing\RasterizerStateFactory.cs" />
     <Compile Include="Services\Graphics\Meshing\RenderOrder.cs" />
-    <Compile Include="Services\Graphics\UI\Styling\ButtonTextStyle.cs" />
+    <Compile Include="Services\Graphics\UI\Styling\DisablingTextStyle.cs" />
     <Compile Include="Services\Graphics\UI\Styling\TextFormat.cs" />
     <Compile Include="Services\Graphics\UI\Styling\TextStyle.cs" />
+    <Compile Include="Services\Graphics\UI\Styling\Border.cs" />
     <Compile Include="Services\Graphics\UI\Surfaces\Interfaces\IRectangleSurface.cs" />
     <Compile Include="Services\Graphics\UI\Surfaces\SolidColorRectangle.cs" />
     <Compile Include="Services\Graphics\UI\Surfaces\TexturedRectangle.cs" />
