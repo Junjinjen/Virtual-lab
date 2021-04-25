@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using JUnity.Components.Interfaces;
 using JUnity.Services.Graphics.Meshing;
-using SharpDX;
 using SharpDX.Direct3D11;
 
 namespace JUnity.Components.Rendering

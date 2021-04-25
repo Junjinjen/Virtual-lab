@@ -229,8 +229,12 @@ namespace JUnity
 
         internal void OnStartup()
         {
-            _script.Object = this;
-            _script?.Start();
+            if (_script != null)
+            {
+                _script.Object = this;
+                _script.Start();
+            }
+            
             foreach (var component in _components)
             {
                 component.Start();

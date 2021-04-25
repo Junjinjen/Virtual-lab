@@ -131,6 +131,9 @@
     <None Include="personfbx_Z_Y.fbx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="textured.fbx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="untitled %284%29.fbx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

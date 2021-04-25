@@ -8,7 +8,6 @@ using System.Linq;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using System;
 
 namespace JUnity.Utilities
 {
@@ -46,7 +45,7 @@ namespace JUnity.Utilities
             {
                 foreach (var index in node.MeshIndices)
                 {
-                    desc.NodeMeshes.Add(LoadMeshFromScene(index, scene, mipLevels));
+                    desc.NodeMeshes.Add(LoadMeshFromScene(index, scene, mipLevels, new Vector4(ToSharpDXVector3(scale).ToLeftHandedScale(), 1)));
                 }
             }
 
@@ -61,7 +60,7 @@ namespace JUnity.Utilities
             return desc;
         }
 
-        private static JunityMesh LoadMeshFromScene(int index, Scene scene, int mipLevels)
+        private static JunityMesh LoadMeshFromScene(int index, Scene scene, int mipLevels, Vector4 scale)
         {
             var nodeMesh = scene.Meshes[index];
             var material = LoadMaterialFromIndex(nodeMesh.MaterialIndex, scene, mipLevels, out var opacity);
@@ -71,7 +70,7 @@ namespace JUnity.Utilities
             {
                 vertices[i] = new VertexDescription
                 {
-                    Position = ToSharpDXVector(nodeMesh.Vertices[i]).ToLeftHanded(),
+                    Position = ToSharpDXVector(nodeMesh.Vertices[i]).ToLeftHanded() * scale,
                 };
 
                 if (nodeMesh.HasNormals)
@@ -184,6 +183,7 @@ namespace JUnity.Utilities
 
         private static Texture CreateTextureFromBitmapData(System.Drawing.Bitmap bitmap, int mipLevels)
         {
+            bitmap.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipY);
             var bitmapData = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             var length = bitmapData.Stride * bitmapData.Height;
 
@@ -194,7 +194,7 @@ namespace JUnity.Utilities
 
             var colors = new Color[bitmap.Width * bitmap.Height];
             int j = 0;
-            for (int i = colors.Length - 1; i >= 0; i--)
+            for (int i = 0; i < colors.Length; i++)
             {
                 colors[i] = new Color(bytes[j++], bytes[j++], bytes[j++], bytes[j++]);
             }
@@ -262,7 +262,7 @@ namespace JUnity.Utilities
 
         private static Vector3 ToLeftHanded(this Vector3 vector)
         {
-            return new Vector3(vector.X, vector.Y, -vector.Z);
+            return new Vector3(-vector.X, vector.Y, -vector.Z);
         }
 
         private static Vector4 ToLeftHanded(this Vector4 vector)

@@ -23,8 +23,7 @@ namespace ConsoleApp1
             Text = "Hello world",
         };
 
-        public TestScript(GameObject obj)
-            : base(obj)
+        public TestScript()
         {
             tttt.Click += (o, x) => System.Console.WriteLine("Click");
         }
@@ -136,9 +135,9 @@ namespace ConsoleApp1
             go.Children[2].Rotation = tmp[2].Rotation;
             go.Children[2].Scale = tmp[2].Scale;*/
             //personfbx_-Y_Z.fbx
-            var go = GameObjectFactory.Create(new FbxObjectCreator(@"lomaem_sanya.fbx"));
-            go.Children[1].GetComponent<MeshRenderer>().Material.CullMode = SharpDX.Direct3D11.CullMode.None;
-            //go.Scale = new Vector3(0.1f);
+            var go = GameObjectFactory.Create(new FbxObjectCreator(@"textured.fbx"));
+            go.Scale = new Vector3(0.01f);
+            go.Position = Vector3.Zero;
             go.AddScript<TestScript>();
             scene.Add(go);
         }
