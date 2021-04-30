@@ -30,7 +30,7 @@ namespace JUnity.Components.UI
                 {
                     TextFormat = new Services.UI.Styling.TextFormat
                     {
-                        FontFamily = "Consolas",
+                        FontFamily = "TimesNewRoman",
                         FontSize = 12.0f,
                         FontStretch = FontStretch.Normal,
                         FontStyle = FontStyle.Normal,
@@ -136,7 +136,7 @@ namespace JUnity.Components.UI
             var brush = UICommonFactory.GetInstance().CreateSolidColorBrush(textColor);
             var textFormat = UICommonFactory.GetInstance().CreateTextFormat(Style.TextStyle.TextFormat);
 
-            renderTarget.DrawText(RawText, textFormat, rect, brush);
+            renderTarget.DrawText(RawText, textFormat, rect, brush, DrawTextOptions.Clip);
         }
     }
 

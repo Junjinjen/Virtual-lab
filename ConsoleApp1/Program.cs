@@ -12,7 +12,7 @@ using SharpDX.DirectInput;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace ConsoleApp1
+namespace Lab2
 {
     class TestScript : Script
     {
@@ -157,7 +157,7 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            using (var engine = new Engine(new Init()))
+            using (var engine = new Engine(new Scene()))
             {
                 engine.Settings.BackgroundColor = SharpDX.Color.Gray;
                 //engine.GraphicsSettings.VSyncEnabled = false;
