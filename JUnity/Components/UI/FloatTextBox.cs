@@ -1,9 +1,9 @@
-﻿using JUnity.Services.UI.Formatters;
-using JUnity.Services.UI.KeybordHandlers;
+﻿using JUnity.Services.UI.KeybordHandlers;
 using JUnity.Services.UI.Styling;
 using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.DirectInput;
+using System;
 using System.Globalization;
 
 namespace JUnity.Components.UI
@@ -22,6 +22,8 @@ namespace JUnity.Components.UI
             };
         }
 
+        public event EventHandler<FloatTextBoxValueChangedEventArgs> ValueChanged;
+
         public float Value
         {
             get => _value;
@@ -29,17 +31,20 @@ namespace JUnity.Components.UI
             {
                 _value = value;
                 RawText = value.ToString(CultureInfo.InvariantCulture);
+                ValueChanged?.Invoke(this, new FloatTextBoxValueChangedEventArgs(_value));
             }
         }
+
+        public float? MaxValue { get; set; }
+
+        public float? MinValue { get; set; }
 
         public bool HasFormatError { get; private set; }
 
         internal override void HandleKeyboardInput(KeyboardState keyboardState)
         {
             base.HandleKeyboardInput(keyboardState);
-            var text = RawText.Replace(',', '.');
-
-            HasFormatError = !float.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out _value);
+            ValudateFormat();
         }
 
         protected internal override void Render(RenderTarget renderTarget)
@@ -75,10 +80,34 @@ namespace JUnity.Components.UI
                 Style.DisabledBorder.Draw(renderTarget, rect);
             }
         }
+
+        private void ValudateFormat()
+        {
+            var text = RawText.Replace(',', '.');
+            var previousValue = _value;
+            HasFormatError = !float.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out _value) ||
+                (MinValue != null && _value < MinValue) ||
+                (MaxValue != null && _value > MaxValue);
+
+            if (_value != previousValue)
+            {
+                ValueChanged?.Invoke(this, new FloatTextBoxValueChangedEventArgs(_value));
+            }
+        }
     }
 
     public class FloatTextBoxStyle : TextBoxBaseStyle
     {
         public Border FormatErrorBorder { get; set; }
+    }
+
+    public class FloatTextBoxValueChangedEventArgs : EventArgs
+    {
+        public FloatTextBoxValueChangedEventArgs(float value)
+        {
+            Value = value;
+        }
+
+        public float Value { get; }
     }
 }

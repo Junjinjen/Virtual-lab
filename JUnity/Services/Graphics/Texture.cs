@@ -11,7 +11,7 @@ using System;
 
 namespace JUnity.Services.Graphics
 {
-    public sealed class Texture
+    public sealed class Texture : IDisposable
     {
         private static ImagingFactory _imagingFactory = new ImagingFactory();
         private ShaderResourceView _shaderResourceView;
@@ -121,6 +121,13 @@ namespace JUnity.Services.Graphics
                 Engine.Instance.GraphicsRenderer.Device.ImmediateContext.UpdateSubresource(dataBox, texture2d, 0);
                 Engine.Instance.GraphicsRenderer.Device.ImmediateContext.GenerateMips(ShaderResourceView);
             }
+        }
+
+        public void Dispose()
+        {
+            _shaderResourceView?.Dispose();
+            _direct2DBitmap?.Dispose();
+            _wicBitmap?.Dispose();
         }
     }
 }

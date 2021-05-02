@@ -21,7 +21,5 @@ float4 PS(VertexShaderOutput input) : SV_Target
         input.color = texColor;
     }
 	
-    input.color.xyz *= diffusionCoefficient;
-	
     return input.color;
 }

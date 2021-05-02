@@ -1,9 +1,10 @@
 ﻿using SharpDX;
 using SharpDX.Direct3D11;
+using System;
 
 namespace JUnity.Services.Graphics.Meshing
 {
-    public sealed class Material
+    public sealed class Material : IDisposable
     {
         private RasterizerStateDescription _rasterizerStateDescription;
         private MaterialDescription _description;
@@ -79,6 +80,11 @@ namespace JUnity.Services.Graphics.Meshing
         {
             get => _description.SpecularPower;
             set => _description.SpecularPower = value;
+        }
+
+        public void Dispose()
+        {
+            _texture?.Dispose();
         }
     }
 }

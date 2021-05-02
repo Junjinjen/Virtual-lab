@@ -1,5 +1,4 @@
-﻿using JUnity.Components.UI;
-using SharpDX;
+﻿using SharpDX;
 
 namespace JUnity.Services.UI
 {
