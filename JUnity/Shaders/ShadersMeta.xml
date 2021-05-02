@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<shaders>
+  <vertex-shader>
+    <name>vx1</name>
+    <filename>test.hlsl</filename>
+    <entry-point>VS</entry-point>
+  </vertex-shader>
+  <pixel-shader>
+    <name>px1</name>
+    <filename>test.hlsl</filename>
+    <entry-point>PS</entry-point>
+  </pixel-shader>
+</shaders>
