@@ -9,12 +9,12 @@ namespace Lab2.Scripts
 {
     public class UI_Script : Script
     {
-        FloatTextBox V_b = new FloatTextBox
+        public FloatTextBox V_b = new FloatTextBox
         {
             Width = 0.07f,
             Height = 0.035f,
             Position = new SharpDX.Vector2(0.8f, 0.2f),
-            Value = 14.53f
+            Value = 1f,
         };
 
         TextBox V_b_label = new TextBox
@@ -310,6 +310,11 @@ namespace Lab2.Scripts
                     TextAlignment = SharpDX.DirectWrite.TextAlignment.Center,
                 }
             };
+        }
+
+        public override void Update(double deltaTime)
+        {
+            System.Console.WriteLine(V_b.Value);
         }
 
         private void CreateStyleTextBoxLabel(TextBox textBox)

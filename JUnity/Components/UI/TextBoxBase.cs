@@ -100,7 +100,6 @@ namespace JUnity.Components.UI
         {
             var newKeys = keyboardState.PressedKeys.Except(_lastPressedKeys);
             RawText = _keyboardHandler.HandleInput(RawText, newKeys, keyboardState.PressedKeys);
-
             _lastPressedKeys = keyboardState.PressedKeys;
         }
 

@@ -160,6 +160,8 @@ namespace Lab2
             using (var engine = new Engine(new Scene()))
             {
                 engine.Settings.BackgroundColor = SharpDX.Color.Gray;
+                engine.Settings.MultisamplerQuality = 4;
+                engine.Settings.MultisamplesPerPixel = 8;
                 //engine.GraphicsSettings.VSyncEnabled = false;
                 //engine.GraphicsSettings.Borderless = true;
                 engine.Run();
