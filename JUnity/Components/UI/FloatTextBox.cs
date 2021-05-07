@@ -35,6 +35,10 @@ namespace JUnity.Components.UI
             }
         }
 
+        public float? MaxValue { get; set; }
+
+        public float? MinValue { get; set; }
+
         public bool HasFormatError { get; private set; }
 
         internal override void HandleKeyboardInput(KeyboardState keyboardState)
@@ -81,7 +85,9 @@ namespace JUnity.Components.UI
         {
             var text = RawText.Replace(',', '.');
             var previousValue = _value;
-            HasFormatError = !float.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out _value);
+            HasFormatError = !float.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out _value) ||
+                (MinValue != null && _value < MinValue) ||
+                (MaxValue != null && _value > MaxValue);
 
             if (_value != previousValue)
             {

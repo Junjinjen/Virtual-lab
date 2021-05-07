@@ -14,7 +14,6 @@ namespace JUnity.Components.Audio
         private SoundStream _soundStream;
         private AudioBuffer _audioBuffersRing;
 
-
         public AudioPlayer(GameObject owner)
             : base(owner)
         {

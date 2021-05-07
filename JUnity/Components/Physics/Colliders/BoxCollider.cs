@@ -1,5 +1,4 @@
-﻿using JUnity.Services.Graphics;
-using JUnity.Services.Graphics.Meshing;
+﻿using JUnity.Services.Graphics.Meshing;
 using SharpDX;
 
 namespace JUnity.Components.Physics.Colliders
@@ -8,19 +7,27 @@ namespace JUnity.Components.Physics.Colliders
     {
         private readonly Vector3 _minimum;
         private readonly Vector3 _maximum;
-        private Vector3 _worldMinimum;
-        private Vector3 _worldMaximum;
+        private readonly Mesh _mesh;
+        private Matrix _matrix = Matrix.Identity;
         private BoundingBox _boundingBox;
 
         public BoxCollider(Vector3 minimum, Vector3 maximum)
         {
             _minimum = minimum;
             _maximum = maximum;
+            _boundingBox = new BoundingBox(_minimum, _maximum);
+            _mesh = GenerateMesh();
         }
 
-        internal override Mesh GenerateMesh()
+        internal override RenderOrder GenerateRenderOrder()
         {
-            throw new System.NotImplementedException();
+            return new RenderOrder
+            {
+                Mesh = _mesh,
+                WorldMatrix = _matrix,
+                PixelShader = Engine.Instance.GraphicsRenderer.PixelShaders[Engine.Instance.Settings.DefaultPixelShader],
+                VertexShader = Engine.Instance.GraphicsRenderer.VertexShaders[Engine.Instance.Settings.DefaultVertexShader],
+            };
         }
 
         internal override void ResolveCollision(Collider other)
@@ -28,6 +35,11 @@ namespace JUnity.Components.Physics.Colliders
             switch (other)
             {
                 case BoxCollider otherBox:
+                    var collision = _boundingBox.Intersects(otherBox._boundingBox);
+                    if (collision)
+                    {
+                        Rigidbody.FireTriggerEvent(this, otherBox);
+                    }
                     break;
                 default:
                     break;
@@ -36,14 +48,77 @@ namespace JUnity.Components.Physics.Colliders
 
         internal override void WorldMatrixChanged(Matrix worldMatrix)
         {
-            _worldMinimum = Vector3.TransformCoordinate(_minimum, worldMatrix);
-            _worldMaximum = Vector3.TransformCoordinate(_maximum, worldMatrix);
-            UpdateBoundingBox();
+            worldMatrix.Decompose(out var scale, out var _, out var pos);
+            _matrix.TranslationVector = pos;
+            _matrix.ScaleVector = scale;
+
+            _boundingBox.Minimum = _minimum * scale + pos;
+            _boundingBox.Maximum = _maximum * scale + pos;
         }
 
-        private void UpdateBoundingBox()
+        private Mesh GenerateMesh()
         {
+            var vertices = new[]
+            {
+                new VertexDescription
+                {
+                    Color = Color.LimeGreen,
+                    Position = new Vector4(_minimum, 1),
+                },
+                new VertexDescription
+                {
+                    Color = Color.LimeGreen,
+                    Position = new Vector4(_minimum.X, _minimum.Y, _maximum.Z, 1),
+                },
+                new VertexDescription
+                {
+                    Color = Color.LimeGreen,
+                    Position = new Vector4(_minimum.X, _maximum.Y, _maximum.Z, 1),
+                },
+                new VertexDescription
+                {
+                    Color = Color.LimeGreen,
+                    Position = new Vector4(_minimum.X, _maximum.Y, _minimum.Z, 1),
+                },
+                new VertexDescription
+                {
+                    Color = Color.LimeGreen,
+                    Position = new Vector4(_maximum, 1),
+                },
+                new VertexDescription
+                {
+                    Color = Color.LimeGreen,
+                    Position = new Vector4(_maximum.X, _maximum.Y, _minimum.Z, 1),
+                },
+                new VertexDescription
+                {
+                    Color = Color.LimeGreen,
+                    Position = new Vector4(_maximum.X, _minimum.Y, _minimum.Z, 1),
+                },
+                new VertexDescription
+                {
+                    Color = Color.LimeGreen,
+                    Position = new Vector4(_maximum.X, _minimum.Y, _maximum.Z, 1),
+                },
+            };
 
+            var indeces = new uint[]
+            {
+                0, 1, 2, 0, 3, 2,
+                1, 2, 4, 4, 7, 1,
+                5, 4, 7, 5, 7, 6,
+                3, 5, 0, 0, 6, 3,
+                2, 3, 4, 4, 3, 5,
+                0, 1, 7, 0, 7, 6,
+            };
+
+            var material = new Material
+            {
+                CullMode = SharpDX.Direct3D11.CullMode.None,
+                FillMode = SharpDX.Direct3D11.FillMode.Wireframe,
+            };
+
+            return new Mesh(vertices, indeces, material);
         }
     }
 }

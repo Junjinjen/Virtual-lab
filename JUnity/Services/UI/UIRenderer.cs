@@ -1,5 +1,4 @@
-﻿using JUnity.Components.UI;
-using SharpDX.Direct2D1;
+﻿using SharpDX.Direct2D1;
 using SharpDX.DXGI;
 using SharpDX.Windows;
 using System;

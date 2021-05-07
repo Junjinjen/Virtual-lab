@@ -1,7 +1,7 @@
 ﻿using JUnity.Components.Interfaces;
 using JUnity.Components.Physics.Colliders;
-using JUnity.Services.Graphics.Meshing;
 using SharpDX;
+using System;
 using System.Collections.Generic;
 
 namespace JUnity.Components.Physics
@@ -22,6 +22,8 @@ namespace JUnity.Components.Physics
             Mass = 1;
         }
 
+        public event EventHandler<CollisionTriggerEventArgs> TriggerEnter;
+
         public bool UseGravity { get; set; }
 
         public float Mass { get; set; }
@@ -37,6 +39,8 @@ namespace JUnity.Components.Physics
             collider.Register(this);
             _myColliders.Add(collider);
             _colliders.Add(collider);
+
+            collider.WorldMatrixChanged(Owner.GetWorldMatrix());
         }
 
         public void AddImpulse(Vector3 impulse)
@@ -58,24 +62,33 @@ namespace JUnity.Components.Physics
             Velocity += attachedForce / Mass * (float)deltaTime;
             Owner.Position += Velocity * (float)deltaTime;
 
+            foreach (var collider in _myColliders)
+            {
+                foreach (var other in _colliders)
+                {
+                    if (!_myColliders.Contains(other))
+                    {
+                        collider.CheckCollision(other);
+                    }
+                }
+            }
+
             if (Engine.Instance.Settings.DrawColliders)
             {
                 DrawMyColliders();
             }
         }
 
+        internal void FireTriggerEvent(Collider triggeredCollider, Collider otherCollider)
+        {
+            TriggerEnter?.Invoke(this, new CollisionTriggerEventArgs(triggeredCollider, otherCollider));
+        }
+
         private void DrawMyColliders()
         {
             foreach (var collider in _myColliders)
             {
-                var mesh = collider.GenerateMesh();
-                Engine.Instance.GraphicsRenderer.AddOnTopRenderOrder(new RenderOrder
-                {
-                    Mesh = mesh,
-                    WorldMatrix = Owner.GetWorldMatrix(),
-                    PixelShader = Engine.Instance.GraphicsRenderer.PixelShaders[Engine.Instance.Settings.DefaultPixelShader],
-                    VertexShader = Engine.Instance.GraphicsRenderer.VertexShaders[Engine.Instance.Settings.DefaultVertexShader],
-                });
+                Engine.Instance.GraphicsRenderer.AddOnTopRenderOrder(collider.GenerateRenderOrder());
             }
         }
 
@@ -86,5 +99,18 @@ namespace JUnity.Components.Physics
                 _colliders.Remove(collider);
             }
         }
+    }
+
+    public class CollisionTriggerEventArgs : EventArgs
+    {
+        public CollisionTriggerEventArgs(Collider triggeredCollider, Collider otherCollider)
+        {
+            TriggeredCollider = triggeredCollider;
+            OtherCollider = otherCollider;
+        }
+
+        public Collider OtherCollider { get; }
+
+        public Collider TriggeredCollider { get; }
     }
 }

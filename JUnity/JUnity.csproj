@@ -231,6 +231,7 @@
     <Compile Include="Components\Physics\Rigidbody.cs" />
     <Compile Include="Components\Rendering\MeshRenderer.cs" />
     <Compile Include="Components\UI\FloatTextBox.cs" />
+    <Compile Include="Components\UI\RectangleBackground.cs" />
     <Compile Include="Components\UI\TextBox.cs" />
     <Compile Include="Components\UI\TextBoxBase.cs" />
     <Compile Include="Services\Graphics\Camera.cs" />
@@ -272,7 +273,7 @@
     <Compile Include="Services\Input\InputManager.cs" />
     <Compile Include="Services\UI\UIController.cs" />
     <Compile Include="Components\UI\Button.cs" />
-    <Compile Include="Components\UI\UIElement.cs" />
+    <Compile Include="Services\UI\UIElement.cs" />
     <Compile Include="Utilities\FbxObjectCreator.cs" />
     <Compile Include="Utilities\GameObjectCollection.cs" />
     <Compile Include="Utilities\GameObjectFactory.cs" />

@@ -2,6 +2,7 @@
 using JUnity.Components;
 using JUnity.Components.Lighning;
 using JUnity.Components.Physics;
+using JUnity.Components.Physics.Colliders;
 using JUnity.Components.Rendering;
 using JUnity.Components.UI;
 using JUnity.Services.Graphics;
@@ -20,32 +21,25 @@ namespace Lab2
         {
             Width = 0.3f,
             Height = 0.2f,
-            Value = 14.53f
-        };
-
-        FloatTextBox tttt2 = new FloatTextBox
-        {
-            Position = new Vector2(0, 0.2f),
-            Width = 0.3f,
-            Height = 0.2f,
-            Value = 14.53f
+            Value = 14.53f,
+            MaxValue = 5,
+            MinValue = -1,
         };
 
         public TestScript()
         {
             tttt.Focus += (o,x) => System.Console.WriteLine("Focus");
-            tttt.FocusLost += (o,x) => System.Console.WriteLine("Focus lost");
         }
 
         public override void Start()
         {
             Canvas.RegisterElement(tttt);
-            Canvas.RegisterElement(tttt2);
             //AddComponent<Rigidbody>();
         }
 
         public override void FixedUpdate(double deltaTime)
         {
+            System.Console.WriteLine("1");
             //Object.Rotation *= Quaternion.RotationAxis(Vector3.Right, 0.01f);
             //Object.Rotation *= Quaternion.RotationAxis(Vector3.Up, 0.01f);
             var tmp = Object.Position;
@@ -149,7 +143,17 @@ namespace Lab2
             go.Scale = new Vector3(0.1f);
             go.Position = Vector3.Zero;
             go.AddScript<TestScript>();
+            go.AddComponent<Rigidbody>().AddCollider(new BoxCollider(-Vector3.One * 50, Vector3.One * 50));
+            go.GetComponent<Rigidbody>().UseGravity = false;
+            go.GetComponent<Rigidbody>().TriggerEnter += (o, x) => System.Console.WriteLine("trigger");
             scene.Add(go);
+
+            var go2 = GameObjectFactory.Create(new FbxObjectCreator(@"colbochka.fbx"));
+            go2.Scale = new Vector3(0.1f);
+            go2.Position = Vector3.Up * 5;
+            go2.AddComponent<Rigidbody>().AddCollider(new BoxCollider(-Vector3.One * 50, Vector3.One * 50));
+            go2.GetComponent<Rigidbody>().UseGravity = false;
+            scene.Add(go2);
         }
     }
 
@@ -164,6 +168,9 @@ namespace Lab2
                 engine.Settings.MultisamplesPerPixel = 8;
                 //engine.GraphicsSettings.VSyncEnabled = false;
                 //engine.GraphicsSettings.Borderless = true;
+                engine.Settings.DrawColliders = true;
+                engine.Settings.MultisamplesPerPixel = 4;
+                engine.Settings.MultisamplerQuality = -1;
                 engine.Run();
             }
         }
