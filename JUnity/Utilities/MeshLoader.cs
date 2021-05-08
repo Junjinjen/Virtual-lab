@@ -8,11 +8,14 @@ using System.Linq;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace JUnity.Utilities
 {
     public static class MeshLoader
     {
+        private static readonly Regex _textureNumberRegex = new Regex(@"^\*(\d+)$");
+
         public static NodeCollection LoadScene(string filename, int mipLevels = 8)
         {
             var meshCollection = new NodeCollection();
@@ -141,9 +144,10 @@ namespace JUnity.Utilities
 
             if (nodeMaterial.HasTextureDiffuse)
             {
-                if (nodeMaterial.TextureDiffuse.FilePath[0] == '*')
+                var match = _textureNumberRegex.Match(nodeMaterial.TextureDiffuse.FilePath);
+                if (match.Success)
                 {
-                    answ.Texture = LoadDiffuseTextureByIndex(nodeMaterial.TextureDiffuse.TextureIndex, scene, mipLevels);
+                    answ.Texture = LoadDiffuseTextureByIndex(int.Parse(match.Groups[1].Value), scene, mipLevels);
                 }
                 else
                 {

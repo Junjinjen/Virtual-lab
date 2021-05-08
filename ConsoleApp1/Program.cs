@@ -136,21 +136,10 @@ namespace ConsoleApp1
             go.Children[2].Rotation = tmp[2].Rotation;
             go.Children[2].Scale = tmp[2].Scale;*/
             //personfbx_-Y_Z.fbx
-            var go = GameObjectFactory.Create(new FbxObjectCreator(@"colbochka.fbx"));
+            var go = GameObjectFactory.CreateAndRegister(new FbxObjectCreator(@"virt_ice_scene.fbx"));
             go.Scale = new Vector3(0.1f);
-            go.Position = Vector3.Zero;
             go.AddScript<TestScript>();
-            go.AddComponent<Rigidbody>().AddCollider(new BoxCollider(-Vector3.One * 50, Vector3.One * 50));
-            go.GetComponent<Rigidbody>().UseGravity = false;
             //go.GetComponent<Rigidbody>().TriggerEnter += (o, x) => System.Console.WriteLine("trigger");
-            scene.Add(go);
-
-            var go2 = GameObjectFactory.Create(new FbxObjectCreator(@"colbochka.fbx"));
-            go2.Scale = new Vector3(0.1f);
-            go2.Position = Vector3.Up * 5;
-            go2.AddComponent<Rigidbody>().AddCollider(new BoxCollider(-Vector3.One * 50, Vector3.One * 50));
-            go2.GetComponent<Rigidbody>().UseGravity = false;
-            scene.Add(go2);
         }
     }
 

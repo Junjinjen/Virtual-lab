@@ -19,6 +19,11 @@ namespace JUnity.Components.Physics.Colliders
             _mesh = GenerateMesh();
         }
 
+        public override bool Intersects(ref Ray ray, out float distance)
+        {
+            return _boundingBox.Intersects(ref ray, out distance);
+        }
+
         internal override RenderOrder GenerateRenderOrder()
         {
             return new RenderOrder
