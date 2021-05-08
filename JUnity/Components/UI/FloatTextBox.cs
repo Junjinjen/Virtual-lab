@@ -47,40 +47,6 @@ namespace JUnity.Components.UI
             ValudateFormat();
         }
 
-        protected internal override void Render(RenderTarget renderTarget)
-        {
-            var rect = new RectangleF(Position.X * renderTarget.Size.Width, Position.Y * renderTarget.Size.Height,
-                   Width * renderTarget.Size.Width, Height * renderTarget.Size.Height);
-
-            if (Active)
-            {
-                Style.ActiveBackground.Draw(renderTarget, rect);
-                DrawText(renderTarget, rect, Style.TextStyle.Color);
-
-                if (HasFormatError)
-                {
-                    Style.FormatErrorBorder.Draw(renderTarget, rect);
-                }
-                else
-                {
-                    if (Focused)
-                    {
-                        Style.FocusedBorder.Draw(renderTarget, rect);
-                    }
-                    else
-                    {
-                        Style.Border.Draw(renderTarget, rect);
-                    }
-                }
-            }
-            else
-            {
-                Style.DisabledBackground.Draw(renderTarget, rect);
-                DrawText(renderTarget, rect, Style.TextStyle.DisabledColor);
-                Style.DisabledBorder.Draw(renderTarget, rect);
-            }
-        }
-
         private void ValudateFormat()
         {
             var text = RawText.Replace(',', '.');

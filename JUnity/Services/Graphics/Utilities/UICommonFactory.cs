@@ -57,7 +57,7 @@ namespace JUnity.Services.Graphics.Utilities
                     format.FontFamily, format.FontWeight, format.FontStyle, format.FontStretch, format.FontSize)
                 {
                     TextAlignment = format.TextAlignment,
-                    ParagraphAlignment = format.ParagraphAlignment
+                    ParagraphAlignment = format.ParagraphAlignment,
                 };
 
                 _textFormats.Add(format, textFormat);

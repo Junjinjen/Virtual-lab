@@ -14,5 +14,13 @@ namespace JUnity.Services.UI.Surfaces
             var brush = UICommonFactory.GetInstance().CreateSolidColorBrush(Color);
             renderTarget.FillRectangle(rectangle, brush);
         }
+
+        public static SolidColorRectangle GetInvisible()
+        {
+            return new SolidColorRectangle
+            {
+                Color = new Color(0, 0, 0, 0),
+            };
+        }
     }
 }

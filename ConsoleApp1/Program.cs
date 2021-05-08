@@ -13,7 +13,7 @@ using SharpDX.DirectInput;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace ConsoleApp1
+namespace App
 {
     class TestScript : Script
     {
@@ -161,14 +161,8 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            using (var engine = new Engine(new Init()))
+            using (var engine = new Engine(new Scene()))
             {
-                engine.Settings.BackgroundColor = SharpDX.Color.Gray;
-                //engine.GraphicsSettings.VSyncEnabled = false;
-                //engine.GraphicsSettings.Borderless = true;
-                engine.Settings.DrawColliders = true;
-                engine.Settings.MultisamplesPerPixel = 4;
-                engine.Settings.MultisamplerQuality = -1;
                 engine.Run();
             }
         }
