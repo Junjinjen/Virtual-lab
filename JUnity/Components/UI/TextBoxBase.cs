@@ -23,6 +23,7 @@ namespace JUnity.Components.UI
 
         protected TextBoxBase(IKeyboardHandler keyboardHandler)
         {
+            RawText = string.Empty;
             _keyboardHandler = keyboardHandler;
             Active = true;
             Style = new TStyle
