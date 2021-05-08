@@ -174,7 +174,7 @@ namespace JUnity.Utilities
             {
                 using (var stream = new MemoryStream(nodeTexture.CompressedData))
                 {
-                    using (var image = (System.Drawing.Bitmap)System.Drawing.Image.FromStream(stream))
+                    using (var image = new System.Drawing.Bitmap(stream))
                     {
                         if (image.PixelFormat != PixelFormat.Format32bppArgb)
                         {
@@ -203,9 +203,15 @@ namespace JUnity.Utilities
 
             var colors = new Color[bitmap.Width * bitmap.Height];
             int j = 0;
+            byte a, r, g, b;
             for (int i = 0; i < colors.Length; i++)
             {
-                colors[i] = new Color(bytes[j++], bytes[j++], bytes[j++], bytes[j++]);
+                b = bytes[j++];
+                g = bytes[j++];
+                r = bytes[j++];
+                a = bytes[j++];
+
+                colors[i] = new Color(r, g, b, a);
             }
 
             return new Texture(colors, bitmap.Width, bitmap.Height, mipLevels);
