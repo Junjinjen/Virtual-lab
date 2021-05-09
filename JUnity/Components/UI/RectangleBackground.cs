@@ -12,7 +12,7 @@ namespace JUnity.Components.UI
         {
             Background = new SolidColorRectangle
             {
-                Color = Color.Gray,
+                Color = Color.Green,
             };
         }
 

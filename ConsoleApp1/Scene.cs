@@ -27,10 +27,10 @@ namespace Lab2
         public override void Start()
         {
             var ui_script = (UI_Script)Scene["UI"].Script;
-            ui_script.V_b.ValueChanged += ResizeWater;
-            ui_script.V_b.ValueChanged += (o, x) => Console.WriteLine(x.Value);
+            ui_script.Water_volume.ValueChanged += ResizeWater;
+            ui_script.Water_volume.ValueChanged += (o, x) => Console.WriteLine(x.Value);
 
-            ResizeWater(null, new JUnity.Components.UI.FloatTextBoxValueChangedEventArgs(ui_script.V_b.Value));
+            ResizeWater(null, new JUnity.Components.UI.FloatTextBoxValueChangedEventArgs(ui_script.Water_volume.Value));
         }
 
         private void ResizeWater(object sender, JUnity.Components.UI.FloatTextBoxValueChangedEventArgs e)

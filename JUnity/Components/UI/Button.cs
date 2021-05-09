@@ -27,20 +27,20 @@ namespace JUnity.Components.UI
                 {
                     TextFormat = new Services.UI.Styling.TextFormat
                     {
-                        FontFamily = "Consolas",
-                        FontSize = 12.0f,
+                        FontFamily = "Tahoma",
+                        FontSize = 20.0f,
                         FontStretch = FontStretch.Normal,
                         FontStyle = FontStyle.Normal,
-                        FontWeight = FontWeight.Normal,
+                        FontWeight = FontWeight.Bold,
                         ParagraphAlignment = ParagraphAlignment.Center,
                         TextAlignment = TextAlignment.Center,
                     },
                     Color = Color.Black,
-                    DisabledColor = new Color(160, 160, 160, 255),
+                    DisabledColor = new Color(46, 96, 184, 255),
                 },
                 ActiveBackground = new SolidColorRectangle
                 {
-                    Color = new Color(225, 225, 225, 255),
+                    Color = new Color(110, 170, 235, 255),
                 },
                 DisabledBackground = new SolidColorRectangle
                 {
@@ -48,7 +48,7 @@ namespace JUnity.Components.UI
                 },
                 PressedBackground = new SolidColorRectangle
                 {
-                    Color = new Color(204, 228, 247, 255),
+                    Color = new Color(46, 96, 184, 255),
                 },
             };
         }

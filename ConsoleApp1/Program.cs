@@ -171,6 +171,7 @@ namespace Lab2
                 engine.Settings.DrawColliders = true;
                 engine.Settings.MultisamplesPerPixel = 4;
                 engine.Settings.MultisamplerQuality = -1;
+                engine.Settings.Borderless = true;
                 engine.Run();
             }
         }
