@@ -34,6 +34,25 @@ namespace JUnity.Components.Physics
 
         public Vector3 AirResistance { get; set; }
 
+        public static bool Intersects(Ray ray, out Rigidbody rigidbody, out float distance)
+        {
+            float minDistance = float.MaxValue;
+            Rigidbody minRigid = null;
+            foreach (var collider in _colliders)
+            {
+                if (collider.Intersects(ref ray, out distance) && distance < minDistance)
+                {
+                    minDistance = distance;
+                    minRigid = collider.Rigidbody;
+                }
+            }
+
+            rigidbody = minRigid;
+            distance = minDistance;
+
+            return minRigid != null;
+        }
+
         public void AddCollider(Collider collider)
         {
             collider.Register(this);
@@ -46,6 +65,20 @@ namespace JUnity.Components.Physics
         public void AddImpulse(Vector3 impulse)
         {
             _impulse += impulse;
+        }
+
+        public bool Intersects(Ray ray, out float distance)
+        {
+            foreach (var collider in _myColliders)
+            {
+                if (collider.Intersects(ref ray, out distance))
+                {
+                    return true;
+                }
+            }
+
+            distance = default;
+            return false;
         }
 
         internal override void CallComponent(double deltaTime)
