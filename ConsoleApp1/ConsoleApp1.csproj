@@ -103,6 +103,9 @@
     <None Include="lomaem_sanya.fbx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="normal.fbx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="personfbx %281%29.fbx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

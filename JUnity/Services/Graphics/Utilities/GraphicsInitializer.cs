@@ -70,7 +70,7 @@ namespace JUnity.Services.Graphics.Utilities
 
             var flags = ShaderFlags.None;
 #if DEBUG
-            flags |= ShaderFlags.Debug | ShaderFlags.SkipOptimization;
+            flags |= ShaderFlags.Debug | ShaderFlags.SkipOptimization | ShaderFlags.PreferFlowControl;
 #endif
 
             foreach (var shaderInfo in vertexShadersInfo)

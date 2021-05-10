@@ -136,9 +136,17 @@ namespace ConsoleApp1
             go.Children[2].Rotation = tmp[2].Rotation;
             go.Children[2].Scale = tmp[2].Scale;*/
             //personfbx_-Y_Z.fbx
+            var light = new GameObject();
+            var dir = light.AddComponent<DirectionLight>();
+            dir.Color = Color3.White;
+            dir.Direction = Vector3.ForwardLH;
+            scene.Add(light);
+
             var go = GameObjectFactory.CreateAndRegister(new FbxObjectCreator(@"virt_ice_scene.fbx"));
-            go.Scale = new Vector3(0.1f);
+            //go.Scale = new Vector3(0.1f);
             go.AddScript<TestScript>();
+
+            //var meshRend = go.Children["Стол"].GetComponent<MeshRenderer>();
             //go.GetComponent<Rigidbody>().TriggerEnter += (o, x) => System.Console.WriteLine("trigger");
         }
     }
