@@ -31,6 +31,7 @@ namespace JUnity.Components.UI
             {
                 _value = value;
                 RawText = value.ToString(CultureInfo.InvariantCulture);
+                ValudateFormat();
                 ValueChanged?.Invoke(this, new FloatTextBoxValueChangedEventArgs(_value));
             }
         }
