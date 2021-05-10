@@ -270,6 +270,63 @@ namespace App.Scripts
             Position = new Vector2(0.87f, 0.79f),
         };
 
+
+        private TextBox tb_r1 = new TextBox
+        {
+            Value = "Глицерин",
+            Width = 0.10f,
+            Height = 0.06f,
+            Position = new Vector2(0.59f, 0.73f),
+        };
+
+        private TextBox tb_r2 = new TextBox
+        {
+            Value = "Вода",
+            Width = 0.10f,
+            Height = 0.06f,
+            Position = new Vector2(0.59f, 0.79f),
+        };
+
+        private TextBox tb_r3 = new TextBox
+        {
+            Value = "Эфир",
+            Width = 0.10f,
+            Height = 0.06f,
+            Position = new Vector2(0.59f, 0.85f),
+        };
+
+        private TextBox tb_r4 = new TextBox
+        {
+            Value = "Бензол",
+            Width = 0.10f,
+            Height = 0.06f,
+            Position = new Vector2(0.74f, 0.73f),
+        };
+
+        private TextBox tb_r5 = new TextBox
+        {
+            Value = "Нефть",
+            Width = 0.10f,
+            Height = 0.06f,
+            Position = new Vector2(0.74f, 0.79f),
+        };
+
+        private TextBox tb_r6 = new TextBox
+        {
+            Value = "Масло",
+            Width = 0.10f,
+            Height = 0.06f,
+            Position = new Vector2(0.74f, 0.85f),
+        };
+
+        private TextBox tb_r7 = new TextBox
+        {
+            Value = "Спирт",
+            Width = 0.10f,
+            Height = 0.06f,
+            Position = new Vector2(0.89f, 0.85f),
+        };
+
         private RectangleBackground b2b = new RectangleBackground
         {
             Height = 0.2f,
@@ -295,6 +352,15 @@ namespace App.Scripts
         };
 
         #endregion
+
+        TextBox main = new TextBox()
+        {
+            Value = "Определение коэффициентов поверхностного натяжения жидкостей",
+            Width = 0.4f,
+            Height = 0.2f,
+            Position = new Vector2(0.55f, 0.0f),
+        };
+
 
         public override void Start()
         {
@@ -362,12 +428,22 @@ namespace App.Scripts
 
             r1.Checked = true;
 
+            Canvas.RegisterElement(tb_r1);
+            Canvas.RegisterElement(tb_r2);
+            Canvas.RegisterElement(tb_r3);
+            Canvas.RegisterElement(tb_r4);
+            Canvas.RegisterElement(tb_r5);
+            Canvas.RegisterElement(tb_r6);
+            Canvas.RegisterElement(tb_r7);
+
             Canvas.RegisterElement(tb_tb2Header);
             Canvas.RegisterElement(tb_2_value);
 
             Canvas.RegisterElement(b2b);
             Canvas.RegisterElement(b2);
             #endregion
+
+            Canvas.RegisterElement(main);
 
             #region SetFloatTextBoxStyle
             SetFloatTextBox(fv_d1.Style);
@@ -390,7 +466,16 @@ namespace App.Scripts
             SetTextBoxSuff(tb_s_dx.Style);
             SetTextBoxSuff(tb_tb1Header.Style, 40f);
             SetTextBoxSuff(tb_tb2Header.Style, 40f);
-            SetTextBoxSuff(tb_2_value.Style); 
+            SetTextBoxSuff(tb_2_value.Style);
+            SetTextBoxPref(tb_r1.Style, TextAlignment.Leading);
+            SetTextBoxPref(tb_r2.Style, TextAlignment.Leading);
+            SetTextBoxPref(tb_r3.Style, TextAlignment.Leading);
+            SetTextBoxPref(tb_r4.Style, TextAlignment.Leading);
+            SetTextBoxPref(tb_r5.Style, TextAlignment.Leading);
+            SetTextBoxPref(tb_r6.Style, TextAlignment.Leading);
+            SetTextBoxPref(tb_r7.Style, TextAlignment.Leading);
+
+            SetTextBoxSuff(main.Style, 50f, FontWeight.ExtraBold);
             #endregion
 
             #region SetButtons
@@ -424,11 +509,11 @@ namespace App.Scripts
             style.TextStyle.TextFormat.FontSize = 20f;
         }
 
-        private void SetTextBoxPref(TextBoxBaseStyle style)
+        private void SetTextBoxPref(TextBoxBaseStyle style, TextAlignment textAlignment = TextAlignment.Trailing)
         {
             style.TextStyle.TextFormat.FontSize = 30f;
             style.TextStyle.Color = new Color(197, 112, 167);
-            style.TextStyle.TextFormat.TextAlignment = TextAlignment.Trailing;
+            style.TextStyle.TextFormat.TextAlignment = textAlignment;
             style.Border.Color = Color.Zero;
             style.ActiveBackground = new SolidColorRectangle()
             {
@@ -442,9 +527,10 @@ namespace App.Scripts
             style.FocusedBorder.Color = Color.Zero;
         }
         
-        private void SetTextBoxSuff(TextBoxBaseStyle style, float fontSize = 30f)
+        private void SetTextBoxSuff(TextBoxBaseStyle style, float fontSize = 30f, FontWeight fontWeight = FontWeight.Medium)
         {
             style.TextStyle.TextFormat.FontSize = fontSize;
+            style.TextStyle.TextFormat.FontWeight = fontWeight;
             style.TextStyle.Color = new Color(197, 112, 167);
             style.Border.Color = Color.Zero;
             style.ActiveBackground = new SolidColorRectangle()
