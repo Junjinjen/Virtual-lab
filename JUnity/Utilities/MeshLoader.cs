@@ -8,11 +8,14 @@ using System.Linq;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace JUnity.Utilities
 {
     public static class MeshLoader
     {
+        private static readonly Regex _textureNumberRegex = new Regex(@"^\*(\d+)$");
+
         public static NodeCollection LoadScene(string filename, int mipLevels = 8)
         {
             var meshCollection = new NodeCollection();
@@ -141,9 +144,10 @@ namespace JUnity.Utilities
 
             if (nodeMaterial.HasTextureDiffuse)
             {
-                if (nodeMaterial.TextureDiffuse.FilePath[0] == '*')
+                var match = _textureNumberRegex.Match(nodeMaterial.TextureDiffuse.FilePath);
+                if (match.Success)
                 {
-                    answ.Texture = LoadDiffuseTextureByIndex(nodeMaterial.TextureDiffuse.TextureIndex, scene, mipLevels);
+                    answ.Texture = LoadDiffuseTextureByIndex(int.Parse(match.Groups[1].Value), scene, mipLevels);
                 }
                 else
                 {
@@ -170,7 +174,7 @@ namespace JUnity.Utilities
             {
                 using (var stream = new MemoryStream(nodeTexture.CompressedData))
                 {
-                    using (var image = (System.Drawing.Bitmap)System.Drawing.Image.FromStream(stream))
+                    using (var image = new System.Drawing.Bitmap(stream))
                     {
                         if (image.PixelFormat != PixelFormat.Format32bppArgb)
                         {
@@ -199,9 +203,15 @@ namespace JUnity.Utilities
 
             var colors = new Color[bitmap.Width * bitmap.Height];
             int j = 0;
+            byte a, r, g, b;
             for (int i = 0; i < colors.Length; i++)
             {
-                colors[i] = new Color(bytes[j++], bytes[j++], bytes[j++], bytes[j++]);
+                b = bytes[j++];
+                g = bytes[j++];
+                r = bytes[j++];
+                a = bytes[j++];
+
+                colors[i] = new Color(r, g, b, a);
             }
 
             return new Texture(colors, bitmap.Width, bitmap.Height, mipLevels);
