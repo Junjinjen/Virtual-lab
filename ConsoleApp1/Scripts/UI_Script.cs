@@ -5,6 +5,7 @@ using JUnity.Services.UI.Styling;
 using JUnity.Services.UI.Surfaces;
 using SharpDX;
 using SharpDX.DirectWrite;
+using System;
 
 namespace Lab2.Scripts
 {
@@ -115,9 +116,9 @@ namespace Lab2.Scripts
         };
         TextBox Body_weight_measurement = new TextBox
         {
-            Width = 0.07f,
+            Width = 0.05f,
             Height = 0.035f,
-            Position = new Vector2(0.82f, 0.35f),
+            Position = new Vector2(0.827f, 0.35f),
             Value = "кг"
         };
 
@@ -148,9 +149,9 @@ namespace Lab2.Scripts
         };
         TextBox Body_temperature_measurement = new TextBox
         {
-            Width = 0.07f,
+            Width = 0.05f,
             Height = 0.035f,
-            Position = new Vector2(0.82f, 0.4f),
+            Position = new Vector2(0.83f, 0.4f),
             Value = "C"
         };
 
@@ -158,10 +159,9 @@ namespace Lab2.Scripts
         {
             Width = 0.015f,
             Height = 0.015f,
-            Position = new Vector2(0.84f, 0.397f),
+            Position = new Vector2(0.842f, 0.397f),
             Value = "0"
         };
-
 
         public FloatTextBox Body_heating_temperature = new FloatTextBox
         {
@@ -189,9 +189,9 @@ namespace Lab2.Scripts
         };
         TextBox Body_heating_temperature_measurement = new TextBox
         {
-            Width = 0.07f,
+            Width = 0.05f,
             Height = 0.035f,
-            Position = new Vector2(0.82f, 0.45f),
+            Position = new Vector2(0.83f, 0.452f),
             Value = "C"
         };
 
@@ -199,7 +199,7 @@ namespace Lab2.Scripts
         {
             Width = 0.015f,
             Height = 0.015f,
-            Position = new Vector2(0.84f, 0.447f),
+            Position = new Vector2(0.842f, 0.45f),
             Value = "0"
         };
 
@@ -236,57 +236,104 @@ namespace Lab2.Scripts
             Value = "Материал",
         };
 
-        //Timer
-        public FloatTextBox timer = new FloatTextBox
+        //RadioButton
+        public RadioButton CastIron_btn = new RadioButton("Materials")
         {
-            Width = 0.1f,
-            Height = 0.08f,
-            Position = new Vector2(0.76f, 0.85f),
-            Value = 0f,
-            ReadOnly = true
+            Width = 0.015f,
+            Height = 0.015f,
+            Position = new Vector2(0.89f, 0.35f),
+            Checked = true,
         };
-        TextBox start = new TextBox
+        public RadioButton Glass_btn = new RadioButton("Materials")
         {
-            Width = 0.2f,
-            Height = 0.05f,
-            Position = new Vector2(0.783f, 0.9f),
-            Value = "пуск",
+            Width = 0.015f,
+            Height = 0.015f,
+            Position = new Vector2(0.89f, 0.375f)
         };
-        TextBox pause = new TextBox
+        public RadioButton Graphite_btn = new RadioButton("Materials")
         {
-            Width = 0.2f,
-            Height = 0.05f,
-            Position = new Vector2(0.825f, 0.9f),
-            Value = "пауза",
+            Width = 0.015f,
+            Height = 0.015f,
+            Position = new Vector2(0.89f, 0.4f)
         };
-        TextBox reset = new TextBox
+        public RadioButton Brick_btn = new RadioButton("Materials")
         {
-            Width = 0.2f,
-            Height = 0.05f,
-            Position = new Vector2(0.867f, 0.9f),
-            Value = "сброс",
+            Width = 0.015f,
+            Height = 0.015f,
+            Position = new Vector2(0.89f, 0.425f)
         };
-        Button start_btn = new Button
+        public RadioButton Marble_btn = new RadioButton("Materials")
         {
-            Height = 0.05f,
-            Width = 0.035f,
-            Position = new Vector2(0.865f, 0.865f),
-            Text = "►",
+            Width = 0.015f,
+            Height = 0.015f,
+            Position = new Vector2(0.89f, 0.45f)
         };
-        Button pause_btn = new Button
+        public RadioButton Tree_btn = new RadioButton("Materials")
         {
-            Height = 0.05f,
-            Width = 0.035f,
-            Position = new Vector2(0.9075f, 0.865f),
-            Text = "||",
+            Width = 0.015f,
+            Height = 0.015f,
+            Position = new Vector2(0.89f, 0.475f)
         };
-        Button reset_btn = new Button
+        public RadioButton Textolite_btn = new RadioButton("Materials")
         {
-            Height = 0.05f,
-            Width = 0.035f,
-            Position = new Vector2(0.95f, 0.865f),
-            Text = "█",
+            Width = 0.015f,
+            Height = 0.015f,
+            Position = new Vector2(0.89f, 0.5f)
         };
+
+
+        TextBox castIron = new TextBox
+        {
+            Width = 0.04f,
+            Height = 0.025f,
+            Position = new Vector2(0.911f, 0.342f),
+            Value = "чугун",
+        };
+        TextBox glass = new TextBox
+        {
+            Width = 0.04f,
+            Height = 0.025f,
+            Position = new Vector2(0.911f, 0.368f),
+            Value = "стекло",
+        };
+        TextBox graphite = new TextBox
+        {
+            Width = 0.04f,
+            Height = 0.025f,
+            Position = new Vector2(0.911f, 0.394f),
+            Value = "графит",
+        };
+        TextBox brick = new TextBox
+        {
+            Width = 0.04f,
+            Height = 0.025f,
+            Position = new Vector2(0.911f, 0.419f),
+            Value = "кирпич",
+        };
+        TextBox marble = new TextBox
+        {
+            Width = 0.04f,
+            Height = 0.025f,
+            Position = new Vector2(0.911f, 0.444f),
+            Value = "мрамор",
+        };
+        TextBox tree = new TextBox
+        {
+            Width = 0.04f,
+            Height = 0.025f,
+            Position = new Vector2(0.911f, 0.468f),
+            Value = "дерево",
+        };
+        TextBox textolite = new TextBox
+        {
+            Width = 0.045f,
+            Height = 0.025f,
+            Position = new Vector2(0.911f, 0.494f),
+            Value = "текстолит",
+        };
+
+
+        
 
         //Boxes
         RectangleBackground boxWater = new RectangleBackground
@@ -388,7 +435,6 @@ namespace Lab2.Scripts
 
         public override void Start()
         {
-            
             Canvas.RegisterElement(Water_volume);
             Canvas.RegisterElement(Water_volume_label);
             CreateStyleTextBox(Water_volume_label, 13f);
@@ -449,19 +495,29 @@ namespace Lab2.Scripts
             Canvas.RegisterElement(third_label);
             CreateStyleTextBoxLabel(third_label);
 
-            //Timer
-            Canvas.RegisterElement(timer);
-            CreateStyleTimer(timer);
-            Canvas.RegisterElement(start);
-            CreateStyleButtonLabel(start);
-            Canvas.RegisterElement(pause);
-            CreateStyleButtonLabel(pause);
-            Canvas.RegisterElement(reset);
-            CreateStyleButtonLabel(reset);
-            Canvas.RegisterElement(start_btn);
-            Canvas.RegisterElement(pause_btn);
-            Canvas.RegisterElement(reset_btn);
-            //CreateStyleTextBoxLabel(third_label);
+            //RadioButtons
+            Canvas.RegisterElement(CastIron_btn);
+            Canvas.RegisterElement(Glass_btn);
+            Canvas.RegisterElement(Graphite_btn);
+            Canvas.RegisterElement(Brick_btn);
+            Canvas.RegisterElement(Marble_btn);
+            Canvas.RegisterElement(Tree_btn);
+            Canvas.RegisterElement(Textolite_btn);
+            //RadioButtons labels
+            Canvas.RegisterElement(castIron);
+            CreateStyleTextBox(castIron, 14f);
+            Canvas.RegisterElement(glass);
+            CreateStyleTextBox(glass, 14f);
+            Canvas.RegisterElement(graphite);
+            CreateStyleTextBox(graphite, 14f);
+            Canvas.RegisterElement(brick);
+            CreateStyleTextBox(brick, 14f);
+            Canvas.RegisterElement(marble);
+            CreateStyleTextBox(marble, 14f);
+            Canvas.RegisterElement(tree);
+            CreateStyleTextBox(tree, 14f);
+            Canvas.RegisterElement(textolite);
+            CreateStyleTextBox(textolite, 14f);
 
             //Boxes
             Canvas.RegisterElement(boxMaterial);
@@ -472,61 +528,30 @@ namespace Lab2.Scripts
             Canvas.RegisterElement(boxTimerBorder);
             Canvas.RegisterElement(boxTimer);
             Canvas.RegisterElement(innerBoxTimer);
+
+            Body_weight.ValueChanged += (o, e) =>{ };
+            Body_temperature.ValueChanged += (o, e) =>{ };
+            Body_heating_temperature.ValueChanged += (o, e) => { };
+            Water_volume.ValueChanged += (o, e) => { };
+            Water_temperature.ValueChanged += (o, e) => { };
         }
+
 
         public override void Update(double deltaTime)
         {
-            base.Update(deltaTime);
             if (Engine.Instance.InputManager.IsKeyJustPressed(SharpDX.DirectInput.Key.Escape))
             {
                 Engine.Instance.Stop();
             }
         }
 
-        private void CreateStyleButtonLabel(TextBox textBox)
-        {
-            textBox.Style.ActiveBackground = new SolidColorRectangle() { Color = new Color(0, 0, 0, 0) };
-            textBox.Style.Border = new Border() { Color = new Color(0, 0, 0, 0) };
-            textBox.Style.TextStyle = new DisablingTextStyle()
-            {
-                Color = new Color(255, 255, 255, 255),
-                TextFormat = new JUnity.Services.UI.Styling.TextFormat
-                {
-                    FontFamily = "TimesNewRoman",
-                    FontSize = 14f,
-                    FontStretch = FontStretch.Normal,
-                    FontStyle = FontStyle.Normal,
-                    FontWeight = FontWeight.Bold,
-                    ParagraphAlignment = ParagraphAlignment.Center,
-                    TextAlignment = SharpDX.DirectWrite.TextAlignment.Center,
-                }
-            };
-        }
-
-        private void CreateStyleTimer(FloatTextBox floatTextBox)
-        {
-            floatTextBox.Style.ActiveBackground = new SolidColorRectangle() { Color = new Color(0, 0, 0, 255) };
-            floatTextBox.Style.Border = new Border() { Color = new Color(0, 0, 0, 0) };
-            floatTextBox.Style.TextStyle = new DisablingTextStyle()
-            {
-                Color = new Color(39, 113, 242, 255),
-                TextFormat = new JUnity.Services.UI.Styling.TextFormat
-                {
-                    FontFamily = "Tahoma",
-                    FontSize = 25f,
-                    FontStretch = FontStretch.Normal,
-                    FontStyle = FontStyle.Normal,
-                    FontWeight = FontWeight.Bold,
-                    ParagraphAlignment = ParagraphAlignment.Center,
-                    TextAlignment = SharpDX.DirectWrite.TextAlignment.Center,
-                }
-            };
-        }
+        
 
         private void CreateStyleTextBox(TextBox textBox, float frontSize)
         {
             textBox.Style.ActiveBackground = new SolidColorRectangle() { Color = new Color(0, 0, 0, 0) };
             textBox.Style.Border = new Border() { Color = new Color(0, 0, 0, 0) };
+            //textBox.Style.FocusedBorder = new Border() { Color = new Color(0, 0, 0, 0) };
             textBox.Style.TextStyle = new DisablingTextStyle()
             {
                 Color = new Color(0, 0, 0, 255),
@@ -543,15 +568,11 @@ namespace Lab2.Scripts
             };
         }
 
-        //public override void Update(double deltaTime)
-        //{
-        //    System.Console.WriteLine(Water_volume.Value);
-        //}
-
         private void CreateStyleMainLabel(TextBox textBox)
         {
             textBox.Style.ActiveBackground = new SolidColorRectangle() { Color = new Color(0, 0, 0, 0) };
             textBox.Style.Border = new Border() { Color = new Color(0, 0, 0, 0) };
+            textBox.Style.FocusedBorder = new Border() { Color = new Color(0, 0, 0, 0) };
             textBox.Style.TextStyle = new DisablingTextStyle()
             {
                 Color = new Color(200, 0, 80, 255),
@@ -571,6 +592,7 @@ namespace Lab2.Scripts
         {
             textBox.Style.ActiveBackground = new SolidColorRectangle() { Color = new Color(0, 0, 0, 0) };
             textBox.Style.Border = new Border() { Color = new Color(0, 0, 0, 0) };
+            textBox.Style.FocusedBorder = new Border() { Color = new Color(0, 0, 0, 0) };
             textBox.Style.TextStyle = new DisablingTextStyle()
             {
                 Color = new Color(255, 0, 0, 255),

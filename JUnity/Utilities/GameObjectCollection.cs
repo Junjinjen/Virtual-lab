@@ -51,6 +51,10 @@ namespace JUnity.Utilities
             {
                 return _objects[index];
             }
+            set
+            {
+                _objects[index] = value;
+            }
         }
 
         public GameObject Find(string name)

@@ -89,7 +89,7 @@ namespace JUnity.Components.UI
                 (MinValue != null && _value < MinValue) ||
                 (MaxValue != null && _value > MaxValue);
 
-            if (_value != previousValue)
+            if (!HasFormatError && _value != previousValue)
             {
                 ValueChanged?.Invoke(this, new FloatTextBoxValueChangedEventArgs(_value));
             }

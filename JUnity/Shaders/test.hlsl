@@ -20,6 +20,10 @@ float4 PS(VertexShaderOutput input) : SV_Target
 		float4 texColor = meshTexture.SampleLevel(textureSampler, input.textureCoordinate, mipLevel);
         input.color = texColor;
     }
+    else
+    {
+        input.color = input.color * diffusionCoefficient;
+    }
 	
     return input.color;
 }

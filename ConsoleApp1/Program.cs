@@ -17,29 +17,19 @@ namespace Lab2
 {
     class TestScript : Script
     {
-        FloatTextBox tttt = new FloatTextBox
-        {
-            Width = 0.3f,
-            Height = 0.2f,
-            Value = 14.53f,
-            MaxValue = 5,
-            MinValue = -1,
-        };
 
         public TestScript()
         {
-            tttt.Focus += (o,x) => System.Console.WriteLine("Focus");
         }
 
         public override void Start()
         {
-            Canvas.RegisterElement(tttt);
+            //Canvas.RegisterElement(tttt);
             //AddComponent<Rigidbody>();
         }
 
         public override void FixedUpdate(double deltaTime)
         {
-            System.Console.WriteLine("1");
             //Object.Rotation *= Quaternion.RotationAxis(Vector3.Right, 0.01f);
             //Object.Rotation *= Quaternion.RotationAxis(Vector3.Up, 0.01f);
             var tmp = Object.Position;
