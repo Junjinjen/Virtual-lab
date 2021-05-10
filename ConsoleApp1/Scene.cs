@@ -64,11 +64,10 @@ namespace Lab2
             var obj = GameObjectFactory.CreateAndRegister(new FbxObjectCreator(file, "Calorimeter"));
             obj.Position = new Vector3(-1.5f, -3f, 0.0f);
             obj.Scale = Vector3.One * 1.5f;
-  
             file = @"Meshes/water.fbx";
             obj.Children.Add(GameObjectFactory.CreateAndRegister(new FbxObjectCreator(file, "WaterCalorimeter")));
-            obj.Children[4].Position = new Vector3(0f, 5f, 0f);
-            obj.Children[4].Scale = Vector3.One * 0.9f + Vector3.UnitZ * 30;
+            obj.Children[4].Position = new Vector3(0f, 1.8f, 0f);
+            obj.Children[4].Scale = Vector3.One * 0.9f + Vector3.UnitZ * 5;
             obj.Children[4].Rotation = Quaternion.RotationYawPitchRoll(0, MathUtil.Pi / 2f, 0);
             GameObject tmp = obj.Children[1];
             GameObject tmp2 = obj.Children[2];
@@ -82,13 +81,18 @@ namespace Lab2
             obj = GameObjectFactory.CreateAndRegister(new FbxObjectCreator(file, "Cup"));
             obj.Position = new Vector3(-4.5f, -3f, 0f);
             obj.Scale = Vector3.One * 1.5f;
-            obj.Rotation = Quaternion.RotationYawPitchRoll(MathUtil.Pi, 0, 0);
+            obj.Rotation = Quaternion.RotationYawPitchRoll(MathUtil.Pi - 0.5f, 0, 0);
             file = @"Meshes/water.fbx";
             obj.Children.Add(GameObjectFactory.CreateAndRegister(new FbxObjectCreator(file, "Water")));
             obj.Children[3].Position = new Vector3(0f, 0f, 0f);
             obj.Children[3].Scale = Vector3.One + Vector3.UnitZ * 38;
             obj.Children[3].Rotation = Quaternion.RotationYawPitchRoll(0, MathUtil.Pi / 2f, 0);
-            obj.Script = new WaterScript(33.0f);
+            GameObject tmp4 = obj.Children[0];
+            GameObject tmp5 = obj.Children[2];
+            GameObject tmp6 = obj.Children[3];
+            obj.Children[0] = tmp5;
+            obj.Children[2] = tmp6;
+            obj.Children[3] = tmp4;
 
             obj = new GameObject();
             obj.AddScript<Timer_Script>();

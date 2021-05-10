@@ -117,7 +117,7 @@ namespace Lab2.Scripts
             T_water = ui_script.Water_temperature.Value;
             M_body = ui_script.Body_weight.Value;
             water_volume = ui_script.Water_volume.Value;
-            Console.WriteLine(M_body);
+
 
             //var temperature_end = (C_tt * 0.9 * T_end_body + 750 * 0.3 * 20 + 4200 * M_water * T_water) /
             //    (750 * 0.3 + 800 * M_body + 4200 * M_water);
@@ -141,14 +141,14 @@ namespace Lab2.Scripts
 
 
 
-            //if (Engine.Instance.InputManager.IsKeyPressed(Key.A))
-            //{
-            //    water_volume -= 0.5f;
-            //}
-            //if (Engine.Instance.InputManager.IsKeyPressed(Key.Q))
-            //{
-            //    water_volume += 0.5f;
-            //}
+            if (Engine.Instance.InputManager.IsKeyPressed(Key.A))
+            {
+                water_volume -= 10f;
+            }
+            if (Engine.Instance.InputManager.IsKeyPressed(Key.Q))
+            {
+                water_volume += 10f;
+            }
             //System.Console.WriteLine(water_volume);
             //if (Engine.Instance.InputManager.IsKeyPressed(Key.S))
             //{
@@ -185,7 +185,7 @@ namespace Lab2.Scripts
             //}
             SetCurrentTemperature(temp1, water_temp, 37);
             SetCurrentTemperature(temp2, object_temp, 37);
-            //SetCurrentWater(volumeWater, water_volume, 100);
+            SetCurrentWater(volumeWater, water_volume, 100);
             //SetScaleBody(gameObject, weight_body, 1);
             //System.Console.WriteLine(weight_body);
             RadioButtonValue();
