@@ -16,7 +16,7 @@ namespace App
 {
     class TestScript : Script
     {
-        TextBlock text = new TextBlock
+        TextBox text = new TextBox
         {
             Width = 0.2f,
             Height = 0.2f
@@ -93,53 +93,6 @@ namespace App
 
             Object.Position = tmp;
             Object.Rotation = tmp2;
-        }
-    }
-
-    class Init : ISceneInitializer
-    {
-        public void Seed(GameObjectCollection scene)
-        {
-            var prov = new CameraProvider();
-
-            prov.Camera.Fov = MathUtil.DegreesToRadians(90);
-            prov.Camera.DrawDistance = 100;
-            prov.Camera.NearDistance = 0.001f;
-            prov.Camera.Position = new Vector3(0, 0, -20);
-            prov.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
-
-            //var tmp = MeshLoader.LoadScene(@"Volkswagen.fbx");
-
-            //var go = GameObjectFactory.Create(new FbxObjectCreator(@"3_cubes (3).fbx"));
-            //var go = GameObjectFactory.Create(new FbxObjectCreator(@"ZF_YUP.fbx"));
-
-            //var go = new GameObject();
-            /*var tmp = MeshLoader.LoadScene(@"personfbx_-Y_Z.fbx");
-
-            go.Children.Add(new GameObject());
-            go.Children.Add(new GameObject());
-            go.Children.Add(new GameObject());
-
-            go.Children[0].AddComponent<MeshRenderer>().Initialize(tmp[0].NodeMeshes[0], "vx1", "px1");
-            go.Children[1].AddComponent<MeshRenderer>().Initialize(tmp[1].NodeMeshes[0], "vx1", "px1");
-            go.Children[2].AddComponent<MeshRenderer>().Initialize(tmp[2].NodeMeshes[0], "vx1", "px1");
-
-            go.Children[0].Position = tmp[0].Position;
-            go.Children[0].Rotation = tmp[0].Rotation;
-            go.Children[0].Scale = tmp[0].Scale;
-
-            go.Children[1].Position = tmp[1].Position;
-            go.Children[1].Rotation = tmp[1].Rotation;
-            go.Children[1].Scale = tmp[1].Scale;
-
-            go.Children[2].Position = tmp[2].Position;
-            go.Children[2].Rotation = tmp[2].Rotation;
-            go.Children[2].Scale = tmp[2].Scale;*/
-            //personfbx_-Y_Z.fbx
-            var go = GameObjectFactory.CreateAndRegister(new FbxObjectCreator(@"virt_ice_scene.fbx"));
-            go.Scale = new Vector3(0.1f);
-            go.AddScript<TestScript>();
-            //go.GetComponent<Rigidbody>().TriggerEnter += (o, x) => System.Console.WriteLine("trigger");
         }
     }
 

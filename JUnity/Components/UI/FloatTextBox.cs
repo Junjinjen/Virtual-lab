@@ -30,8 +30,9 @@ namespace JUnity.Components.UI
             set
             {
                 _value = value;
-                RawText = value.ToString(CultureInfo.InvariantCulture);
+                RawText = value.ToString("0.0",CultureInfo.InvariantCulture);
                 ValueChanged?.Invoke(this, new FloatTextBoxValueChangedEventArgs(_value));
+                ValudateFormat();
             }
         }
 
@@ -58,6 +59,40 @@ namespace JUnity.Components.UI
             if (_value != previousValue)
             {
                 ValueChanged?.Invoke(this, new FloatTextBoxValueChangedEventArgs(_value));
+            }
+        }
+
+        protected internal override void Render(RenderTarget renderTarget)
+        {
+            var rect = new RectangleF(Position.X * renderTarget.Size.Width, Position.Y * renderTarget.Size.Height,
+                   Width * renderTarget.Size.Width, Height * renderTarget.Size.Height);
+
+            if (Active)
+            {
+                Style.ActiveBackground.Draw(renderTarget, rect);
+                DrawText(renderTarget, rect, Style.TextStyle.Color);
+
+                if (HasFormatError)
+                {
+                    Style.FormatErrorBorder.Draw(renderTarget, rect);
+                }
+                else
+                {
+                    if (Focused)
+                    {
+                        Style.FocusedBorder.Draw(renderTarget, rect);
+                    }
+                    else
+                    {
+                        Style.Border.Draw(renderTarget, rect);
+                    }
+                }
+            }
+            else
+            {
+                Style.DisabledBackground.Draw(renderTarget, rect);
+                DrawText(renderTarget, rect, Style.TextStyle.DisabledColor);
+                Style.DisabledBorder.Draw(renderTarget, rect);
             }
         }
     }

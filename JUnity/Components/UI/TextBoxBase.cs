@@ -81,21 +81,6 @@ namespace JUnity.Components.UI
         public bool Focused { get; private set; }
 
         public TStyle Style { get; set; }
-        
-        public Color TextColor
-        {
-            get => Style.TextStyle.Color;
-            set => Style.TextStyle.Color = value;
-        } 
-
-        public float FontSize 
-        {
-            get => Style.TextStyle.TextFormat.FontSize;
-            set
-            {
-                Style.TextStyle.TextFormat.FontSize = value;
-            }
-        }
 
         internal override void HandleMouseDown(Vector2 mousePosition, MouseKey key)
         {

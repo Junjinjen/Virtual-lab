@@ -63,6 +63,8 @@ namespace JUnity.Components.UI
             }
         }
 
+        public bool IsPressed => _isPressed;
+
         public string Text { get; set; }
 
         public ButtonStyle Style { get; }
@@ -95,6 +97,8 @@ namespace JUnity.Components.UI
                 if (_isPressed)
                 {
                     Style.PressedBackground.Draw(renderTarget, rect);
+                    rect.X++;
+                    rect.Y++;
                 }
                 else
                 {
