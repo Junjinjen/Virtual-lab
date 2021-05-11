@@ -1,4 +1,5 @@
-﻿using App.Scripts;
+﻿using App.Objects;
+using App.Scripts;
 using JUnity;
 using JUnity.Components;
 using JUnity.Utilities;
@@ -22,7 +23,7 @@ namespace App
             gameObjectUI.AddScript<UI>();
             scene.Add(gameObjectUI);
 
-
+            GameObjectFactory.CreateAndRegister(new Tools());
 
         }
     }

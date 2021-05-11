@@ -1,0 +1,19 @@
+﻿using JUnity;
+using JUnity.Utilities;
+using SharpDX;
+using System;
+
+
+namespace App.Objects
+{
+    public class Tools : IGameObjectCreator
+    {
+        public GameObject Create()
+        {
+            GameObject gameObject = GameObjectFactory.Create(new FbxObjectCreator("Meshes\\scene.fbx"));
+            gameObject.Scale = new Vector3(0.01f);
+            gameObject.Position = new Vector3(-4, -2, -10);
+            return gameObject;
+        }
+    }
+}
