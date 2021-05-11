@@ -1,7 +1,8 @@
 ﻿using JUnity;
+using JUnity.Components.Physics;
+using JUnity.Components.Physics.Colliders;
 using JUnity.Utilities;
 using SharpDX;
-using System;
 
 
 namespace App.Objects
@@ -10,10 +11,10 @@ namespace App.Objects
     {
         public GameObject Create()
         {
-            GameObject gameObject = GameObjectFactory.Create(new FbxObjectCreator("Meshes\\scene.fbx"));
+            GameObject gameObject = GameObjectFactory.Create(new FbxObjectCreator("Meshes\\scene.fbx", "Tools"));
             gameObject.Scale = new Vector3(0.01f);
-            gameObject.Position = new Vector3(-4, -4, -10);
-            gameObject.Rotation = Quaternion.RotationYawPitchRoll(-MathUtil.PiOverTwo, 0, 0);
+            gameObject.Position = new Vector3(-6, -5, -8);
+            gameObject.Rotation = Quaternion.RotationYawPitchRoll(MathUtil.PiOverTwo, 0, 0);
             return gameObject;
         }
     }

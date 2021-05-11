@@ -69,41 +69,49 @@ namespace JUnity.Components.Physics.Colliders
                 {
                     Color = Color.LimeGreen,
                     Position = new Vector4(_minimum, 1),
+                    Normal = Vector4.One,
                 },
                 new VertexDescription
                 {
                     Color = Color.LimeGreen,
                     Position = new Vector4(_minimum.X, _minimum.Y, _maximum.Z, 1),
+                    Normal = Vector4.One,
                 },
                 new VertexDescription
                 {
                     Color = Color.LimeGreen,
                     Position = new Vector4(_minimum.X, _maximum.Y, _maximum.Z, 1),
+                    Normal = Vector4.One,
                 },
                 new VertexDescription
                 {
                     Color = Color.LimeGreen,
                     Position = new Vector4(_minimum.X, _maximum.Y, _minimum.Z, 1),
+                    Normal = Vector4.One,
                 },
                 new VertexDescription
                 {
                     Color = Color.LimeGreen,
                     Position = new Vector4(_maximum, 1),
+                    Normal = Vector4.One,
                 },
                 new VertexDescription
                 {
                     Color = Color.LimeGreen,
                     Position = new Vector4(_maximum.X, _maximum.Y, _minimum.Z, 1),
+                    Normal = Vector4.One,
                 },
                 new VertexDescription
                 {
                     Color = Color.LimeGreen,
                     Position = new Vector4(_maximum.X, _minimum.Y, _minimum.Z, 1),
+                    Normal = Vector4.One,
                 },
                 new VertexDescription
                 {
                     Color = Color.LimeGreen,
                     Position = new Vector4(_maximum.X, _minimum.Y, _maximum.Z, 1),
+                    Normal = Vector4.One,
                 },
             };
 
@@ -121,6 +129,7 @@ namespace JUnity.Components.Physics.Colliders
             {
                 CullMode = SharpDX.Direct3D11.CullMode.None,
                 FillMode = SharpDX.Direct3D11.FillMode.Wireframe,
+                EmissivityCoefficient = new Color4(1f),
             };
 
             return new Mesh(vertices, indeces, material);

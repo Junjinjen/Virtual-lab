@@ -1,7 +1,6 @@
 ﻿using App.Objects;
-using App.Scripts;
-using JUnity;
 using JUnity.Components;
+using JUnity.Services.Input;
 using JUnity.Utilities;
 using SharpDX;
 
@@ -19,14 +18,13 @@ namespace App
             prov.Camera.Position = new Vector3(0, 0, -20);
             prov.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
 
-            var gameObjectUI = new GameObject("UI");
-            gameObjectUI.AddScript<UI>();
-            scene.Add(gameObjectUI);
+            MouseGrip.SetCameraProvider(prov);
 
+            GameObjectFactory.CreateAndRegister(new ObjectUI());
             GameObjectFactory.CreateAndRegister(new Tools());
-
-
-            
+            GameObjectFactory.CreateAndRegister(new Table());
+            GameObjectFactory.CreateAndRegister(new Wall());
+            GameObjectFactory.CreateAndRegister(new DirectionLightObj());
         }
     }
 }

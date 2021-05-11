@@ -30,7 +30,7 @@ namespace JUnity.Components.UI
             set
             {
                 _value = value;
-                RawText = value.ToString("0.0",CultureInfo.InvariantCulture);
+                RawText = value.ToString("0.00",CultureInfo.InvariantCulture);
                 ValueChanged?.Invoke(this, new FloatTextBoxValueChangedEventArgs(_value));
                 ValudateFormat();
             }

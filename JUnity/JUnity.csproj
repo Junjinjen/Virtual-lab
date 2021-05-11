@@ -23,7 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -219,6 +219,7 @@
   <ItemGroup>
     <Compile Include="Components\Audio\AudioPlayer.cs" />
     <Compile Include="Components\CameraProvider.cs" />
+    <Compile Include="Services\Input\MouseGrip.cs" />
     <Compile Include="Components\Physics\Colliders\BoxCollider.cs" />
     <Compile Include="Components\Physics\Colliders\Collider.cs" />
     <Compile Include="Components\UI\Canvas.cs" />

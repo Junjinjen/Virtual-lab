@@ -102,7 +102,8 @@ namespace App
         {
             using (var engine = new Engine(new Scene()))
             {
-                engine.Settings.BackgroundColor = Color.Gray;
+                engine.Settings.Borderless = true;
+                engine.Settings.DrawColliders = true;
                 engine.Run();
             }
         }

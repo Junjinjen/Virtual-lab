@@ -1,6 +1,8 @@
 ﻿using JUnity;
 using JUnity.Components;
+using JUnity.Components.Rendering;
 using JUnity.Components.UI;
+using JUnity.Services.Graphics.Meshing;
 using JUnity.Services.UI.Surfaces;
 using SharpDX;
 using SharpDX.DirectWrite;
@@ -50,8 +52,10 @@ namespace App.Scripts
             Height = 0.04f,
             Position = new Vector2(0.94f, 0.28f),
         };
+        
+        public FloatTextBox D1 => fv_d1;
 
-
+       
         private FloatTextBox fv_d2 = new FloatTextBox
         {
             Value = 46,
@@ -77,6 +81,8 @@ namespace App.Scripts
             Height = 0.04f,
             Position = new Vector2(0.94f, 0.35f),
         };
+
+        public FloatTextBox D2 => fv_d2;
 
 
         private FloatTextBox fv_dpr = new FloatTextBox
@@ -105,6 +111,8 @@ namespace App.Scripts
             Position = new Vector2(0.94f, 0.42f),
         };
 
+        public FloatTextBox Dpr => fv_dpr;
+
 
         private FloatTextBox fv_dvit = new FloatTextBox
         {
@@ -132,11 +140,13 @@ namespace App.Scripts
             Position = new Vector2(0.94f, 0.49f),
         };
 
+        public FloatTextBox Dvit => fv_dvit;
+
 
         private FloatTextBox fv_dx = new FloatTextBox
         {
             Value = 0,
-            MaxValue = 100,
+            MaxValue = 10,
             MinValue = 0,
             Width = 0.05f,
             Height = 0.04f,
@@ -158,6 +168,8 @@ namespace App.Scripts
             Height = 0.04f,
             Position = new Vector2(0.94f, 0.56f),
         };
+
+        public FloatTextBox Dx => fv_dx;
 
 
         private Button resetB = new Button
@@ -361,6 +373,15 @@ namespace App.Scripts
             Position = new Vector2(0.55f, 0.0f),
         };
 
+        Button exit = new Button()
+        {
+            Text = "Exit",
+            Width = 0.05f,
+            Height = 0.04f,
+            Position = new Vector2(0.95f, 0f),
+        };
+
+        Material LiquidMaterial;
 
         public override void Start()
         {
@@ -406,9 +427,49 @@ namespace App.Scripts
 
             #region SecondTable
 
+            LiquidMaterial = Scene.Find("water").GetComponent<MeshRenderer>().Material;
+
             EventHandler handler = (o, e) =>
             {
-                tb_2_value.Value = GetLiquidValue().ToString("0.0000") + " Н/м";
+                tb_2_value.Value = GetLiquidValue(out var number).ToString("0.0000") + " Н/м";
+                switch (number)
+                {
+                    case 1:
+                        LiquidMaterial.AmbientCoefficient = new Color4(0.8f, 0.8f, 0.8f, 0.5f);
+                        LiquidMaterial.DiffusionCoefficient = new Color4(0.8f, 0.8f, 0.8f, 0.5f);
+                        LiquidMaterial.SpecularCoefficient = new Color4(0.8f, 0.8f, 0.8f, 0.5f);
+                        break;
+                    case 2:
+                        LiquidMaterial.AmbientCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.2f);
+                        LiquidMaterial.DiffusionCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.2f);
+                        LiquidMaterial.SpecularCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.2f);
+                        break;
+                    case 3:
+                        LiquidMaterial.AmbientCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.6f);
+                        LiquidMaterial.DiffusionCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.6f);
+                        LiquidMaterial.SpecularCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.6f);
+                        break;
+                    case 4:
+                        LiquidMaterial.AmbientCoefficient = new Color4(0.7f, 0.5f, 0, 0.4f);
+                        LiquidMaterial.DiffusionCoefficient = new Color4(0.7f, 0.5f, 0, 0.4f);
+                        LiquidMaterial.SpecularCoefficient = new Color4(0.7f, 0.5f, 0, 0.4f);
+                        break;
+                    case 5:
+                        LiquidMaterial.AmbientCoefficient = new Color4(0, 0, 0, 0.8f);
+                        LiquidMaterial.DiffusionCoefficient = new Color4(0, 0, 0, 0.8f);
+                        LiquidMaterial.SpecularCoefficient = new Color4(0, 0, 0, 0.8f);
+                        break;
+                    case 6:
+                        LiquidMaterial.AmbientCoefficient = new Color4(0.8f, 0.5f, 0, 0.6f);
+                        LiquidMaterial.DiffusionCoefficient = new Color4(0.8f, 0.5f, 0, 0.6f);
+                        LiquidMaterial.SpecularCoefficient = new Color4(0.8f, 0.5f, 0, 0.6f);
+                        break;
+                    case 7:
+                        LiquidMaterial.AmbientCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.25f);
+                        LiquidMaterial.DiffusionCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.25f);
+                        LiquidMaterial.SpecularCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.25f);
+                        break;
+                }
             };
 
             Canvas.RegisterElement(r1);
@@ -444,6 +505,8 @@ namespace App.Scripts
             #endregion
 
             Canvas.RegisterElement(main);
+            Canvas.RegisterElement(exit);
+            exit.Click += (o, e) => Engine.Instance.Stop();
 
             #region SetFloatTextBoxStyle
             SetFloatTextBox(fv_d1.Style);
@@ -476,30 +539,63 @@ namespace App.Scripts
             SetTextBoxPref(tb_r7.Style, TextAlignment.Leading);
 
             SetTextBoxSuff(main.Style, 50f, FontWeight.ExtraBold);
+            main.Style.TextStyle.Color = new Color(157, 72, 127);
             #endregion
 
             #region SetButtons
             SetButtonStyle(resetB.Style);
             SetButtonStyle(xUpB.Style);
             SetButtonStyle(xDownB.Style);
+            SetButtonStyle(exit.Style, false);
             #endregion
         }
 
         public override void FixedUpdate(double deltaTime)
         {
-            if (xUpB.IsPressed && fv_dx.MaxValue > fv_dx.Value) fv_dx.Value += 0.1f;
-            if (xDownB.IsPressed && fv_dx.MinValue < fv_dx.Value) fv_dx.Value -= 0.1f;
+            if (xUpB.IsPressed && fv_dx.MaxValue > fv_dx.Value) 
+                fv_dx.Value += 0.01f;
+            if (xDownB.IsPressed && fv_dx.MinValue < fv_dx.Value) fv_dx.Value -= 0.01f;
         }
 
-        public float GetLiquidValue()
+        public float GetLiquidValue(out int number)
         {
-            if (r1.Checked) return 0.0594f;
-            if (r2.Checked) return 0.0728f;
-            if (r3.Checked) return 0.0169f;
-            if (r4.Checked) return 0.0439f;
-            if (r5.Checked) return 0.026f;
-            if (r6.Checked) return 0.0354f;
-            if (r7.Checked) return 0.0226f;
+            if (r1.Checked)
+            {
+                number = 1;
+                return 0.0594f;
+            }
+            if (r2.Checked)
+            {
+                number = 2;
+                return 0.0728f;
+            }
+            if (r3.Checked)
+            {
+                number = 3;
+                return 0.0169f;
+            }
+            if (r4.Checked)
+            {
+                number = 4;
+                return 0.0439f;
+            }
+            if (r5.Checked)
+            {
+                number = 5;
+                return 0.026f;
+            }
+            if (r6.Checked)
+            {
+                number = 6;
+                return 0.0354f;
+            }
+            if (r7.Checked)
+            {
+                number = 7;
+                return 0.0226f;
+            }
+
+            number = -1;
             return 0;
         }
 
@@ -545,19 +641,21 @@ namespace App.Scripts
             style.FocusedBorder.Color = Color.Zero;
         }
 
-        private void SetButtonStyle(ButtonStyle style)
+        private void SetButtonStyle(ButtonStyle style, bool offBackground = true)
         {
             style.TextStyle.Color = new Color(197, 112, 167);
             style.TextStyle.TextFormat.FontSize = 30f;
             style.TextStyle.TextFormat.FontWeight = FontWeight.ExtraBold;
-            style.ActiveBackground = new SolidColorRectangle
-            {
-                Color = Color.Zero,
-            };
-            style.PressedBackground = new SolidColorRectangle
-            {
-                Color = Color.Zero,
-            };
+            if (offBackground) {
+                style.ActiveBackground = new SolidColorRectangle
+                {
+                    Color = Color.Zero,
+                };
+                style.PressedBackground = new SolidColorRectangle
+                {
+                    Color = Color.Zero,
+                };
+            }
         }
 
         #endregion
