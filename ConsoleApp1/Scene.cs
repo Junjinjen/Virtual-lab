@@ -25,6 +25,8 @@ namespace App
 
             GameObjectFactory.CreateAndRegister(new Tools());
 
+
+            
         }
     }
 }

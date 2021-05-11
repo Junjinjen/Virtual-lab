@@ -12,7 +12,8 @@ namespace App.Objects
         {
             GameObject gameObject = GameObjectFactory.Create(new FbxObjectCreator("Meshes\\scene.fbx"));
             gameObject.Scale = new Vector3(0.01f);
-            gameObject.Position = new Vector3(-4, -2, -10);
+            gameObject.Position = new Vector3(-4, -4, -10);
+            gameObject.Rotation = Quaternion.RotationYawPitchRoll(-MathUtil.PiOverTwo, 0, 0);
             return gameObject;
         }
     }

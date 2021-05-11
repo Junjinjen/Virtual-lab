@@ -102,6 +102,7 @@ namespace App
         {
             using (var engine = new Engine(new Scene()))
             {
+                engine.Settings.BackgroundColor = Color.Gray;
                 engine.Run();
             }
         }
