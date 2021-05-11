@@ -11,35 +11,32 @@ using JUnity.Utilities;
 using SharpDX;
 using SharpDX.DirectInput;
 using System.Collections.Generic;
-using System.Drawing;
 
 namespace ConsoleApp1
 {
     class TestScript : Script
     {
-        FloatTextBox tttt = new FloatTextBox
+        TextBlock text = new TextBlock
         {
-            Width = 0.3f,
-            Height = 0.2f,
-            Value = 14.53f,
-            MaxValue = 5,
-            MinValue = -1,
+            Width = 0.2f,
+            Height = 0.2f
         };
+        //RadioButton r2 = new RadioButton("1");
+        //RadioButton r3 = new RadioButton("3");
 
         public TestScript()
         {
-            tttt.Focus += (o,x) => System.Console.WriteLine("Focus");
         }
 
         public override void Start()
         {
-            Canvas.RegisterElement(tttt);
+            Canvas.RegisterElement(text);
             //AddComponent<Rigidbody>();
         }
 
         public override void FixedUpdate(double deltaTime)
         {
-            System.Console.WriteLine("1");
+            //System.Console.WriteLine("1");
             //Object.Rotation *= Quaternion.RotationAxis(Vector3.Right, 0.01f);
             //Object.Rotation *= Quaternion.RotationAxis(Vector3.Up, 0.01f);
             var tmp = Object.Position;
@@ -139,21 +136,18 @@ namespace ConsoleApp1
             go.Children[2].Rotation = tmp[2].Rotation;
             go.Children[2].Scale = tmp[2].Scale;*/
             //personfbx_-Y_Z.fbx
-            var go = GameObjectFactory.Create(new FbxObjectCreator(@"colbochka.fbx"));
-            go.Scale = new Vector3(0.1f);
-            go.Position = Vector3.Zero;
-            go.AddScript<TestScript>();
-            go.AddComponent<Rigidbody>().AddCollider(new BoxCollider(-Vector3.One * 50, Vector3.One * 50));
-            go.GetComponent<Rigidbody>().UseGravity = false;
-            go.GetComponent<Rigidbody>().TriggerEnter += (o, x) => System.Console.WriteLine("trigger");
-            scene.Add(go);
+            var light = new GameObject();
+            var dir = light.AddComponent<DirectionLight>();
+            dir.Color = Color3.White;
+            dir.Direction = Vector3.ForwardLH;
+            scene.Add(light);
 
-            var go2 = GameObjectFactory.Create(new FbxObjectCreator(@"colbochka.fbx"));
-            go2.Scale = new Vector3(0.1f);
-            go2.Position = Vector3.Up * 5;
-            go2.AddComponent<Rigidbody>().AddCollider(new BoxCollider(-Vector3.One * 50, Vector3.One * 50));
-            go2.GetComponent<Rigidbody>().UseGravity = false;
-            scene.Add(go2);
+            var go = GameObjectFactory.CreateAndRegister(new FbxObjectCreator(@"virt_ice_scene.fbx"));
+            //go.Scale = new Vector3(0.1f);
+            go.AddScript<TestScript>();
+
+            //var meshRend = go.Children["Стол"].GetComponent<MeshRenderer>();
+            //go.GetComponent<Rigidbody>().TriggerEnter += (o, x) => System.Console.WriteLine("trigger");
         }
     }
 

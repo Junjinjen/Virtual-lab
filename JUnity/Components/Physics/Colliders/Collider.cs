@@ -5,7 +5,9 @@ namespace JUnity.Components.Physics.Colliders
 {
     public abstract class Collider
     {
-        protected Rigidbody Rigidbody { get; private set; }
+        internal Rigidbody Rigidbody { get; private set; }
+
+        public abstract bool Intersects(ref Ray ray, out float distance);
 
         internal void Register(Rigidbody rigidbody)
         {
