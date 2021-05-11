@@ -5,7 +5,6 @@ using JUnity.Services.UI.Styling;
 using JUnity.Services.UI.Surfaces;
 using SharpDX;
 using SharpDX.DirectWrite;
-using System;
 
 namespace Lab2.Scripts
 {

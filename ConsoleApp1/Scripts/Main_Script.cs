@@ -48,22 +48,22 @@ namespace Lab2.Scripts
         };
 
         UI_Script ui_script;
-
+        Timer_Script timer_script;
         private GameObject temp1;
         private GameObject temp2;
         private GameObject volumeWater;
         private GameObject gameObject;
 
-        public void SetCurrentTemperature(GameObject gameObject, float currentTemperature, int step)
+        public void SetCurrentTemperature(GameObject gameObject, float currentTemperature, float step)
         {
             var scale = 100 + (currentTemperature + 23) * step;
             gameObject.Scale = new Vector3(100f, 100f, scale);
         }
 
-        public void SetCurrentWater(GameObject gameObject, float currentVolume, int step)
+        public void SetCurrentWater(GameObject gameObject, float currentVolume, float step)
         {
-            var scale = 5 + (currentVolume + 23) * step;
-            gameObject.Scale = new Vector3(100f, 100f, scale);
+            var scale = 3.5f + currentVolume * 5.1f;
+            gameObject.Scale = new Vector3(1f, 1f, scale);
         }
 
         public void SetScaleBody(GameObject gameObject, float currentWeight, float step)
@@ -71,7 +71,7 @@ namespace Lab2.Scripts
             var scale = currentWeight * step + 1;
             gameObject.Scale = new Vector3(scale, scale, scale);
         }
-
+        public bool TimerOn;
         private float water_temp = 20;
         private float object_temp = 20;
         private float water_volume = 1;
@@ -82,9 +82,13 @@ namespace Lab2.Scripts
         private float M_water;
         private float T_water;
         private float M_body;
+
+        private double temperature_end;
+        private double s;
         public override void Start()
         {
             ui_script = (UI_Script)Scene.Find("UI").Script;
+            timer_script = (Timer_Script)Scene.Find("Timer").Script;
             temp1 = Scene.Find("ColumnWater");
             temp2 = Scene.Find("ColumnObject");
             volumeWater = Scene.Find("Water");
@@ -98,6 +102,12 @@ namespace Lab2.Scripts
             Canvas.RegisterElement(temperature_label2);
             CreateStyleTextBox(temperature_label2, 40f);
 
+            ui_script.Water_volume.ValueChanged += (o, e) =>
+            {
+                SetCurrentWater(volumeWater, e.Value, 3.75f);
+            };
+            SetCurrentWater(volumeWater, ui_script.Water_volume.Value, 3.75f);
+
 
             ui_script.Body_weight.ValueChanged += (o, e) =>
             {
@@ -105,6 +115,13 @@ namespace Lab2.Scripts
             };
 
             SetScaleBody(gameObject, ui_script.Body_weight.Value, 0.3f);
+
+            ui_script.Body_temperature.ValueChanged += (o, e) =>
+            {
+                SetCurrentTemperature(temp2, e.Value, 37f);
+                object_temperature.Value = e.Value.ToString();
+            };
+            SetCurrentTemperature(temp2, object_temp, 37f);
         }
 
         
@@ -117,13 +134,14 @@ namespace Lab2.Scripts
             T_water = ui_script.Water_temperature.Value;
             M_body = ui_script.Body_weight.Value;
             water_volume = ui_script.Water_volume.Value;
+            RadioButtonValue();
+
+            temperature_end = (C_tt * 0.9 * T_end_body + 750 * 0.3 * 20 + 4200 * M_water * T_water) /
+                (750 * 0.3 + 800 * M_body + 4200 * M_water);
 
 
-            //var temperature_end = (C_tt * 0.9 * T_end_body + 750 * 0.3 * 20 + 4200 * M_water * T_water) /
-            //    (750 * 0.3 + 800 * M_body + 4200 * M_water);
-
-            //var s = C_tt * M_body * (T_end_body - temperature_end) * A_tt * 0.01 /
-            //    S_tt * 0.56;
+            s = C_tt * M_body * (T_end_body - temperature_end) * A_tt * 0.01 /
+                S_tt * 0.56;
 
             //System.Console.WriteLine(s);
             //if body in calorimeter
@@ -141,14 +159,14 @@ namespace Lab2.Scripts
 
 
 
-            if (Engine.Instance.InputManager.IsKeyPressed(Key.A))
-            {
-                water_volume -= 10f;
-            }
-            if (Engine.Instance.InputManager.IsKeyPressed(Key.Q))
-            {
-                water_volume += 10f;
-            }
+            //if (Engine.Instance.InputManager.IsKeyPressed(Key.A))
+            //{
+            //    water_volume -= 0.25f;
+            //}
+            //if (Engine.Instance.InputManager.IsKeyPressed(Key.Q))
+            //{
+            //    water_volume += 0.25f;
+            //}
             //System.Console.WriteLine(water_volume);
             //if (Engine.Instance.InputManager.IsKeyPressed(Key.S))
             //{
@@ -183,12 +201,24 @@ namespace Lab2.Scripts
             //    object_temp += 0.1f;
             //    object_temperature.Value = ((float)Math.Round(object_temp, 1)).ToString();
             //}
+
+            var currentTemperature = object_temp;
+            if (TimerOn)
+            {
+                while (currentTemperature < T_end_body)
+                {
+                    SetCurrentTemperature(temp2, currentTemperature, 37);
+                    currentTemperature += 0.001f * (float)deltaTime;
+                    object_temperature.Value = ((float)Math.Round(currentTemperature, 1)).ToString();
+                }
+            }
+            //Console.WriteLine(TTT);
             SetCurrentTemperature(temp1, water_temp, 37);
-            SetCurrentTemperature(temp2, object_temp, 37);
-            SetCurrentWater(volumeWater, water_volume, 100);
+            
+            //SetCurrentWater(volumeWater, water_volume, 4.8f);
             //SetScaleBody(gameObject, weight_body, 1);
             //System.Console.WriteLine(weight_body);
-            RadioButtonValue();
+            
 
         }
         private void RadioButtonValue()

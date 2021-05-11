@@ -1,16 +1,15 @@
-﻿using JUnity;
-using JUnity.Components;
+﻿using JUnity.Components;
 using JUnity.Components.UI;
 using JUnity.Services.UI.Styling;
 using JUnity.Services.UI.Surfaces;
 using SharpDX;
 using SharpDX.DirectWrite;
+using System;
 
 namespace Lab2.Scripts
 {
     public class Timer_Script : Script
     {
-        
         public FloatTextBox timer_box = new FloatTextBox
         {
             Width = 0.1f,
@@ -63,9 +62,11 @@ namespace Lab2.Scripts
         };
 
         System.Diagnostics.Stopwatch timer = new System.Diagnostics.Stopwatch();
-
+        Scene scene = new Scene();
+        Main_Script main;
         public override void Start()
         {
+            main = (Main_Script)Scene.Find("Main").Script;
             Canvas.RegisterElement(timer_box);
             CreateStyleTimer(timer_box);
             Canvas.RegisterElement(start);
@@ -81,17 +82,23 @@ namespace Lab2.Scripts
             start_btn.Click += (o, e) =>
             {
                 timer.Start();
+                main.TimerOn = true;
+                Scene.Find("Fire").IsActive = true;
             };
 
             pause_btn.Click += (o, e) =>
             {
+                main.TimerOn = false;
                 timer.Stop();
             };
 
             reset_btn.Click += (o, e) =>
             {
+                main.TimerOn = false;
                 timer.Reset();
+                Scene.Find("Fire").IsActive = false;
             };
+            
         }
 
         private void CreateStyleButtonLabel(TextBox textBox)

@@ -62,7 +62,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameObjects\UI_GameObject.cs" />
+    <Compile Include="GameObjects\Background.cs" />
+    <Compile Include="GameObjects\Calorimeter.cs" />
+    <Compile Include="GameObjects\Fire.cs" />
+    <Compile Include="GameObjects\Main_Object.cs" />
+    <Compile Include="GameObjects\MeasuringCup.cs" />
+    <Compile Include="GameObjects\ObjectThermometer.cs" />
+    <Compile Include="GameObjects\SolidBody.cs" />
+    <Compile Include="GameObjects\Table.cs" />
+    <Compile Include="GameObjects\Timer_Object.cs" />
+    <Compile Include="GameObjects\UI_Object.cs" />
+    <Compile Include="GameObjects\WaterThermometer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scene.cs" />
@@ -85,6 +95,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Meshes\column.fbx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Meshes\fire.fbx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Meshes\measuringCup.fbx">

@@ -23,6 +23,8 @@ namespace JUnity.Services.Graphics
             }
         }
 
+        public float AspectRatio { get => _aspectRatio; }
+
         public float DrawDistance { get; set; }
 
         public float NearDistance { get; set; }
