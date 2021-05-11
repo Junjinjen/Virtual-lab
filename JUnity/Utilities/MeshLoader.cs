@@ -66,7 +66,7 @@ namespace JUnity.Utilities
         private static JunityMesh LoadMeshFromScene(int index, Scene scene, int mipLevels, Vector4 scale)
         {
             var nodeMesh = scene.Meshes[index];
-            var material = LoadMaterialFromIndex(nodeMesh.MaterialIndex, scene, mipLevels, out var opacity);
+            var material = LoadMaterialFromIndex(nodeMesh.MaterialIndex, scene, mipLevels, out var opacity, out var color);
             var vertices = new VertexDescription[nodeMesh.VertexCount];
 
             for (int i = 0; i < nodeMesh.VertexCount; i++)
@@ -76,10 +76,10 @@ namespace JUnity.Utilities
                     Position = ToSharpDXVector(nodeMesh.Vertices[i]).ToLeftHanded() * scale,
                 };
 
-                if (nodeMesh.HasNormals)
-                {
-                    vertices[i].Normal = ToSharpDXVector(nodeMesh.Normals[i]).ToLeftHanded();
-                }
+                //if (nodeMesh.HasNormals)
+                //{
+                //    vertices[i].Normal = ToSharpDXVector(nodeMesh.Normals[i]).ToLeftHandedNormal();
+                //}
 
                 if (nodeMesh.HasTextureCoords(0))
                 {
@@ -92,8 +92,28 @@ namespace JUnity.Utilities
                 }
                 else
                 {
-                    vertices[i].Color = new Color4(Color3.White, opacity);
+                    vertices[i].Color = new Color4(color.Red, color.Green, color.Blue, opacity);
                 }
+            }
+
+            var indices = nodeMesh.GetUnsignedIndices();
+
+            for (int i = 0; i < indices.Length; i += 3)
+            {
+                var point1 = vertices[indices[i]];
+                var point2 = vertices[indices[i + 1]];
+                var point3 = vertices[indices[i + 2]];
+
+                var vector1 = point2.Position - point1.Position;
+                var vector2 = point3.Position - point1.Position;
+
+                var normal = Vector3.Cross(new Vector3(vector1.X, vector1.Y, vector1.Z), new Vector3(vector2.X, vector2.Y, vector2.Z));
+                normal.Normalize();
+                var norm = -new Vector4(normal, 1);
+
+                vertices[indices[i]].Normal = norm;
+                vertices[indices[i + 1]].Normal = norm;
+                vertices[indices[i + 2]].Normal = norm;
             }
 
             SharpDX.Direct3D.PrimitiveTopology primitiveType = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
@@ -112,38 +132,23 @@ namespace JUnity.Utilities
                     throw new System.NotImplementedException("PrimitiveType.Polygon not implemented yet");
             }
 
-            return new JunityMesh(vertices, nodeMesh.GetUnsignedIndices(), material, primitiveType);
+            return new JunityMesh(vertices, indices, material, primitiveType);
         }
 
-        private static JunityMaterial LoadMaterialFromIndex(int index, Scene scene, int mipLevels, out float opacity)
+        private static JunityMaterial LoadMaterialFromIndex(int index, Scene scene, int mipLevels, out float opacity, out Color4 color)
         {
             var nodeMaterial = scene.Materials[index];
             opacity = nodeMaterial.Opacity;
             var answ = new JunityMaterial();
 
-            if (nodeMaterial.HasColorAmbient)
-            {
-                answ.AmbientCoefficient = ToSharpDXColor(nodeMaterial.ColorAmbient);
-            }
-
-            if (nodeMaterial.HasColorDiffuse)
-            {
-                answ.DiffusionCoefficient = ToSharpDXColor(nodeMaterial.ColorDiffuse);
-            }
-
-            if (nodeMaterial.HasColorEmissive)
-            {
-                answ.EmissivityCoefficient = ToSharpDXColor(nodeMaterial.ColorEmissive);
-            }
-
-            if (nodeMaterial.HasColorSpecular)
-            {
-                answ.SpecularCoefficient = ToSharpDXColor(nodeMaterial.ColorSpecular);
-                answ.SpecularPower = nodeMaterial.ShininessStrength;
-            }
-
+            answ.AmbientCoefficient = Color4.White;
+            answ.DiffusionCoefficient = Color4.White;
+            answ.SpecularCoefficient = Color4.White;
+            answ.SpecularPower = 1;
+            
             if (nodeMaterial.HasTextureDiffuse)
             {
+                color = Color4.White;
                 var match = _textureNumberRegex.Match(nodeMaterial.TextureDiffuse.FilePath);
                 if (match.Success)
                 {
@@ -153,6 +158,10 @@ namespace JUnity.Utilities
                 {
                     answ.Texture = LoadDiffuseTextureByPath(nodeMaterial.TextureDiffuse.FilePath, mipLevels);
                 }
+            }
+            else
+            {
+                color = ToSharpDXColor(nodeMaterial.ColorDiffuse);
             }
 
             if (opacity < 1f)
