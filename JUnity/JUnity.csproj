@@ -234,7 +234,7 @@
     <Compile Include="Components\UI\FloatTextBox.cs" />
     <Compile Include="Components\UI\RadioButton.cs" />
     <Compile Include="Components\UI\RectangleBackground.cs" />
-    <Compile Include="Components\UI\TextBlock.cs" />
+    <Compile Include="Components\UI\TextBox.cs" />
     <Compile Include="Components\UI\TextBoxBase.cs" />
     <Compile Include="Services\Graphics\Camera.cs" />
     <Compile Include="Services\Graphics\Meshing\MeshMatricesBuffer.cs" />

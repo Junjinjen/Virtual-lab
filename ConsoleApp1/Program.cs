@@ -11,20 +11,12 @@ using JUnity.Utilities;
 using SharpDX;
 using SharpDX.DirectInput;
 using System.Collections.Generic;
+using System.Drawing;
 
-namespace ConsoleApp1
+namespace Lab3
 {
     class TestScript : Script
     {
-        TextBlock text = new TextBlock
-        {
-            Width = 0.2f,
-            Height = 0.2f
-        };
-        //RadioButton r2 = new RadioButton("1");
-        //RadioButton r3 = new RadioButton("3");
-
-        PointMovement p;
 
         public TestScript()
         {
@@ -32,30 +24,16 @@ namespace ConsoleApp1
 
         public override void Start()
         {
-            p = new PointMovement(Scene.Find("Мерный стакан"), Scene.Find("Мерный стакан").Position);
-            p.Points.Add(new Vector3(0, 10, 0));
-            p.Points.Add(new Vector3(0, 0, 10));
-            p.Points.Add(new Vector3(10, 0, 0));
-            p.Points.Add(new Vector3(0, 10, 10));
-            p.Points.Add(Scene.Find("Мерный стакан").Position);
-            p.Speeds.Add(10f);
-            p.Speeds.Add(2f);
-            p.Speeds.Add(5f);
-            p.Speeds.Add(30f);
-            Canvas.RegisterElement(text);
+            //Canvas.RegisterElement(tttt);
             //AddComponent<Rigidbody>();
-            p.Start();
         }
 
         public override void FixedUpdate(double deltaTime)
         {
-            //System.Console.WriteLine("1");
             //Object.Rotation *= Quaternion.RotationAxis(Vector3.Right, 0.01f);
             //Object.Rotation *= Quaternion.RotationAxis(Vector3.Up, 0.01f);
             var tmp = Object.Position;
             var tmp2 = Object.Rotation;
-
-            p.Move((float)deltaTime);
 
             if (Engine.Instance.InputManager.IsKeyJustPressed(Key.W))
             {
@@ -151,18 +129,21 @@ namespace ConsoleApp1
             go.Children[2].Rotation = tmp[2].Rotation;
             go.Children[2].Scale = tmp[2].Scale;*/
             //personfbx_-Y_Z.fbx
-            var light = new GameObject();
-            var dir = light.AddComponent<DirectionLight>();
-            dir.Color = Color3.White;
-            dir.Direction = Vector3.ForwardLH;
-            scene.Add(light);
-
-            var go = GameObjectFactory.CreateAndRegister(new FbxObjectCreator(@"virt_ice_scene.fbx"));
-            //go.Scale = new Vector3(0.1f);
+            var go = GameObjectFactory.Create(new FbxObjectCreator(@"colbochka.fbx"));
+            go.Scale = new Vector3(0.1f);
+            go.Position = Vector3.Zero;
             go.AddScript<TestScript>();
+            go.AddComponent<Rigidbody>().AddCollider(new BoxCollider(-Vector3.One * 50, Vector3.One * 50));
+            go.GetComponent<Rigidbody>().UseGravity = false;
+            go.GetComponent<Rigidbody>().TriggerEnter += (o, x) => System.Console.WriteLine("trigger");
+            scene.Add(go);
 
-            //var meshRend = go.Children["Стол"].GetComponent<MeshRenderer>();
-            //go.GetComponent<Rigidbody>().TriggerEnter += (o, x) => System.Console.WriteLine("trigger");
+            var go2 = GameObjectFactory.Create(new FbxObjectCreator(@"colbochka.fbx"));
+            go2.Scale = new Vector3(0.1f);
+            go2.Position = Vector3.Up * 5;
+            go2.AddComponent<Rigidbody>().AddCollider(new BoxCollider(-Vector3.One * 50, Vector3.One * 50));
+            go2.GetComponent<Rigidbody>().UseGravity = false;
+            scene.Add(go2);
         }
     }
 
@@ -170,14 +151,17 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            using (var engine = new Engine(new Init()))
+            using (var engine = new Engine(new Scene()))
             {
                 engine.Settings.BackgroundColor = SharpDX.Color.Gray;
+                engine.Settings.MultisamplerQuality = 4;
+                engine.Settings.MultisamplesPerPixel = 8;
                 //engine.GraphicsSettings.VSyncEnabled = false;
                 //engine.GraphicsSettings.Borderless = true;
                 engine.Settings.DrawColliders = true;
                 engine.Settings.MultisamplesPerPixel = 4;
                 engine.Settings.MultisamplerQuality = -1;
+                engine.Settings.Borderless = true;
                 engine.Run();
             }
         }
