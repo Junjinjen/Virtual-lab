@@ -18,7 +18,7 @@ namespace Lab2
             camera.Camera.Position = new Vector3(0, 0, -10);
             camera.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
 
-            MouseGrip.SetCameraProvider(camera);
+            MouseClicker.SetCameraProvider(camera);
 
             GameObjectFactory.CreateAndRegister(new SolidBody());
             GameObjectFactory.CreateAndRegister(new MeasuringCup());
@@ -33,6 +33,10 @@ namespace Lab2
             GameObjectFactory.CreateAndRegister(new UI_Object());
             GameObjectFactory.CreateAndRegister(new Main_Object());
             GameObjectFactory.CreateAndRegister(new Timer_Object());
+
+            GameObjectFactory.CreateAndRegister(new Sound_Object("Music", @"Music/Background.wav"));
+            GameObjectFactory.CreateAndRegister(new Sound_Object("Splash", @"Music/Water.wav"));
+            GameObjectFactory.CreateAndRegister(new Sound_Object("Burn", @"Music/Fire.wav"));
         }
     }
 }

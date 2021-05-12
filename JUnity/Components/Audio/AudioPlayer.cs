@@ -90,6 +90,9 @@ namespace JUnity.Components.Audio
 
         public override void Dispose()
         {
+            _sourceVoice?.Stop();
+            _sourceVoice?.FlushSourceBuffers();
+
             _soundStream?.Close();
             _soundStream?.Dispose();
 
@@ -98,7 +101,6 @@ namespace JUnity.Components.Audio
             
             _sourceVoice?.DestroyVoice();
             _sourceVoice?.Dispose();
-          
         }
     }
 }

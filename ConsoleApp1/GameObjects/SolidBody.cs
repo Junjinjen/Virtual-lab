@@ -23,7 +23,7 @@ namespace Lab2.GameObjects
             obj.Rotation = Quaternion.RotationYawPitchRoll(0, MathUtil.Pi / 2f, 0);
             var rb = obj.AddComponent<Rigidbody>();
             rb.UseGravity = false;
-            rb.AddCollider(new BoxCollider(-Vector3.One * 0.5f, Vector3.One * 0.5f, "Sol"));
+            rb.AddCollider(new BoxCollider(-Vector3.One * 0.5f, Vector3.One * 0.5f, "SolidBody"));
             return obj;
         }
     }

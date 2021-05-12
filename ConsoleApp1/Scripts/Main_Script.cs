@@ -1,5 +1,6 @@
 ﻿using JUnity;
 using JUnity.Components;
+using JUnity.Components.Audio;
 using JUnity.Components.Physics;
 using JUnity.Components.Physics.Colliders;
 using JUnity.Components.UI;
@@ -28,8 +29,8 @@ namespace Lab2.Scripts
 
         private double temperature_end;
         private double s;
-        private readonly Vector3 positionCup = new Vector3(-1.4f, -0.65f, 0);
-        private readonly Vector3 positionCalorimeter = new Vector3(-4.6f, -1.9f, 0);
+        private readonly Vector3 positionCup = new Vector3(-1.5f, -0.65f, 0);
+        private readonly Vector3 positionCalorimeter = new Vector3(-4.5f, -1.9f, 0);
         UI_Script ui_script;
         Timer_Script timer_script;
         private GameObject temp1;
@@ -41,6 +42,10 @@ namespace Lab2.Scripts
         private bool isCoolDown = false;
         private float stepCoolDown;
         private float startTemperature;
+
+        private PointMovement animator;
+        private AudioPlayer waterMusic;
+        private AudioPlayer music;
 
         Collider currentColision = null;
 
@@ -97,29 +102,78 @@ namespace Lab2.Scripts
         public override void Start()
         {
             #region StartFields
+            music = Scene.Find("Music").GetComponent<AudioPlayer>();
+            music.Repeat = true;
+            music.Volume = 0.1f;
+            music.Play();
+            waterMusic = Scene.Find("Splash").GetComponent<AudioPlayer>();
             ui_script = (UI_Script)Scene.Find("UI").Script;
             timer_script = (Timer_Script)Scene.Find("Timer").Script;
             temp1 = Scene.Find("ColumnWater");
             temp2 = Scene.Find("ColumnObject");
             volumeWater = Scene.Find("WaterCalorimeter");
             solidBody = Scene.Find("Object");
+            animator = new PointMovement(solidBody, solidBody.Position);
+            animator.Points.Add(new Vector3(1, 3, 0));
+            animator.Points.Add(new Vector3(-1.5f, 3, 0));
+            animator.Points.Add(new Vector3(-1.5f, -0.65f, 0));
+            animator.Points.Add(new Vector3(-1.5f, 3.2f, 0));
+            animator.Points.Add(new Vector3(-4.5f, 3.2f, 0));
+            animator.Points.Add(new Vector3(-4.5f, -1.9f, 0));
+            animator.Points.Add(new Vector3(-4.5f, 3.2f, 0));
+            animator.Points.Add(new Vector3(1f, 3.2f, 0));
+            animator.Points.Add(solidBody.Position);
+            animator.Speeds.Add(10f);
+            animator.Speeds.Add(10f);
+            animator.Speeds.Add(35f);
+            animator.Speeds.Add(10f);
+            animator.Speeds.Add(10f);
+            animator.Speeds.Add(35f);
+            animator.Speeds.Add(10f);
+            animator.Speeds.Add(10f);
+            animator.Speeds.Add(10f);
             startPositionBody = solidBody.Position;
+
+            MouseClicker.OnClickObject += (o, e) =>
+            {
+                if(e.GameObject.Name == "Object")
+                {
+                    if(animator.PointIndex == 0)
+                    {
+                        animator.Start();
+                    }
+                    if (animator.Last)
+                    {
+                        animator.Reset();
+                        object_temp = ui_script.Body_temperature.Value;
+                        object_temperature.Value = object_temp.ToString("0.0");
+                        water_temp = ui_script.Water_temperature.Value;
+                        water_temperature.Value = object_temp.ToString("0.0");
+                        SetCurrentTemperature(temp1, water_temp, 37f);
+                        SetCurrentTemperature(temp2, object_temp, 37f);
+                        animator.Start();
+                    }
+                }
+            };
+
             var rigidBody = solidBody.GetComponent<Rigidbody>();
             rigidBody.TriggerEnter += (o, e) =>
             {
-                if (e.TriggeredCollider.Name == "Sol" && e.OtherCollider.Name == "CalorimeterCollider" &&
+                if (e.TriggeredCollider.Name == "SolidBody" && e.OtherCollider.Name == "MeasuringCupCollider" &&
                 currentColision != e.OtherCollider)
                 {
+                    animator.Stop();
+                    solidBody.Position = positionCup;
                     currentColision = e.OtherCollider;
-                    solidBody.Position = new Vector3(-1.4f, -0.65f, 0);
-                    MouseGrip.OnEndClick(null, new MouseClickEventArgs(MouseKey.Left, Vector2.Zero));
+                    waterMusic.Play();
                 }
-                if (e.TriggeredCollider.Name == "Sol" && e.OtherCollider.Name == "MeasuringCupCollider" &&
+                if (e.TriggeredCollider.Name == "SolidBody" && e.OtherCollider.Name == "CalorimeterCollider" &&
                 currentColision != e.OtherCollider)
                 {
+                    animator.Stop();
+                    solidBody.Position = positionCalorimeter;
                     currentColision = e.OtherCollider;
-                    solidBody.Position = new Vector3(-4.6f, -1.9f, 0);
-                    MouseGrip.OnEndClick(null, new MouseClickEventArgs(MouseKey.Left, Vector2.Zero));
+                    waterMusic.Play();
                 }
             };
 
@@ -189,6 +243,7 @@ namespace Lab2.Scripts
             SetupRadioButtonValue();
             CalculateAtt_Stt();
             CalculateEndTemperature();
+            
         }
 
         private void CalculateEndTemperature()
@@ -213,12 +268,7 @@ namespace Lab2.Scripts
 
         public override void FixedUpdate(double deltaTime)
         {
-            if(MouseGrip.CurrentGameObject != solidBody && solidBody.Position != positionCup &&
-                solidBody.Position != positionCalorimeter)
-            {
-                solidBody.Position = startPositionBody;
-                currentColision = null;
-            }
+            animator.Move((float)deltaTime);
 
             if(timer_script.TimerOn && solidBody.Position == positionCup)
             {
@@ -232,6 +282,10 @@ namespace Lab2.Scripts
                 {
                     object_temp = T_end_body;
                     object_temperature.Value = object_temp.ToString("0.0");
+                }
+                if(object_temp == T_end_body)
+                {
+                    animator.Start();
                 }
             }
 
@@ -254,6 +308,7 @@ namespace Lab2.Scripts
                 if(isCoolDown && s <= timer_script.Seconds)
                 {
                     timer_script.StopTimer();
+                    animator.Start();
                 }
             }
             else if(isCoolDown)

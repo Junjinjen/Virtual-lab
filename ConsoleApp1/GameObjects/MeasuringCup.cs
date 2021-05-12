@@ -31,7 +31,7 @@ namespace Lab2.GameObjects
             mat.SpecularCoefficient = new Color4(1f, 1f, 1f, 0.4f);
             var rb = obj.Children[3].AddComponent<Rigidbody>();
             rb.UseGravity = false;
-            rb.AddCollider(new BoxCollider(-Vector3.One * 0.7f + Vector3.UnitZ * 0.5f, Vector3.One * 0.7f, "CalorimeterCollider"));
+            rb.AddCollider(new BoxCollider(-Vector3.One * 0.2f, Vector3.One * 0.2f, "MeasuringCupCollider"));
             GameObject tmp = obj.Children[1];
             GameObject tmp2 = obj.Children[2];
             GameObject tmp3 = obj.Children[4];

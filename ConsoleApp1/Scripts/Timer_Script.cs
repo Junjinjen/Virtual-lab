@@ -1,5 +1,6 @@
 ﻿using JUnity;
 using JUnity.Components;
+using JUnity.Components.Audio;
 using JUnity.Components.UI;
 using JUnity.Services.UI.Styling;
 using JUnity.Services.UI.Surfaces;
@@ -11,6 +12,7 @@ namespace Lab2.Scripts
 {
     public class Timer_Script : Script
     {
+        #region Timer
         public FloatTextBox timer_box = new FloatTextBox
         {
             Width = 0.1f,
@@ -61,9 +63,11 @@ namespace Lab2.Scripts
             Position = new Vector2(0.95f, 0.865f),
             Text = "█",
         };
+        #endregion
 
-        System.Diagnostics.Stopwatch timer = new System.Diagnostics.Stopwatch();
+        System.Diagnostics.Stopwatch timer;
         Scene scene = new Scene();
+        private AudioPlayer fireMusic;
 
         public bool TimerOn { get; set; }
         public bool TimerReset { get; set; }
@@ -72,6 +76,10 @@ namespace Lab2.Scripts
         GameObject fire;
         public override void Start()
         {
+            timer = new System.Diagnostics.Stopwatch();
+            timer.Reset();
+            fireMusic = Scene.Find("Burn").GetComponent<AudioPlayer>();
+            fireMusic.Repeat = true;
             Canvas.RegisterElement(timer_box);
             CreateStyleTimer(timer_box);
             Canvas.RegisterElement(start);
@@ -88,18 +96,21 @@ namespace Lab2.Scripts
             start_btn.Click += (o, e) =>
             {
                 StartTimer();
+                fireMusic.Play();
                 fire.IsActive = true;
             };
 
             pause_btn.Click += (o, e) =>
             {
                 StopTimer();
+                fireMusic.Stop();
                 fire.IsActive = false;
             };
 
             reset_btn.Click += (o, e) =>
             {
                 Reset();
+                fireMusic.Stop();
                 fire.IsActive = false;
             };
             
@@ -122,6 +133,11 @@ namespace Lab2.Scripts
         {
             TimerOn = false;
             timer.Stop();
+        }
+
+        public override void FixedUpdate(double deltaTime)
+        {
+            timer_box.Value = timer.ElapsedMilliseconds / 1000f;
         }
 
         private void CreateStyleButtonLabel(TextBox textBox)
@@ -163,11 +179,6 @@ namespace Lab2.Scripts
                     TextAlignment = TextAlignment.Center,
                 }
             };
-        }
-
-        public override void FixedUpdate(double deltaTime)
-        {
-            timer_box.Value = timer.ElapsedMilliseconds / 1000f;
         }
     }
 }

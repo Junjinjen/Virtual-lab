@@ -10,7 +10,9 @@ namespace JUnity.Components.Physics
     public class PointMovement
     {
         private bool _move;
-        private bool Last => Points.Count - 2 <= PointIndex;
+        public bool Last => Points.Count - 2 <= PointIndex;
+
+        private bool _pause;
 
         public PointMovement(GameObject gameObject, Vector3 startPos)
         {
@@ -49,7 +51,7 @@ namespace JUnity.Components.Physics
                 }
             }
 
-            if(GameObject.Position == Points[PointIndex + 1])
+            if(!_pause && GameObject.Position == Points[PointIndex + 1])
             {
                 if (!Last)
                 {
@@ -66,17 +68,20 @@ namespace JUnity.Components.Physics
         public void Start()
         {
             _move = Points.Count - 2 > PointIndex;
+            _pause = false;
         }
 
         public void Reset()
         {
             _move = false;
+            _pause = true;
             PointIndex = 0;
         }
 
         public void Stop()
         {
             _move = false;
+            _pause = true;
         }
     }
 }

@@ -70,6 +70,7 @@
     <Compile Include="GameObjects\Calorimeter.cs" />
     <Compile Include="GameObjects\ObjectThermometer.cs" />
     <Compile Include="GameObjects\SolidBody.cs" />
+    <Compile Include="GameObjects\Sound_Object.cs" />
     <Compile Include="GameObjects\Table.cs" />
     <Compile Include="GameObjects\Timer_Object.cs" />
     <Compile Include="GameObjects\UI_Object.cs" />
@@ -140,13 +141,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Music\Background.mp3">
+    <Content Include="Music\Background.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Music\Fire.mp3">
+    <Content Include="Music\Fire.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Music\Water.mp3">
+    <Content Include="Music\Water.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
