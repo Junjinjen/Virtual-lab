@@ -1,6 +1,7 @@
 ﻿using JUnity.Components;
 using JUnity.Components.UI;
 using JUnity.Services.UI.Surfaces;
+using Lab3.Scripts.Interactions;
 using SharpDX;
 
 namespace Lab3.Scripts.UI
@@ -164,6 +165,23 @@ namespace Lab3.Scripts.UI
 
             Canvas.RegisterElement(weigherBox);
             Canvas.RegisterElement(weigherBoxBorder);
+
+            var timer_script = (TimerScript)Scene.Find("Timer").Script;
+            timer_script.OnTimerStarted += (o, e) =>
+            {
+                AluminumButton.Active = false;
+                BrassButton.Active = false;
+                CastIronButton.Active = false;
+                SteelButton.Active = false;
+            };
+            timer_script.OnTimerReseted += (o, e) =>
+            {
+                AluminumButton.Active = true;
+                BrassButton.Active = true;
+                CastIronButton.Active = true;
+                SteelButton.Active = true;
+                CurrentWeight.Value = "0,000";
+            };
         }
     }
 }

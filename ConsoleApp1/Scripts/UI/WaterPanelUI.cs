@@ -1,6 +1,7 @@
 ﻿using JUnity.Components;
 using JUnity.Components.UI;
 using JUnity.Services.UI.Surfaces;
+using Lab3.Scripts.Interactions;
 using SharpDX;
 
 namespace Lab3.Scripts.UI
@@ -193,6 +194,18 @@ namespace Lab3.Scripts.UI
 
             Canvas.RegisterElement(box);
             Canvas.RegisterElement(boxBorder);
+
+            var timer_script = (TimerScript)Scene.Find("Timer").Script;
+            timer_script.OnTimerStarted += (o, e) =>
+            {
+                WaterTemparatureInput.Active = false;
+                WaterVolumeInput.Active = false;
+            };
+            timer_script.OnTimerReseted += (o, e) =>
+            {
+                WaterTemparatureInput.Active = true;
+                WaterVolumeInput.Active = true;
+            };
         }
     }
 }

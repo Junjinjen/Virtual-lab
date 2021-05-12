@@ -30,9 +30,9 @@ namespace Lab3.Scripts.Interactions
 
             MouseGrip.OnLeftClickObject += (o, e) =>
             {
-                if(e.Object?.Name == Object.Children[0].Name && _metalScript.IsSelected)
+                if(e.Object?.Name == Object.Children[0].Name && _metalScript.IsSelected && !_metalScript.IsOnWeigher)
                 {
-                    _metalScript.IsMoving = true;
+                    _metalScript.IsOnWeigher = true;
                     _moveMetalAnimation.Reset();              
                     _moveMetalAnimation.Start();
                 }
@@ -40,7 +40,15 @@ namespace Lab3.Scripts.Interactions
 
             MouseGrip.OnRightClickObject += (o, e) =>
             {
+                _metalScript.IsOnWeigher = false;
+                _moveMetalAnimation.Stop();
                 _currentWeight.Value = "0,000";
+            };
+
+            var timer_script = (TimerScript)Scene.Find("Timer").Script;
+            timer_script.OnTimerReseted += (o, e) =>
+            {
+                _moveMetalAnimation.Stop();
             };
         }
 
@@ -51,8 +59,7 @@ namespace Lab3.Scripts.Interactions
 
         private void UpdateWeigherWithMetal(object sender, EventArgs e)
         {
-            _metalScript.IsWithOtherObject = true;
-            _metalScript.IsMoving = false;
+            _metalScript.IsOnWeigher = true;
 
             _currentWeight.Value = string.Format("{0:f3}", _metalScript.Weight);
         }

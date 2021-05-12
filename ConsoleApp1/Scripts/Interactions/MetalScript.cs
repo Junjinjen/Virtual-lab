@@ -9,9 +9,7 @@ namespace Lab3.Scripts.Interactions
     {
         public bool IsSelected { get; set; }
 
-        public bool IsMoving { get; set; }
-
-        public bool IsWithOtherObject { get; set; }
+        public bool IsOnWeigher { get; set; }
 
         public float Weight { get; set; } = 0.96f;
 
@@ -19,6 +17,8 @@ namespace Lab3.Scripts.Interactions
 
         private PointMovement _liftingAnimation;
         private PointMovement _loweringAnimation;
+
+        private bool _isTimerStarted;
 
         public override void Start()
         {
@@ -34,7 +34,9 @@ namespace Lab3.Scripts.Interactions
 
             MouseGrip.OnLeftClickObject += (o, e) =>
             {
-                if (e.Object?.Name == "Metal" && !IsWithOtherObject && !IsMoving)
+                if (_isTimerStarted) return;
+
+                if (e.Object?.Name == "Metal" && !IsOnWeigher)
                 {
                     IsSelected = true;
                     _loweringAnimation.Stop();
@@ -44,17 +46,31 @@ namespace Lab3.Scripts.Interactions
 
             MouseGrip.OnRightClickObject += (o, e) =>
             {
-                if (IsSelected && !IsMoving)
+                if (_isTimerStarted) return;
+
+                if (IsSelected && !IsOnWeigher)
                 {
-                    IsSelected = false;
                     _liftingAnimation.Stop();
                     _loweringAnimation.Start();
                 }
                 else
                 {
-                    IsWithOtherObject = false;
                     Object.Position = _startPosition;
                 }
+                IsSelected = false;
+            };
+
+            var timer_script = (TimerScript)Scene.Find("Timer").Script;
+            timer_script.OnTimerStarted += (o, e) =>
+            {
+                _isTimerStarted = true;
+            };
+            timer_script.OnTimerReseted += (o, e) =>
+            {
+                _isTimerStarted = false;
+                IsSelected = false;
+                IsOnWeigher = false;
+                Object.Position = _startPosition;
             };
         }
 
