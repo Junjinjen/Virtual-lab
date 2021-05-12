@@ -13,11 +13,11 @@ namespace Lab3.GameObjects.Items
         {
             var file = @"Meshes/metal.fbx";
             var obj = GameObjectFactory.CreateAndRegister(new FbxObjectCreator(file, "Metal"));
-            obj.Position = new Vector3(6.5f, -4.0f, 0.0f);
+            obj.Position = new Vector3(6.5f, -3.8f, 0.0f);
             obj.Scale *= 0.75f;
-            var rb = obj.AddComponent<Rigidbody>();
-            rb.AddCollider(new BoxCollider(-Vector3.One, Vector3.One));
             obj.AddScript<MetalScript>();
+            var rb = obj.AddComponent<Rigidbody>();
+            rb.AddCollider(new BoxCollider(-Vector3.One * 0.5f, Vector3.One * 0.5f));
 
             return obj;
         }

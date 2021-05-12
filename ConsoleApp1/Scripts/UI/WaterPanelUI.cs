@@ -1,5 +1,4 @@
-﻿using JUnity;
-using JUnity.Components;
+﻿using JUnity.Components;
 using JUnity.Components.UI;
 using JUnity.Services.UI.Surfaces;
 using SharpDX;
@@ -194,14 +193,6 @@ namespace Lab3.Scripts.UI
 
             Canvas.RegisterElement(box);
             Canvas.RegisterElement(boxBorder);
-        }
-
-        public override void Update(double deltaTime)
-        {
-            if (Engine.Instance.InputManager.IsKeyJustPressed(SharpDX.DirectInput.Key.Escape))
-            {
-                Engine.Instance.Stop();
-            }
         }
     }
 }

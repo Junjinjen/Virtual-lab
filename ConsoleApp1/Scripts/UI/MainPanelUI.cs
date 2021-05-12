@@ -1,4 +1,5 @@
-﻿using JUnity.Components;
+﻿using JUnity;
+using JUnity.Components;
 using JUnity.Components.UI;
 using SharpDX;
 
@@ -18,6 +19,14 @@ namespace Lab3.Scripts.UI
         {
             Canvas.RegisterElement(titleLabel);
             titleLabel.CreateStyleMainLabel();
+        }
+
+        public override void Update(double deltaTime)
+        {
+            if (Engine.Instance.InputManager.IsKeyJustPressed(SharpDX.DirectInput.Key.Escape))
+            {
+                Engine.Instance.Stop();
+            }
         }
     }
 }

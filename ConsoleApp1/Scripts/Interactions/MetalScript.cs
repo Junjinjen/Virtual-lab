@@ -7,7 +7,13 @@ namespace Lab3.Scripts.Interactions
 {
     public class MetalScript : Script
     {
-        private float _weight;
+        public bool IsSelected { get; set; }
+
+        public bool IsMoving { get; set; }
+
+        public bool IsWithOtherObject { get; set; }
+
+        public float Weight { get; set; } = 0.96f;
 
         private Vector3 _startPosition;
 
@@ -28,8 +34,9 @@ namespace Lab3.Scripts.Interactions
 
             MouseGrip.OnLeftClickObject += (o, e) =>
             {
-                if (e.Object?.Name == "Metal")
+                if (e.Object?.Name == "Metal" && !IsWithOtherObject && !IsMoving)
                 {
+                    IsSelected = true;
                     _loweringAnimation.Stop();
                     _liftingAnimation.Start();
                 }
@@ -37,8 +44,17 @@ namespace Lab3.Scripts.Interactions
 
             MouseGrip.OnRightClickObject += (o, e) =>
             {
-                _liftingAnimation.Stop();
-                _loweringAnimation.Start();
+                if (IsSelected && !IsMoving)
+                {
+                    IsSelected = false;
+                    _liftingAnimation.Stop();
+                    _loweringAnimation.Start();
+                }
+                else
+                {
+                    IsWithOtherObject = false;
+                    Object.Position = _startPosition;
+                }
             };
         }
 

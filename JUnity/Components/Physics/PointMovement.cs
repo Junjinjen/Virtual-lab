@@ -1,14 +1,13 @@
 ﻿using SharpDX;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JUnity.Components.Physics
 {
     public class PointMovement
     {
+        public event EventHandler<EventArgs> OnAnimationEnd;
+
         private bool _move;
         private bool Last => Points.Count - 2 <= PointIndex;
 
@@ -59,6 +58,7 @@ namespace JUnity.Components.Physics
                 else
                 {
                     _move = false;
+                    OnAnimationEnd?.Invoke(this, new EventArgs());
                 }
             }
         }

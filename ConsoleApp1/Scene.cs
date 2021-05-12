@@ -30,9 +30,9 @@ namespace Lab3
             GameObjectFactory.CreateAndRegister(new Thermometer());
             GameObjectFactory.CreateAndRegister(new Voltmeter());
             GameObjectFactory.CreateAndRegister(new Ammeter());
-            GameObjectFactory.CreateAndRegister(new Weigher());
             GameObjectFactory.CreateAndRegister(new Timer());
             GameObjectFactory.CreateAndRegister(new Metal());
+            GameObjectFactory.CreateAndRegister(new Weigher());
             GameObjectFactory.CreateAndRegister(new Device());
             GameObjectFactory.CreateAndRegister(new Heater());
             GameObjectFactory.CreateAndRegister(new Stand());

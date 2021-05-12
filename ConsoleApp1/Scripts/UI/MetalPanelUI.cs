@@ -81,7 +81,7 @@ namespace Lab3.Scripts.UI
             Width = 0.11f,
             Height = 0.05f,
             Position = new Vector2(0.675f, 0.895f),
-            Value = "0.942"
+            Value = "0,000"
         };
 
         RectangleBackground panelBoxBorder = new RectangleBackground
