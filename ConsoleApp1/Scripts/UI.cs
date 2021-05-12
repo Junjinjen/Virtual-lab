@@ -1,5 +1,6 @@
 ﻿using JUnity;
 using JUnity.Components;
+using JUnity.Components.Audio;
 using JUnity.Components.Rendering;
 using JUnity.Components.UI;
 using JUnity.Services.Graphics.Meshing;
@@ -383,6 +384,8 @@ namespace App.Scripts
 
         Material LiquidMaterial;
 
+        private AudioPlayer _rotate;
+
         public override void Start()
         {
             #region FirstTable
@@ -504,6 +507,10 @@ namespace App.Scripts
             Canvas.RegisterElement(b2);
             #endregion
 
+
+            _rotate = Scene.Find("rotate").GetComponent<AudioPlayer>();
+            _rotate.Repeat = true;
+
             Canvas.RegisterElement(main);
             Canvas.RegisterElement(exit);
             exit.Click += (o, e) => Engine.Instance.Stop();
@@ -552,9 +559,20 @@ namespace App.Scripts
 
         public override void FixedUpdate(double deltaTime)
         {
-            if (xUpB.IsPressed && fv_dx.MaxValue > fv_dx.Value) 
-                fv_dx.Value += 0.01f;
-            if (xDownB.IsPressed && fv_dx.MinValue < fv_dx.Value) fv_dx.Value -= 0.01f;
+            if (xUpB.IsPressed && fv_dx.MaxValue > fv_dx.Value)
+            {
+                fv_dx.Value += 0.02f;
+                _rotate.Play();
+            }
+            else if (xDownB.IsPressed && fv_dx.MinValue < fv_dx.Value)
+            {
+                fv_dx.Value -= 0.02f;
+                _rotate.Play();
+            }
+            else
+            {
+                _rotate.Stop();
+            }
         }
 
         public float GetLiquidValue(out int number)

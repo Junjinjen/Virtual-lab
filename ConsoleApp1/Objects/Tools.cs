@@ -17,6 +17,7 @@ namespace App.Objects
             gameObject.Position = new Vector3(-6, -5, -8);
             gameObject.Rotation = Quaternion.RotationYawPitchRoll(MathUtil.PiOverTwo, 0, 0);
             gameObject.AddScript<ToolsSript>();
+            gameObject.Children[0].Children.Remove(gameObject.Children[0].Children[0]);
             return gameObject;
         }
     }

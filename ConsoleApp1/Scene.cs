@@ -23,6 +23,13 @@ namespace App
             GameObjectFactory.CreateAndRegister(new Table());
             GameObjectFactory.CreateAndRegister(new Wall());
             GameObjectFactory.CreateAndRegister(new DirectionLightObj());
+
+            GameObjectFactory.CreateAndRegister(new SoundObject("Sounds/fon.wav", "music"));
+            GameObjectFactory.CreateAndRegister(new SoundObject("Sounds/dropInWater.wav", "drop"));
+            GameObjectFactory.CreateAndRegister(new SoundObject("Sounds/rotate.wav", "rotate"));
+            GameObjectFactory.CreateAndRegister(new SoundObject("Sounds/up.wav", "up"));
+
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using JUnity;
 using JUnity.Components;
+using JUnity.Components.Audio;
 using SharpDX;
 using System;
 
@@ -7,90 +8,107 @@ namespace App.Scripts
 {
     public class ToolsSript : Script
     {
-        GameObject plank;
-        GameObject spring;
-        GameObject ring;
-        GameObject rope;
-        UI scriptUI;
+        private GameObject _plank;
+        private GameObject _spring;
+        private GameObject _ring;
+        private GameObject _rope;
+        private UI _scriptUI;
 
-        float _coefStiffness = 0; 
-        float _perimetrRing = 0;
-        float _deltaX = 0;
-        Vector3 startPositionPlank;
-        Vector3 startPositionSpring;
-        Vector3 startPositionRing;
-        Vector3 startPositionRope;
+        private float _coefStiffness = 0;
+        private float _perimetrRing = 0;
+        private float _deltaX = 0;
+        private Vector3 _startPositionPlank;
+        private Vector3 _startPositionSpring;
+        private Vector3 _startPositionRing;
+        private Vector3 _startPositionRope;
 
-        bool _detachment = false;
+        private AudioPlayer _music;
+        private AudioPlayer _drop;
+        private AudioPlayer _up;
+
+        private bool _detachment = false;
 
         public void Move(float deltaX)
         {
             var shift = new Vector3(0, deltaX * 4, 0);
-            plank.Position = startPositionPlank + shift;
-            spring.Scale = new Vector3(1f, 1f, 1f + deltaX / 60);
-            spring.Position = startPositionSpring + shift;
+            _plank.Position = _startPositionPlank + shift;
+            _spring.Scale = new Vector3(1f, 1f, 1f + deltaX / 60);
+            _spring.Position = _startPositionSpring + shift;
 
             if (_deltaX < deltaX && !_detachment)
             {
-                spring.Scale = Vector3.One;
-                ring.Position = startPositionRing + shift;
-                rope.Position = startPositionRope + shift;
+                _up.Play();
+                _spring.Scale = Vector3.One;
+                _ring.Position = _startPositionRing + shift;
+                _rope.Position = _startPositionRope + shift;
                 _detachment = true;
             }
             else if(_detachment)
             {
-                spring.Scale = Vector3.One;
-                ring.Position = startPositionRing + shift;
-                rope.Position = startPositionRope + shift;
+                _spring.Scale = Vector3.One;
+                _ring.Position = _startPositionRing + shift;
+                _rope.Position = _startPositionRope + shift;
             }
 
-            if (_detachment && deltaX == 0) _detachment = false;
+            if (_detachment && deltaX == 0)
+            {
+                _drop.Play();
+                _detachment = false;
+            }
         }
 
         public override void Start()
         {
-            plank = Scene.Find("part1.001");
-            spring = Scene.Find("Пружинка");
-            rope = Scene.Find("Ниточки");
-            ring = Scene.Find("Кольцо");
-            startPositionPlank = plank.Position;
-            startPositionSpring = spring.Position;
-            startPositionRing = ring.Position;
-            startPositionRope = rope.Position;
-            scriptUI = (UI)Scene.Find("UI").Script;
+            _plank = Scene.Find("part1.001");
+            _spring = Scene.Find("Пружинка");
+            _rope = Scene.Find("Ниточки");
+            _ring = Scene.Find("Кольцо");
+            _startPositionPlank = _plank.Position;
+            _startPositionSpring = _spring.Position;
+            _startPositionRing = _ring.Position;
+            _startPositionRope = _rope.Position;
+            _scriptUI = (UI)Scene.Find("UI").Script;
 
-            scriptUI.Dpr.ValueChanged += (o, e) =>
+            _music = Scene.Find("music").GetComponent<AudioPlayer>();
+            _music.Repeat = true;
+            _music.Volume = 0.1f;
+            _music.Play();
+
+            _drop = Scene.Find("drop").GetComponent<AudioPlayer>();
+            _up = Scene.Find("up").GetComponent<AudioPlayer>();
+
+            _scriptUI.Dpr.ValueChanged += (o, e) =>
             {
-                CalculateCoef(scriptUI.Dpr.Value, scriptUI.Dvit.Value);
+                CalculateCoef(_scriptUI.Dpr.Value, _scriptUI.Dvit.Value);
                 CalcuelateDeltaX();
             };
 
-            scriptUI.Dvit.ValueChanged += (o, e) =>
+            _scriptUI.Dvit.ValueChanged += (o, e) =>
             {
-                CalculateCoef(scriptUI.Dpr.Value, scriptUI.Dvit.Value);
+                CalculateCoef(_scriptUI.Dpr.Value, _scriptUI.Dvit.Value);
                 CalcuelateDeltaX();
             };
 
-            scriptUI.D1.ValueChanged += (o, e) =>
+            _scriptUI.D1.ValueChanged += (o, e) =>
             {
-                CalculatePerimetr(scriptUI.D1.Value, scriptUI.D2.Value);
+                CalculatePerimetr(_scriptUI.D1.Value, _scriptUI.D2.Value);
                 CalcuelateDeltaX();
             };
 
-            scriptUI.D2.ValueChanged += (o, e) =>
+            _scriptUI.D2.ValueChanged += (o, e) =>
             {
-                CalculatePerimetr(scriptUI.D1.Value, scriptUI.D2.Value);
+                CalculatePerimetr(_scriptUI.D1.Value, _scriptUI.D2.Value);
                 CalcuelateDeltaX();
             };
 
-            CalculateCoef(scriptUI.Dpr.Value, scriptUI.Dvit.Value);
-            CalculatePerimetr(scriptUI.D1.Value, scriptUI.D2.Value);
+            CalculateCoef(_scriptUI.Dpr.Value, _scriptUI.Dvit.Value);
+            CalculatePerimetr(_scriptUI.D1.Value, _scriptUI.D2.Value);
             CalcuelateDeltaX();
         }
 
         public override void FixedUpdate(double deltaTime)
         {
-            Move(scriptUI.Dx.Value);
+            Move(_scriptUI.Dx.Value);
         }
 
         private void CalculateCoef(float dpr, float dvit)
@@ -105,7 +123,7 @@ namespace App.Scripts
 
         private void CalcuelateDeltaX()
         {
-            _deltaX = scriptUI.GetLiquidValue(out var _) * _perimetrRing * 1000 / _coefStiffness;
+            _deltaX = _scriptUI.GetLiquidValue(out var _) * _perimetrRing * 1000 / _coefStiffness;
         }
     }
 }
