@@ -21,8 +21,8 @@ namespace Lab3.Scripts.UI
             Height = 0.035f,
             Position = new Vector2(0.235f, 0.2625f),
             Value = 0.5f,
-            MinValue = 0.2f,
-            MaxValue = 5f,
+            MinValue = 0f,
+            MaxValue = 200f,
         };
 
         TextBox voltageLabel = new TextBox

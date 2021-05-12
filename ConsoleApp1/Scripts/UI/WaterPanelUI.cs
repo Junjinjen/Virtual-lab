@@ -162,7 +162,7 @@ namespace Lab3.Scripts.UI
             WaterPanelLabel.CreateStyleTitle();
 
             Canvas.RegisterElement(WaterTemparatureInput);
-            WaterTemparatureInput.Value = -20f;
+            WaterTemparatureInput.Value = 18f;
             Canvas.RegisterElement(startWaterTemperatureLabel);
             startWaterTemperatureLabel.CreateStyleTextBox(24f);
             Canvas.RegisterElement(startWaterTemperatureLabelIndex);

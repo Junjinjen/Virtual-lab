@@ -65,7 +65,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scene.cs" />
+    <Compile Include="Scripts\Interactions\UserInteractionScript.cs" />
     <Compile Include="Scripts\Main_Script.cs" />
+    <Compile Include="Scripts\MutableObjects\AmmeterScript.cs" />
     <Compile Include="Scripts\MutableObjects\TemparatureScript.cs" />
     <Compile Include="Scripts\MutableObjects\VoltmeterScript.cs" />
     <Compile Include="Scripts\MutableObjects\WaterScript.cs" />
@@ -126,6 +128,9 @@
       <Project>{c14b3d74-7461-443b-bb53-228216c4ebff}</Project>
       <Name>JUnity</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GameObjects\UI\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
