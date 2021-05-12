@@ -24,14 +24,27 @@ namespace ConsoleApp1
         //RadioButton r2 = new RadioButton("1");
         //RadioButton r3 = new RadioButton("3");
 
+        PointMovement p;
+
         public TestScript()
         {
         }
 
         public override void Start()
         {
+            p = new PointMovement(Scene.Find("Мерный стакан"), Scene.Find("Мерный стакан").Position);
+            p.Points.Add(new Vector3(0, 10, 0));
+            p.Points.Add(new Vector3(0, 0, 10));
+            p.Points.Add(new Vector3(10, 0, 0));
+            p.Points.Add(new Vector3(0, 10, 10));
+            p.Points.Add(Scene.Find("Мерный стакан").Position);
+            p.Speeds.Add(10f);
+            p.Speeds.Add(2f);
+            p.Speeds.Add(5f);
+            p.Speeds.Add(30f);
             Canvas.RegisterElement(text);
             //AddComponent<Rigidbody>();
+            p.Start();
         }
 
         public override void FixedUpdate(double deltaTime)
@@ -41,6 +54,8 @@ namespace ConsoleApp1
             //Object.Rotation *= Quaternion.RotationAxis(Vector3.Up, 0.01f);
             var tmp = Object.Position;
             var tmp2 = Object.Rotation;
+
+            p.Move((float)deltaTime);
 
             if (Engine.Instance.InputManager.IsKeyJustPressed(Key.W))
             {
