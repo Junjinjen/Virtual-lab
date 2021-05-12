@@ -146,7 +146,7 @@ namespace App.Scripts
         private FloatTextBox fv_dx = new FloatTextBox
         {
             Value = 0,
-            MaxValue = 10,
+            MaxValue = 30,
             MinValue = 0,
             Width = 0.05f,
             Height = 0.04f,

@@ -1,4 +1,5 @@
-﻿using JUnity;
+﻿using App.Scripts;
+using JUnity;
 using JUnity.Components.Physics;
 using JUnity.Components.Physics.Colliders;
 using JUnity.Utilities;
@@ -15,6 +16,7 @@ namespace App.Objects
             gameObject.Scale = new Vector3(0.01f);
             gameObject.Position = new Vector3(-6, -5, -8);
             gameObject.Rotation = Quaternion.RotationYawPitchRoll(MathUtil.PiOverTwo, 0, 0);
+            gameObject.AddScript<ToolsSript>();
             return gameObject;
         }
     }

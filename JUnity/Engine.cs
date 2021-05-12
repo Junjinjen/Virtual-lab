@@ -73,8 +73,6 @@ namespace JUnity
 
             _stopwatch.Start();
 
-            MouseGrip.InitMouseGrip();
-
             RenderLoop.Run(GraphicsRenderer.RenderForm, RenderCallback);
         }
 
@@ -103,7 +101,6 @@ namespace JUnity
                         gameObject.OnFixedUpdate(_elapsedTime);
                     }
                 }
-                MouseGrip.UpdatePosition();
                 _elapsedTime = 0.0;
             }
 

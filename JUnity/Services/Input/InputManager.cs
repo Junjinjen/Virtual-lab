@@ -29,9 +29,6 @@ namespace JUnity.Services.Input
         private MouseState _lastMouseState;
         private readonly bool[] _supressedKeys = new bool[8];
 
-        public event EventHandler<MouseClickEventArgs> OnMouseBottonDown;
-        public event EventHandler<MouseClickEventArgs> OnMouseBottonUp;
-
         public void Initialize(RenderForm renderForm)
         {
             _renderForm = renderForm;
@@ -69,17 +66,11 @@ namespace JUnity.Services.Input
                         {
                             _mouseState.Buttons[i] = false;
                         }
-
-                        OnMouseBottonDown?.Invoke(this, new MouseClickEventArgs((MouseKey)i, position));
                     }
-                    else
+                    else if (_supressedKeys[i])
                     {
-                        if (_supressedKeys[i])
-                        {
-                            Engine.Instance.UIController.HandleMouseUp(position, (MouseKey)i);
-                            _supressedKeys[i] = false;
-                        }
-                        if(_lastMouseState.Buttons[i]) OnMouseBottonUp?.Invoke(this, new MouseClickEventArgs((MouseKey)i, position)); 
+                        Engine.Instance.UIController.HandleMouseUp(position, (MouseKey)i);
+                        _supressedKeys[i] = false;
                     }
                 }
 
@@ -95,22 +86,6 @@ namespace JUnity.Services.Input
             {
                 _lastKeyboardState = _keyboardState;
                 _keyboardState = newKeyboardState;
-            }
-        }
-
-        private Vector2 _lastOffSet = Vector2.Zero;
-
-        public Vector2 GetMouseOffset()
-        {
-            var newOffSet = new Vector2(_mouseState.X, _mouseState.Y);
-            if (_lastOffSet != newOffSet)
-            {
-                _lastOffSet = newOffSet;
-                return newOffSet;
-            }
-            else
-            {
-                return Vector2.Zero;
             }
         }
 

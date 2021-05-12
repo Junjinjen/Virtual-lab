@@ -18,8 +18,6 @@ namespace App
             prov.Camera.Position = new Vector3(0, 0, -20);
             prov.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
 
-            MouseGrip.SetCameraProvider(prov);
-
             GameObjectFactory.CreateAndRegister(new ObjectUI());
             GameObjectFactory.CreateAndRegister(new Tools());
             GameObjectFactory.CreateAndRegister(new Table());
