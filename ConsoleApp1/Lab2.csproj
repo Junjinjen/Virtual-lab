@@ -63,10 +63,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameObjects\Background.cs" />
-    <Compile Include="GameObjects\Calorimeter.cs" />
-    <Compile Include="GameObjects\Fire.cs" />
-    <Compile Include="GameObjects\Main_Object.cs" />
     <Compile Include="GameObjects\MeasuringCup.cs" />
+    <Compile Include="GameObjects\Fire.cs" />
+    <Compile Include="GameObjects\Light_Object.cs" />
+    <Compile Include="GameObjects\Main_Object.cs" />
+    <Compile Include="GameObjects\Calorimeter.cs" />
     <Compile Include="GameObjects\ObjectThermometer.cs" />
     <Compile Include="GameObjects\SolidBody.cs" />
     <Compile Include="GameObjects\Table.cs" />
@@ -91,7 +92,7 @@
     <None Include="Meshes\calorimeter.fbx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Meshes\calorimeter2.fbx">
+    <None Include="Meshes\MeasuringCups.fbx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Meshes\column.fbx">
@@ -103,7 +104,7 @@
     <None Include="Meshes\measuringCup.fbx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Meshes\measuringCup2.fbx">
+    <None Include="Meshes\Calorimeters.fbx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Meshes\object.fbx">
@@ -128,6 +129,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <None Include="Scripts\water.fbx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JUnity\JUnity.csproj">
@@ -135,6 +139,16 @@
       <Name>JUnity</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Music\Background.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Music\Fire.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Music\Water.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

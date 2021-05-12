@@ -13,6 +13,7 @@ namespace JUnity.Services.Input
 {
     public static class MouseGrip 
     {
+        public static GameObject CurrentGameObject => _gripObject;
         private static GameObject _gripObject;
         private static Camera _camera;
         private static Vector3 _cameraDirection;
@@ -48,7 +49,7 @@ namespace JUnity.Services.Input
             }
         }
 
-        private static void OnEndClick(Object obj, MouseClickEventArgs args)
+        public static void OnEndClick(Object obj, MouseClickEventArgs args)
         {
             if(args.Key == MouseKey.Left)
             {
@@ -58,7 +59,7 @@ namespace JUnity.Services.Input
 
         internal static void UpdatePosition()
         {
-            if (_gripObject != null)
+            if (_gripObject != null && _gripObject.Name == "Object")
             {
                 var mouseOffset = Engine.Instance.InputManager.GetMouseOffset();
 

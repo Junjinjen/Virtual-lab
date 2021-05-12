@@ -1,6 +1,7 @@
 ﻿using JUnity;
 using JUnity.Components.Physics;
 using JUnity.Components.Physics.Colliders;
+using JUnity.Services.Input;
 using JUnity.Utilities;
 using SharpDX;
 using System;
@@ -22,7 +23,7 @@ namespace Lab2.GameObjects
             obj.Rotation = Quaternion.RotationYawPitchRoll(0, MathUtil.Pi / 2f, 0);
             var rb = obj.AddComponent<Rigidbody>();
             rb.UseGravity = false;
-            rb.AddCollider(new BoxCollider(-Vector3.One * 0.5f, Vector3.One * 0.5f));
+            rb.AddCollider(new BoxCollider(-Vector3.One * 0.5f, Vector3.One * 0.5f, "Sol"));
             return obj;
         }
     }

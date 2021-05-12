@@ -55,8 +55,7 @@ float4 PS(VertexShaderOutput input) : SV_Target
         materialColor = input.color;
     }
     
-    input.color.xyz = (emissivityCoefficient.xyz + ambientCoefficient.xyz * globalAmbient) * materialColor.xyz;
-    input.color.a = materialColor.a;
+    input.color = (emissivityCoefficient + ambientCoefficient * float4(globalAmbient, 1)) * materialColor;
     
     float3 diffuseColorPart = 0;
     float3 specularColorPart = 0;

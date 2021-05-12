@@ -21,13 +21,14 @@ namespace Lab2
             MouseGrip.SetCameraProvider(camera);
 
             GameObjectFactory.CreateAndRegister(new SolidBody());
-            GameObjectFactory.CreateAndRegister(new Calorimeter());
-            GameObjectFactory.CreateAndRegister(new Fire());
             GameObjectFactory.CreateAndRegister(new MeasuringCup());
+            GameObjectFactory.CreateAndRegister(new Fire());
+            GameObjectFactory.CreateAndRegister(new Calorimeter());
             GameObjectFactory.CreateAndRegister(new Table());
             GameObjectFactory.CreateAndRegister(new WaterThermometer());
             GameObjectFactory.CreateAndRegister(new ObjectThermometer());
             GameObjectFactory.CreateAndRegister(new Background());
+            GameObjectFactory.CreateAndRegister(new Light_Object());
 
             GameObjectFactory.CreateAndRegister(new UI_Object());
             GameObjectFactory.CreateAndRegister(new Main_Object());

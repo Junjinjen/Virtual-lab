@@ -434,6 +434,7 @@ namespace Lab2.Scripts
 
         public override void Start()
         {
+            #region Water parameters
             Canvas.RegisterElement(Water_volume);
             Canvas.RegisterElement(Water_volume_label);
             CreateStyleTextBox(Water_volume_label, 13f);
@@ -451,9 +452,9 @@ namespace Lab2.Scripts
             CreateStyleTextBox(Water_temperature_measurement_index, 10f);
             Canvas.RegisterElement(Water_temperature_measurement);
             CreateStyleTextBox(Water_temperature_measurement, 14f);
+            #endregion
 
-            //
-
+            #region Body parameters
             Canvas.RegisterElement(Body_weight);
             Canvas.RegisterElement(Body_weight_label);
             CreateStyleTextBox(Body_weight_label, 13f);
@@ -481,8 +482,9 @@ namespace Lab2.Scripts
             CreateStyleTextBox(Body_heating_temperature_measurement_index, 10f);
             Canvas.RegisterElement(Body_heating_temperature_measurement);
             CreateStyleTextBox(Body_heating_temperature_measurement, 14f);
+            #endregion
 
-            //Labels
+            #region Labels
             Canvas.RegisterElement(main_label);
             CreateStyleMainLabel(main_label);
             Canvas.RegisterElement(first_label);
@@ -493,8 +495,9 @@ namespace Lab2.Scripts
 
             Canvas.RegisterElement(third_label);
             CreateStyleTextBoxLabel(third_label);
+            #endregion
 
-            //RadioButtons
+            #region RadioButton
             Canvas.RegisterElement(CastIron_btn);
             Canvas.RegisterElement(Glass_btn);
             Canvas.RegisterElement(Graphite_btn);
@@ -502,7 +505,9 @@ namespace Lab2.Scripts
             Canvas.RegisterElement(Marble_btn);
             Canvas.RegisterElement(Tree_btn);
             Canvas.RegisterElement(Textolite_btn);
-            //RadioButtons labels
+            #endregion
+
+            #region RadioButtons labels
             Canvas.RegisterElement(castIron);
             CreateStyleTextBox(castIron, 14f);
             Canvas.RegisterElement(glass);
@@ -517,8 +522,9 @@ namespace Lab2.Scripts
             CreateStyleTextBox(tree, 14f);
             Canvas.RegisterElement(textolite);
             CreateStyleTextBox(textolite, 14f);
+            #endregion
 
-            //Boxes
+            #region Boxes
             Canvas.RegisterElement(boxMaterial);
             Canvas.RegisterElement(boxWater);
             Canvas.RegisterElement(boxBody);
@@ -527,12 +533,7 @@ namespace Lab2.Scripts
             Canvas.RegisterElement(boxTimerBorder);
             Canvas.RegisterElement(boxTimer);
             Canvas.RegisterElement(innerBoxTimer);
-
-            Body_weight.ValueChanged += (o, e) =>{ };
-            Body_temperature.ValueChanged += (o, e) =>{ };
-            Body_heating_temperature.ValueChanged += (o, e) => { };
-            Water_volume.ValueChanged += (o, e) => { };
-            Water_temperature.ValueChanged += (o, e) => { };
+            #endregion
         }
 
 
@@ -544,13 +545,11 @@ namespace Lab2.Scripts
             }
         }
 
-        
-
         private void CreateStyleTextBox(TextBox textBox, float frontSize)
         {
             textBox.Style.ActiveBackground = new SolidColorRectangle() { Color = new Color(0, 0, 0, 0) };
             textBox.Style.Border = new Border() { Color = new Color(0, 0, 0, 0) };
-            //textBox.Style.FocusedBorder = new Border() { Color = new Color(0, 0, 0, 0) };
+            textBox.Style.FocusedBorder = new Border() { Color = new Color(0, 0, 0, 0) };
             textBox.Style.TextStyle = new DisablingTextStyle()
             {
                 Color = new Color(0, 0, 0, 255),
@@ -607,25 +606,5 @@ namespace Lab2.Scripts
                 }
             };
         }
-
-        //private void CreateStyleReadonlyBox(FloatTextBox textBox)
-        //{
-        //    textBox.Style.ActiveBackground = new SolidColorRectangle() { Color = new Color(0, 0, 0, 0) };
-        //    textBox.Style.Border = new Border() { Color = new Color(0, 0, 0, 0) };
-        //    textBox.Style.TextStyle = new DisablingTextStyle()
-        //    {
-        //        Color = new Color(255, 0, 0, 255),
-        //        TextFormat = new JUnity.Services.UI.Styling.TextFormat
-        //        {
-        //            FontFamily = "TimesNewRoman",
-        //            FontSize = 13.0f,
-        //            FontStretch = FontStretch.Normal,
-        //            FontStyle = FontStyle.Normal,
-        //            FontWeight = FontWeight.Bold,
-        //            ParagraphAlignment = ParagraphAlignment.Center,
-        //            TextAlignment = SharpDX.DirectWrite.TextAlignment.Center,
-        //        }
-        //    };
-        //}
     }
 }

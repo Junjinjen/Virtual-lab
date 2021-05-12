@@ -1,4 +1,5 @@
-﻿using JUnity.Components;
+﻿using JUnity;
+using JUnity.Components;
 using JUnity.Components.UI;
 using JUnity.Services.UI.Styling;
 using JUnity.Services.UI.Surfaces;
@@ -63,10 +64,14 @@ namespace Lab2.Scripts
 
         System.Diagnostics.Stopwatch timer = new System.Diagnostics.Stopwatch();
         Scene scene = new Scene();
-        Main_Script main;
+
+        public bool TimerOn { get; set; }
+        public bool TimerReset { get; set; }
+        public float Seconds => timer.ElapsedMilliseconds / 1000f;
+
+        GameObject fire;
         public override void Start()
         {
-            main = (Main_Script)Scene.Find("Main").Script;
             Canvas.RegisterElement(timer_box);
             CreateStyleTimer(timer_box);
             Canvas.RegisterElement(start);
@@ -78,27 +83,45 @@ namespace Lab2.Scripts
             Canvas.RegisterElement(start_btn);
             Canvas.RegisterElement(pause_btn);
             Canvas.RegisterElement(reset_btn);
-
+            TimerReset = true;
+            fire = Scene.Find("Fire");
             start_btn.Click += (o, e) =>
             {
-                timer.Start();
-                main.TimerOn = true;
-                Scene.Find("Fire").IsActive = true;
+                StartTimer();
+                fire.IsActive = true;
             };
 
             pause_btn.Click += (o, e) =>
             {
-                main.TimerOn = false;
-                timer.Stop();
+                StopTimer();
+                fire.IsActive = false;
             };
 
             reset_btn.Click += (o, e) =>
             {
-                main.TimerOn = false;
-                timer.Reset();
-                Scene.Find("Fire").IsActive = false;
+                Reset();
+                fire.IsActive = false;
             };
             
+        }
+
+        public void Reset()
+        {
+            TimerReset = true;
+            TimerOn = false;
+            timer.Reset();
+        }
+
+        public void StartTimer()
+        {
+            timer.Start();
+            TimerOn = true;
+            TimerReset = false;
+        }
+        public void StopTimer()
+        {
+            TimerOn = false;
+            timer.Stop();
         }
 
         private void CreateStyleButtonLabel(TextBox textBox)
@@ -142,7 +165,7 @@ namespace Lab2.Scripts
             };
         }
 
-        public override void Update(double deltaTime)
+        public override void FixedUpdate(double deltaTime)
         {
             timer_box.Value = timer.ElapsedMilliseconds / 1000f;
         }

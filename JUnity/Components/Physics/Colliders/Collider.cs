@@ -5,6 +5,14 @@ namespace JUnity.Components.Physics.Colliders
 {
     public abstract class Collider
     {
+        protected Collider(string name = "default")
+        {
+            Name = name;
+        }
+        public string Name { get; private set; }
+
+
+
         internal Rigidbody Rigidbody { get; private set; }
 
         public abstract bool Intersects(ref Ray ray, out float distance);
