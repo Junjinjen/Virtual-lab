@@ -1,13 +1,10 @@
 ﻿using JUnity.Components;
 using JUnity.Components.UI;
-using JUnity.Services.UI.Styling;
-using JUnity.Services.UI.Surfaces;
 using SharpDX;
-using SharpDX.DirectWrite;
 
 namespace Lab3.Scripts.UI
 {
-    public class MainUI : Script
+    public class MainPanelUI : Script
     {
         private TextBox titleLabel = new TextBox
         {
