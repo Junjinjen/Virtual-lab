@@ -72,7 +72,7 @@ namespace JUnity
             }
 
             _stopwatch.Start();
-
+            MouseGrip.InitMouseGrip();
             RenderLoop.Run(GraphicsRenderer.RenderForm, RenderCallback);
         }
 

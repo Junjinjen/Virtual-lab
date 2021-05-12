@@ -240,6 +240,8 @@
     <Compile Include="Services\Graphics\Meshing\MeshMatricesBuffer.cs" />
     <Compile Include="Services\Graphics\Meshing\RasterizerStateFactory.cs" />
     <Compile Include="Services\Graphics\Meshing\RenderOrder.cs" />
+    <Compile Include="Services\Input\InputManager.cs" />
+    <Compile Include="Services\Input\MouseGrip.cs" />
     <Compile Include="Services\UI\KeybordHandlers\DigitalTextHandler.cs" />
     <Compile Include="Services\UI\KeybordHandlers\EmptyTextHandler.cs" />
     <Compile Include="Services\UI\KeybordHandlers\IKeyboardHandler.cs" />
@@ -275,7 +277,6 @@
     <Compile Include="Services\Graphics\Utilities\Helper.cs" />
     <Compile Include="Services\Graphics\Utilities\IncludeHandler.cs" />
     <Compile Include="Services\Graphics\Utilities\UICommonFactory.cs" />
-    <Compile Include="Services\Input\InputManager.cs" />
     <Compile Include="Services\UI\UIController.cs" />
     <Compile Include="Components\UI\Button.cs" />
     <Compile Include="Services\UI\UIElement.cs" />

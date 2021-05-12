@@ -1,8 +1,11 @@
-﻿using JUnity.Components;
+﻿using JUnity;
+using JUnity.Components;
+using JUnity.Services.Input;
 using JUnity.Utilities;
 using Lab3.GameObjects;
 using Lab3.GameObjects.Items;
 using Lab3.GameObjects.UI;
+using Lab3.Scripts.Interactions;
 using SharpDX;
 
 namespace Lab3
@@ -18,6 +21,8 @@ namespace Lab3
             camera.Camera.NearDistance = 0.001f;
             camera.Camera.Position = new Vector3(0, 0, -10);
             camera.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
+
+            MouseGrip.SetCameraProvider(camera);
 
             GameObjectFactory.CreateAndRegister(new LightObject());
             GameObjectFactory.CreateAndRegister(new Background());
@@ -39,6 +44,10 @@ namespace Lab3
             GameObjectFactory.CreateAndRegister(new MetalUI());
             GameObjectFactory.CreateAndRegister(new ElectricalСircuitUI());
             GameObjectFactory.CreateAndRegister(new TimerUI());
+
+            var go = new GameObject();
+            go.AddScript<UserInteractionScript>();
+            scene.Add(go);
         }
     }
 }

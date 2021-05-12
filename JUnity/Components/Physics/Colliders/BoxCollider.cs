@@ -11,7 +11,7 @@ namespace JUnity.Components.Physics.Colliders
         private Matrix _matrix = Matrix.Identity;
         private BoundingBox _boundingBox;
 
-        public BoxCollider(Vector3 minimum, Vector3 maximum)
+        public BoxCollider(string name, Vector3 minimum, Vector3 maximum) : base(name)
         {
             _minimum = minimum;
             _maximum = maximum;

@@ -17,7 +17,7 @@ namespace JUnity.Components.Physics
         internal Rigidbody(GameObject owner)
             : base(owner)
         {
-            UseGravity = true;
+            UseGravity = false;
             AirResistance = Vector3.One;
             Mass = 1;
         }
