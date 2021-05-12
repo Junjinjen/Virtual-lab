@@ -3,7 +3,7 @@ using JUnity.Components.UI;
 using Lab3.Scripts.UI;
 using System;
 
-namespace Lab3.Scripts.MutableObjects
+namespace Lab3.Scripts.Interactions
 {
     public class TemparatureScript : Script
     {

@@ -1,6 +1,6 @@
 ﻿using JUnity;
 using JUnity.Utilities;
-using Lab3.Scripts.MutableObjects;
+using Lab3.Scripts.Interactions;
 using SharpDX;
 
 namespace Lab3.GameObjects.Items

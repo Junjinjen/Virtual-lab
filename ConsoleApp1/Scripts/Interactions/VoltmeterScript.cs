@@ -2,7 +2,7 @@
 using Lab3.Scripts.UI;
 using SharpDX;
 
-namespace Lab3.Scripts.MutableObjects
+namespace Lab3.Scripts.Interactions
 {
     public class VoltmeterScript : Script
     {

@@ -1,7 +1,7 @@
 ﻿using JUnity.Components;
 using Lab3.Scripts.UI;
 
-namespace Lab3.Scripts.MutableObjects
+namespace Lab3.Scripts.Interactions
 {
     public class WaterScript : Script
     {

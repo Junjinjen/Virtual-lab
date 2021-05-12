@@ -44,10 +44,6 @@ namespace Lab3
             GameObjectFactory.CreateAndRegister(new MetalUI());
             GameObjectFactory.CreateAndRegister(new ElectricalСircuitUI());
             GameObjectFactory.CreateAndRegister(new TimerUI());
-
-            var go = new GameObject();
-            go.AddScript<UserInteractionScript>();
-            scene.Add(go);
         }
     }
 }

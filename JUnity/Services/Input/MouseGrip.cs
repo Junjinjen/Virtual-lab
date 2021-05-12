@@ -13,7 +13,8 @@ namespace JUnity.Services.Input
 {
     public static class MouseGrip 
     {
-        public static event EventHandler<OnClickArgs> OnClickObject;
+        public static event EventHandler<OnClickEventArgs> OnLeftClickObject;
+        public static event EventHandler<OnClickEventArgs> OnRightClickObject;
 
         public static GameObject _targetObject { get; private set; }
         private static Camera _camera;
@@ -42,25 +43,26 @@ namespace JUnity.Services.Input
                 if(rigidbody != null)
                 {
                     _targetObject = rigidbody.Owner;
-                    OnClickObject?.Invoke(null, new OnClickArgs(_targetObject));
+                    OnLeftClickObject?.Invoke(null, new OnClickEventArgs(_targetObject));
                 }
             }
         }
 
         private static void OnEndClick(Object obj, MouseClickEventArgs args)
         {
-            if(args.Key == MouseKey.Left)
+            if(args.Key == MouseKey.Right)
             {
                 _targetObject = null;
+                OnRightClickObject?.Invoke(null, new OnClickEventArgs(_targetObject));
             }
         }
     }
 
-    public class OnClickArgs : EventArgs
+    public class OnClickEventArgs : EventArgs
     {
-        public GameObject Object;
+        public GameObject Object { get; private set; }
 
-        public OnClickArgs(GameObject obj)
+        public OnClickEventArgs(GameObject obj)
         {
             Object = obj;
         }

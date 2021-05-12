@@ -65,7 +65,7 @@ namespace JUnity.Components.Physics
 
         public void Start()
         {
-            _move = Points.Count - 2 > PointIndex;
+            _move = Points.Count - 2 >= PointIndex;
         }
 
         public void Reset()
