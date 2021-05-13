@@ -1,17 +1,18 @@
-﻿using JUnity;
-using JUnity.Components;
+﻿using JUnity.Components;
 using JUnity.Services.Input;
 using JUnity.Utilities;
 using Lab3.GameObjects;
 using Lab3.GameObjects.Items;
 using Lab3.GameObjects.UI;
-using Lab3.Scripts.Interactions;
 using SharpDX;
+using System;
 
 namespace Lab3
 {
     public class Scene : ISceneInitializer
     {
+        public static Random Random { get; private set; } = new Random();
+
         public void Seed(GameObjectCollection scene)
         {
             var camera = new CameraProvider();

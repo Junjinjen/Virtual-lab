@@ -8,6 +8,7 @@ namespace JUnity.Components.Physics
     {
         public event EventHandler<EventArgs> OnAnimationEnd;
 
+        private bool _isAnimationEnd;
         private bool _move;
         private bool Last => Points.Count - 2 <= PointIndex;
 
@@ -58,7 +59,11 @@ namespace JUnity.Components.Physics
                 else
                 {
                     _move = false;
-                    OnAnimationEnd?.Invoke(this, new EventArgs());
+                    if (!_isAnimationEnd)
+                    {
+                        OnAnimationEnd?.Invoke(this, new EventArgs());
+                        _isAnimationEnd = true;
+                    }
                 }
             }
         }
@@ -72,6 +77,7 @@ namespace JUnity.Components.Physics
         {
             _move = false;
             PointIndex = 0;
+            _isAnimationEnd = false;
         }
 
         public void Stop()

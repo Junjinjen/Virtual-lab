@@ -1,6 +1,5 @@
 ﻿using JUnity.Components;
 using JUnity.Components.Physics;
-using JUnity.Components.UI;
 using JUnity.Services.Input;
 using Lab3.Scripts.UI;
 using SharpDX;
@@ -10,14 +9,14 @@ namespace Lab3.Scripts.Interactions
 {
     public class WeigherScript : Script
     {
+        private MetalPanelUI _metalUI;
         private MetalScript _metalScript;
         private PointMovement _moveMetalAnimation;
-        private TextBox _currentWeight;
+        private Process _weighingProcess;
 
         public override void Start()
         {
-            var ui_script = (MetalPanelUI)Scene.Find("MetalUI").Script;
-            _currentWeight = ui_script.CurrentWeight;
+            _metalUI = (MetalPanelUI)Scene.Find("MetalUI").Script;
             _metalScript = (MetalScript)Scene.Find("Metal").Script;
 
             _moveMetalAnimation = new PointMovement(_metalScript.Object, _metalScript.Object.Position);
@@ -42,7 +41,7 @@ namespace Lab3.Scripts.Interactions
             {
                 _metalScript.IsOnWeigher = false;
                 _moveMetalAnimation.Stop();
-                _currentWeight.Value = "0,000";
+                _metalUI.CurrentWeight.Value = "0,000";
             };
 
             var timer_script = (TimerScript)Scene.Find("Timer").Script;
@@ -61,7 +60,9 @@ namespace Lab3.Scripts.Interactions
         {
             _metalScript.IsOnWeigher = true;
 
-            _currentWeight.Value = string.Format("{0:f3}", _metalScript.Weight);
+            var value = _metalUI.MetalParameters.Mass;
+            value += Lab3.Scene.Random.NextFloat(-0.0015f, 0.0015f) * value;
+            _metalUI.CurrentWeight.Value = string.Format("{0:f3}", value);
         }
     }
 }

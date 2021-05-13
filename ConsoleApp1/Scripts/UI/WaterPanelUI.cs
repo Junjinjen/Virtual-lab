@@ -8,7 +8,7 @@ namespace Lab3.Scripts.UI
 {
     public class WaterPanelUI : Script
     {
-        TextBox WaterPanelLabel = new TextBox
+        private TextBox waterPanelLabel = new TextBox
         {
             Width = 0.2f,
             Height = 0.035f,
@@ -26,7 +26,7 @@ namespace Lab3.Scripts.UI
             MaxValue = 100f,
         };
 
-        TextBox startWaterTemperatureLabel = new TextBox
+        private TextBox startWaterTemperatureLabel = new TextBox
         {
             Width = 0.04f,
             Height = 0.035f,
@@ -34,7 +34,7 @@ namespace Lab3.Scripts.UI
             Value = "t   = "
         };
 
-        TextBox startWaterTemperatureLabelIndex = new TextBox
+        private TextBox startWaterTemperatureLabelIndex = new TextBox
         {
             Width = 0.04f,
             Height = 0.035f,
@@ -42,7 +42,7 @@ namespace Lab3.Scripts.UI
             Value = "0"
         };
 
-        TextBox startWaterTemperatureMeasurement = new TextBox
+        private TextBox startWaterTemperatureMeasurement = new TextBox
         {
             Width = 0.04f,
             Height = 0.035f,
@@ -50,7 +50,7 @@ namespace Lab3.Scripts.UI
             Value = "C"
         };
 
-        TextBox startWaterTemperatureMeasurementIndex = new TextBox
+        private TextBox startWaterTemperatureMeasurementIndex = new TextBox
         {
             Width = 0.04f,
             Height = 0.035f,
@@ -74,7 +74,7 @@ namespace Lab3.Scripts.UI
             Value = "19.8"
         };
 
-        TextBox currentWaterTemperatureTermometerIndex = new TextBox
+        private TextBox currentWaterTemperatureTermometerIndex = new TextBox
         {
             Width = 0.02f,
             Height = 0.05f,
@@ -82,7 +82,7 @@ namespace Lab3.Scripts.UI
             Value = "o"
         };
 
-        TextBox currentWaterTemperatureLabel = new TextBox
+        private TextBox currentWaterTemperatureLabel = new TextBox
         {
             Width = 0.04f,
             Height = 0.035f,
@@ -90,7 +90,7 @@ namespace Lab3.Scripts.UI
             Value = "t   = "
         };
 
-        TextBox currentWaterTemperatureMeasurement = new TextBox
+        private TextBox currentWaterTemperatureMeasurement = new TextBox
         {
             Width = 0.04f,
             Height = 0.035f,
@@ -98,7 +98,7 @@ namespace Lab3.Scripts.UI
             Value = "C"
         };
 
-        TextBox currentWaterTemperatureMeasurementIndex = new TextBox
+        private TextBox currentWaterTemperatureMeasurementIndex = new TextBox
         {
             Width = 0.04f,
             Height = 0.035f,
@@ -116,7 +116,7 @@ namespace Lab3.Scripts.UI
             MaxValue = 3f,
         };
 
-        TextBox waterVolumeLabel = new TextBox
+        private TextBox waterVolumeLabel = new TextBox
         {
             Width = 0.04f,
             Height = 0.035f,
@@ -124,7 +124,7 @@ namespace Lab3.Scripts.UI
             Value = "V   = "
         };
 
-        TextBox waterVolumeMeasurement = new TextBox
+        private TextBox waterVolumeMeasurement = new TextBox
         {
             Width = 0.04f,
             Height = 0.035f,
@@ -132,7 +132,7 @@ namespace Lab3.Scripts.UI
             Value = "л"
         };
 
-        RectangleBackground boxBorder = new RectangleBackground
+        private RectangleBackground boxBorder = new RectangleBackground
         {
             Width = 0.22f,
             Height = 0.26f,
@@ -144,7 +144,7 @@ namespace Lab3.Scripts.UI
             ZOrder = 500,
         };
 
-        RectangleBackground box = new RectangleBackground
+        private RectangleBackground box = new RectangleBackground
         {
             Width = 0.21f,
             Height = 0.24f,
@@ -158,8 +158,8 @@ namespace Lab3.Scripts.UI
 
         public override void Start()
         {
-            Canvas.RegisterElement(WaterPanelLabel);
-            WaterPanelLabel.CreateStyleTitle();
+            Canvas.RegisterElement(waterPanelLabel);
+            waterPanelLabel.CreateStyleTitle();
 
             Canvas.RegisterElement(WaterTemparatureInput);
             WaterTemparatureInput.Value = 18f;

@@ -11,8 +11,6 @@ namespace Lab3.Scripts.Interactions
 
         public bool IsOnWeigher { get; set; }
 
-        public float Weight { get; set; } = 0.96f;
-
         private Vector3 _startPosition;
 
         private PointMovement _liftingAnimation;

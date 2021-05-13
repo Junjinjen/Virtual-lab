@@ -8,7 +8,7 @@ namespace Lab3.Scripts.UI
 {
     public class ElectricalСircuitPanelUI : Script
     {
-        TextBox electricalСircuitPanelLabel = new TextBox
+        private TextBox electricalСircuitPanelLabel = new TextBox
         {
             Width = 0.21f,
             Height = 0.08f,
@@ -26,7 +26,7 @@ namespace Lab3.Scripts.UI
             MaxValue = 200f,
         };
 
-        TextBox voltageLabel = new TextBox
+        private TextBox voltageLabel = new TextBox
         {
             Width = 0.04f,
             Height = 0.035f,
@@ -34,7 +34,7 @@ namespace Lab3.Scripts.UI
             Value = "U  = "
         };
 
-        TextBox voltageMeasurement = new TextBox
+        private TextBox voltageMeasurement = new TextBox
         {
             Width = 0.04f,
             Height = 0.035f,
@@ -50,7 +50,7 @@ namespace Lab3.Scripts.UI
             Value = "5"
         };
 
-        TextBox amperageLabel = new TextBox
+        private TextBox amperageLabel = new TextBox
         {
             Width = 0.04f,
             Height = 0.035f,
@@ -58,7 +58,7 @@ namespace Lab3.Scripts.UI
             Value = "I  = "
         };
 
-        TextBox amperageMeasurement = new TextBox
+        private TextBox amperageMeasurement = new TextBox
         {
             Width = 0.04f,
             Height = 0.035f,
@@ -66,8 +66,7 @@ namespace Lab3.Scripts.UI
             Value = "A"
         };
 
-
-        RectangleBackground boxBorder = new RectangleBackground
+        private RectangleBackground boxBorder = new RectangleBackground
         {
             Width = 0.22f,
             Height = 0.26f,
@@ -79,7 +78,7 @@ namespace Lab3.Scripts.UI
             ZOrder = 500,
         };
 
-        RectangleBackground box = new RectangleBackground
+        private RectangleBackground box = new RectangleBackground
         {
             Width = 0.21f,
             Height = 0.24f,

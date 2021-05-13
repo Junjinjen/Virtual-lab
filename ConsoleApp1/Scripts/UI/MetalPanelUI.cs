@@ -3,12 +3,25 @@ using JUnity.Components.UI;
 using JUnity.Services.UI.Surfaces;
 using Lab3.Scripts.Interactions;
 using SharpDX;
+using System.Collections.Generic;
 
 namespace Lab3.Scripts.UI
 {
     public class MetalPanelUI : Script
     {
-        TextBox MetalPanelLabel = new TextBox
+        private List<MetalParameters> metalParameters = new List<MetalParameters>()
+        {
+            new MetalParameters(2712f, 0.00025f, 920f),
+            new MetalParameters(8921f, 0.00025f, 380f),
+            new MetalParameters(7800f, 0.00025f, 500f),
+            new MetalParameters(7850f, 0.00025f, 540f),
+        };
+
+        private int _currentMetalIndex = 0;
+
+        public MetalParameters MetalParameters { get => metalParameters[_currentMetalIndex]; }
+
+        private TextBox metalPanelLabel = new TextBox
         {
             Width = 0.2f,
             Height = 0.035f,
@@ -16,7 +29,7 @@ namespace Lab3.Scripts.UI
             Value = "Металл"
         };
 
-        public RadioButton AluminumButton = new RadioButton("Materials")
+        private RadioButton aluminumButton = new RadioButton("Materials")
         {
             Width = 0.015f,
             Height = 0.015f,
@@ -24,7 +37,7 @@ namespace Lab3.Scripts.UI
             Checked = true,
         };
 
-        TextBox aluminumLabel = new TextBox
+        private TextBox aluminumLabel = new TextBox
         {
             Width = 0.08f,
             Height = 0.035f,
@@ -32,14 +45,14 @@ namespace Lab3.Scripts.UI
             Value = "Алюминий"
         };
 
-        public RadioButton BrassButton = new RadioButton("Materials")
+        private RadioButton brassButton = new RadioButton("Materials")
         {
             Width = 0.015f,
             Height = 0.015f,
             Position = new Vector2(0.76f, 0.4625f),
         };
 
-        TextBox brassLabel = new TextBox
+        private TextBox brassLabel = new TextBox
         {
             Width = 0.08f,
             Height = 0.035f,
@@ -47,14 +60,14 @@ namespace Lab3.Scripts.UI
             Value = "Латунь"
         };
 
-        public RadioButton SteelButton = new RadioButton("Materials")
+        private RadioButton steelButton = new RadioButton("Materials")
         {
             Width = 0.015f,
             Height = 0.015f,
             Position = new Vector2(0.76f, 0.5025f),
         };
 
-        TextBox steelLabel = new TextBox
+        private TextBox steelLabel = new TextBox
         {
             Width = 0.08f,
             Height = 0.035f,
@@ -62,14 +75,14 @@ namespace Lab3.Scripts.UI
             Value = "Сталь"
         };
 
-        public RadioButton CastIronButton = new RadioButton("Materials")
+        private RadioButton castIronButton = new RadioButton("Materials")
         {
             Width = 0.015f,
             Height = 0.015f,
             Position = new Vector2(0.76f, 0.5425f),
         };
 
-        TextBox castIronLabel = new TextBox
+        private TextBox castIronLabel = new TextBox
         {
             Width = 0.08f,
             Height = 0.035f,
@@ -85,7 +98,7 @@ namespace Lab3.Scripts.UI
             Value = "0,000"
         };
 
-        RectangleBackground panelBoxBorder = new RectangleBackground
+        private RectangleBackground panelBoxBorder = new RectangleBackground
         {
             Width = 0.22f,
             Height = 0.26f,
@@ -97,7 +110,7 @@ namespace Lab3.Scripts.UI
             ZOrder = 500,
         };
 
-        RectangleBackground panelBox = new RectangleBackground
+        private RectangleBackground panelBox = new RectangleBackground
         {
             Width = 0.21f,
             Height = 0.24f,
@@ -109,7 +122,7 @@ namespace Lab3.Scripts.UI
             ZOrder = 400,
         };
 
-        RectangleBackground weigherBoxBorder = new RectangleBackground
+        private RectangleBackground weigherBoxBorder = new RectangleBackground
         {
             Width = 0.12f,
             Height = 0.07f,
@@ -121,7 +134,7 @@ namespace Lab3.Scripts.UI
             ZOrder = 500,
         };
 
-        RectangleBackground weigherBox = new RectangleBackground
+        private RectangleBackground weigherBox = new RectangleBackground
         {
             Width = 0.11f,
             Height = 0.05f,
@@ -135,22 +148,22 @@ namespace Lab3.Scripts.UI
 
         public override void Start()
         {
-            Canvas.RegisterElement(MetalPanelLabel);
-            MetalPanelLabel.CreateStyleTitle();
+            Canvas.RegisterElement(metalPanelLabel);
+            metalPanelLabel.CreateStyleTitle();
 
-            Canvas.RegisterElement(AluminumButton);
+            Canvas.RegisterElement(aluminumButton);
             Canvas.RegisterElement(aluminumLabel);
             aluminumLabel.CreateStyleTextBox(24f);
             aluminumLabel.ChangeTextAlignmentTextBox(SharpDX.DirectWrite.TextAlignment.Leading);
-            Canvas.RegisterElement(BrassButton);
+            Canvas.RegisterElement(brassButton);
             Canvas.RegisterElement(brassLabel);
             brassLabel.CreateStyleTextBox(24f);
             brassLabel.ChangeTextAlignmentTextBox(SharpDX.DirectWrite.TextAlignment.Leading);
-            Canvas.RegisterElement(SteelButton);
+            Canvas.RegisterElement(steelButton);
             Canvas.RegisterElement(steelLabel);
             steelLabel.CreateStyleTextBox(24f);
             steelLabel.ChangeTextAlignmentTextBox(SharpDX.DirectWrite.TextAlignment.Leading);
-            Canvas.RegisterElement(CastIronButton);
+            Canvas.RegisterElement(castIronButton);
             Canvas.RegisterElement(castIronLabel);
             castIronLabel.CreateStyleTextBox(24f);
             castIronLabel.ChangeTextAlignmentTextBox(SharpDX.DirectWrite.TextAlignment.Leading);
@@ -169,19 +182,42 @@ namespace Lab3.Scripts.UI
             var timer_script = (TimerScript)Scene.Find("Timer").Script;
             timer_script.OnTimerStarted += (o, e) =>
             {
-                AluminumButton.Active = false;
-                BrassButton.Active = false;
-                CastIronButton.Active = false;
-                SteelButton.Active = false;
+                aluminumButton.Active = false;
+                brassButton.Active = false;
+                castIronButton.Active = false;
+                steelButton.Active = false;
             };
             timer_script.OnTimerReseted += (o, e) =>
             {
-                AluminumButton.Active = true;
-                BrassButton.Active = true;
-                CastIronButton.Active = true;
-                SteelButton.Active = true;
+                aluminumButton.Active = true;
+                brassButton.Active = true;
+                castIronButton.Active = true;
+                steelButton.Active = true;
                 CurrentWeight.Value = "0,000";
             };
+        }
+
+        public override void Update(double deltaTime)
+        {
+            if(aluminumButton.Checked)
+            {
+                _currentMetalIndex = 0;
+            }
+
+            if(brassButton.Checked)
+            {
+                _currentMetalIndex = 1;
+            }
+
+            if (castIronButton.Checked)
+            {
+                _currentMetalIndex = 2;
+            }
+
+            if (steelButton.Checked)
+            {
+                _currentMetalIndex = 3;
+            }
         }
     }
 }

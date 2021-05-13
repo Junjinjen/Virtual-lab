@@ -50,7 +50,7 @@ namespace Lab3.Scripts.Interactions
 
                 _startTemparature = _waterUI.WaterTemparatureInput.Value;
 
-                var loss = new Random().NextFloat(1.00f, 1.01f);
+                var loss = Lab3.Scene.Random.NextFloat(1.00f, 1.01f);
                 var m = _waterUI.WaterVolumeInput.Value;
                 var U = _electricalСircuitUI.VoltageInput.Value;
                 var I = Convert.ToSingle(_electricalСircuitUI.CurrentAmperage.Value);

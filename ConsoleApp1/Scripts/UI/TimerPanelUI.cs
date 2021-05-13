@@ -15,7 +15,7 @@ namespace Lab3.Scripts.UI
             Value = "0,000"
         };
 
-        RectangleBackground timerBoxBorder = new RectangleBackground
+        private RectangleBackground timerBoxBorder = new RectangleBackground
         {
             Width = 0.15f,
             Height = 0.08f,
@@ -27,7 +27,7 @@ namespace Lab3.Scripts.UI
             ZOrder = 500,
         };
 
-        RectangleBackground timerBox = new RectangleBackground
+        private RectangleBackground timerBox = new RectangleBackground
         {
             Width = 0.14f,
             Height = 0.06f,
