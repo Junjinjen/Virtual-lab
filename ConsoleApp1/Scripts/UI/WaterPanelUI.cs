@@ -203,6 +203,7 @@ namespace Lab3.Scripts.UI
             };
             timer_script.OnTimerReseted += (o, e) =>
             {
+                WaterTemparatureInput.Value = WaterTemparatureInput.Value;
                 WaterTemparatureInput.Active = true;
                 WaterVolumeInput.Active = true;
             };

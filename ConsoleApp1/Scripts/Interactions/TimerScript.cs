@@ -15,6 +15,8 @@ namespace Lab3.Scripts.Interactions
         public event EventHandler<EventArgs> OnTimerPaused;
         public event EventHandler<EventArgs> OnTimerReseted;
 
+        public float Seconds { get; private set; }
+
         private PointMovement _playButtonAnimation;
         private PointMovement _pauseButtonAnimation;
         private PointMovement _stopButtonAnimation;
@@ -48,16 +50,21 @@ namespace Lab3.Scripts.Interactions
             MouseGrip.OnLeftClickObject += HandleButtons;
         }
 
-        public override void Update(double deltaTime)
+        public override void FixedUpdate(double deltaTime)
         {
             _playButtonAnimation.Move((float)deltaTime);
             _pauseButtonAnimation.Move((float)deltaTime);
             _stopButtonAnimation.Move((float)deltaTime);
 
             if (_isUpdate)
-                _currentTime.Value = string.Format("{0:f2}", _timer.ElapsedMilliseconds / 1000f);
+            {
+                Seconds = _timer.ElapsedMilliseconds / 1000f;
+                _currentTime.Value = string.Format("{0:f2}", Seconds);
+            }
             else
+            {
                 _currentTime.Value = "0,00";
+            }
         }
 
         private void HandleButtons(object sender, OnClickEventArgs e)

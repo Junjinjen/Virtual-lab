@@ -9,7 +9,7 @@ namespace Lab3.Scripts.Interactions
     {
         private TextBox _currentAmperage;
 
-        private const float DEVICE_POWER = 22f;
+        private const float RESISTANCE = 22f;
         private const float MIN_ANGLE = -MathUtil.Pi / 3;
         private const float MAX_ANGLE = MathUtil.Pi / 3;
 
@@ -26,7 +26,7 @@ namespace Lab3.Scripts.Interactions
 
         public void UpdatePointer(float voltage)
         {
-            var amperage = voltage / DEVICE_POWER;
+            var amperage = voltage / RESISTANCE;
 
             if(amperage > MAX_VALUE)
             {
