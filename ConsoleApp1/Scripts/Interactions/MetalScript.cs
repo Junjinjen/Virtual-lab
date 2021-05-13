@@ -7,6 +7,8 @@ namespace Lab3.Scripts.Interactions
 {
     public class MetalScript : Script
     {
+        public bool IsInWater { get; set; }
+
         public bool IsSelected { get; set; }
 
         public bool IsOnWeigher { get; set; }

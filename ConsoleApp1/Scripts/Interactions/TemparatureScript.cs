@@ -25,23 +25,23 @@ namespace Lab3.Scripts.Interactions
             currentWaterTemperatureTermometer = ui_script.CurrentWaterTemperatureTermometer;
         }
 
-        public void UpdateTemperature(float temperature)
+        public void UpdateTemperature(float value)
         {
-            if (temperature > MAX_TEMPARATURE)
+            if (value > MAX_TEMPARATURE)
             {
-                temperature = MAX_TEMPARATURE;
+                value = MAX_TEMPARATURE;
             }
-            else if (temperature < MIN_TEMPARATURE)
+            else if (value < MIN_TEMPARATURE)
             {
-                temperature = MIN_TEMPARATURE;
+                value = MIN_TEMPARATURE;
             }
 
             var scale = Object.Scale;
-            scale.Z = MAX_SIZE_Z * (temperature - MIN_TEMPARATURE) / (MAX_TEMPARATURE - MIN_TEMPARATURE);
+            scale.Z = MAX_SIZE_Z * (value - MIN_TEMPARATURE) / (MAX_TEMPARATURE - MIN_TEMPARATURE);
             scale.Z += offsetSizeZ;
             Object.Scale = scale;
-            currentWaterTemperature.Value = String.Format("{0:f1}", temperature);
-            currentWaterTemperatureTermometer.Value = String.Format("{0:f1}", temperature);
+            currentWaterTemperature.Value = String.Format("{0:f1}", value);
+            currentWaterTemperatureTermometer.Value = String.Format("{0:f1}", value);
         }
     }
 }

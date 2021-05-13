@@ -112,7 +112,7 @@ namespace Lab3.Scripts.UI
             Height = 0.035f,
             Position = new Vector2(0.815f, 0.2705f),
             Value = 0.5f,
-            MinValue = 0.1f,
+            MinValue = 0.2f,
             MaxValue = 3f,
         };
 

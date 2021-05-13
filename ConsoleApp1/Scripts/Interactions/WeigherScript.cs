@@ -12,7 +12,6 @@ namespace Lab3.Scripts.Interactions
         private MetalPanelUI _metalUI;
         private MetalScript _metalScript;
         private PointMovement _moveMetalAnimation;
-        private Process _weighingProcess;
 
         public override void Start()
         {
@@ -31,7 +30,6 @@ namespace Lab3.Scripts.Interactions
             {
                 if(e.Object?.Name == Object.Children[0].Name && _metalScript.IsSelected && !_metalScript.IsOnWeigher)
                 {
-                    _metalScript.IsOnWeigher = true;
                     _moveMetalAnimation.Reset();              
                     _moveMetalAnimation.Start();
                 }
