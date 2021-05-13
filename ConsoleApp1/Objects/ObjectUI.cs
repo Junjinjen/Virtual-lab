@@ -9,7 +9,7 @@ namespace App.Objects
         public GameObject Create()
         {
             var gameObjectUI = new GameObject("UI");
-            gameObjectUI.AddScript<UI>();
+            gameObjectUI.AddScript<UIScript>();
            return gameObjectUI;
         }
     }

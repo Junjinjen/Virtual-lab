@@ -2,15 +2,10 @@
 using JUnity.Components.Lighning;
 using JUnity.Utilities;
 using SharpDX;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace App.Objects
 {
-    public class DirectionLightObj : IGameObjectCreator
+    public class DirectionLightObject : IGameObjectCreator
     {
         public GameObject Create()
         {

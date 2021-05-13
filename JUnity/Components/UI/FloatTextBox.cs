@@ -12,9 +12,12 @@ namespace JUnity.Components.UI
     {
         private float _value;
 
+        public string Format { get; set; }
+
         public FloatTextBox()
             : base(new DigitalTextHandler())
         {
+            Format = "0.00";
             Style.FormatErrorBorder = new Border
             {
                 Color = new Color(214, 0, 68),
@@ -30,7 +33,7 @@ namespace JUnity.Components.UI
             set
             {
                 _value = value;
-                RawText = value.ToString("0.00",CultureInfo.InvariantCulture);
+                RawText = value.ToString(Format, CultureInfo.InvariantCulture);
                 ValueChanged?.Invoke(this, new FloatTextBoxValueChangedEventArgs(_value));
                 ValudateFormat();
             }

@@ -19,10 +19,11 @@ namespace App
             prov.Camera.Rotation = Quaternion.RotationLookAtLH(Vector3.ForwardLH, Vector3.Up);
 
             GameObjectFactory.CreateAndRegister(new ObjectUI());
+            GameObjectFactory.CreateAndRegister(new TimerObject());
             GameObjectFactory.CreateAndRegister(new Tools());
             GameObjectFactory.CreateAndRegister(new Table());
             GameObjectFactory.CreateAndRegister(new Wall());
-            GameObjectFactory.CreateAndRegister(new DirectionLightObj());
+            GameObjectFactory.CreateAndRegister(new DirectionLightObject());
 
             GameObjectFactory.CreateAndRegister(new SoundObject("Sounds/fon.wav", "music"));
             GameObjectFactory.CreateAndRegister(new SoundObject("Sounds/dropInWater.wav", "drop"));

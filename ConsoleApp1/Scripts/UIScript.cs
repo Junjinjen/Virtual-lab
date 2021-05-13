@@ -13,7 +13,7 @@ using static JUnity.Components.UI.Button;
 
 namespace App.Scripts
 {
-    public class UI : Script
+    public class UIScript : Script
     {
         private const int BackgroundBorderZOrder = 102;
         private const int BackgroundZOrder = 101;
@@ -147,7 +147,7 @@ namespace App.Scripts
         private FloatTextBox fv_dx = new FloatTextBox
         {
             Value = 0,
-            MaxValue = 30,
+            MaxValue = 54,
             MinValue = 0,
             Width = 0.05f,
             Height = 0.04f,
@@ -224,43 +224,43 @@ namespace App.Scripts
 
         #region SecondTable
 
-        RadioButton r1 = new RadioButton("Liquid")
+        private RadioButton r1 = new RadioButton("Liquid")
         {
             Width = 0.02f,
             Height = 0.02f,
             Position = new Vector2(0.57f, 0.75f)
         };
-        RadioButton r2 = new RadioButton("Liquid")
+        private RadioButton r2 = new RadioButton("Liquid")
         {
             Width = 0.02f,
             Height = 0.02f,
             Position = new Vector2(0.57f, 0.81f)
         };
-        RadioButton r3 = new RadioButton("Liquid")
+        private RadioButton r3 = new RadioButton("Liquid")
         {
             Width = 0.02f,
             Height = 0.02f,
             Position = new Vector2(0.57f, 0.87f)
         };
-        RadioButton r4 = new RadioButton("Liquid")
+        private RadioButton r4 = new RadioButton("Liquid")
         {
             Width = 0.02f,
             Height = 0.02f,
             Position = new Vector2(0.72f, 0.75f)
         };
-        RadioButton r5 = new RadioButton("Liquid")
+        private RadioButton r5 = new RadioButton("Liquid")
         {
             Width = 0.02f,
             Height = 0.02f,
             Position = new Vector2(0.72f, 0.81f)
         };
-        RadioButton r6 = new RadioButton("Liquid")
+        private RadioButton r6 = new RadioButton("Liquid")
         {
             Width = 0.02f,
             Height = 0.02f,
             Position = new Vector2(0.72f, 0.87f)
         };
-        RadioButton r7 = new RadioButton("Liquid")
+        private RadioButton r7 = new RadioButton("Liquid")
         {
             Width = 0.02f,
             Height = 0.02f,
@@ -270,9 +270,9 @@ namespace App.Scripts
         private TextBox tb_tb2Header = new TextBox
         {
             Value = "Жидкость",
-            Width = 0.1f,
+            Width = 0.18f,
             Height = 0.07f,
-            Position = new Vector2(0.87f, 0.72f),
+            Position = new Vector2(0.82f, 0.72f),
         };
 
         private TextBox tb_2_value = new TextBox
@@ -283,6 +283,7 @@ namespace App.Scripts
             Position = new Vector2(0.87f, 0.79f),
         };
 
+        public event EventHandler<float> CoefChanged;
 
         private TextBox tb_r1 = new TextBox
         {
@@ -366,7 +367,7 @@ namespace App.Scripts
 
         #endregion
 
-        TextBox main = new TextBox()
+        private TextBox main = new TextBox()
         {
             Value = "Определение коэффициентов поверхностного натяжения жидкостей",
             Width = 0.4f,
@@ -374,17 +375,40 @@ namespace App.Scripts
             Position = new Vector2(0.55f, 0.0f),
         };
 
-        Button exit = new Button()
+        private Button exit = new Button()
         {
-            Text = "Exit",
+            Text = "Выход",
             Width = 0.05f,
             Height = 0.04f,
             Position = new Vector2(0.95f, 0f),
         };
 
-        Material LiquidMaterial;
+        private Material LiquidMaterial;
 
         private AudioPlayer _rotate;
+
+        private TextBox _arroy = new TextBox()
+        {
+            Value = "⬆",
+            Width = 0.0f,
+            Height = 0.0f,
+            Position = new Vector2(0.1f, 0.4f),
+            Active = false,
+        };
+
+        public TextBox Arroy => _arroy;
+
+        private Button changerLiquid = new Button()
+        {
+            Text = "Жидкий металл",
+            Width = 0.43f,
+            Height = 0.05f,
+            Position = new Vector2(0.56f, 0.93f),
+        };
+
+        private bool LiquidType = false;
+
+        private TimerScript _timerScript;
 
         public override void Start()
         {
@@ -435,42 +459,43 @@ namespace App.Scripts
             EventHandler handler = (o, e) =>
             {
                 tb_2_value.Value = GetLiquidValue(out var number).ToString("0.0000") + " Н/м";
+                CoefChanged?.Invoke(this, GetLiquidValue(out number));
                 switch (number)
                 {
                     case 1:
-                        LiquidMaterial.AmbientCoefficient = new Color4(0.8f, 0.8f, 0.8f, 0.5f);
-                        LiquidMaterial.DiffusionCoefficient = new Color4(0.8f, 0.8f, 0.8f, 0.5f);
-                        LiquidMaterial.SpecularCoefficient = new Color4(0.8f, 0.8f, 0.8f, 0.5f);
+                        LiquidMaterial.AmbientCoefficient = LiquidType ? new Color4(0.8f, 0.8f, 0.8f, 1f) : new Color4(0.8f, 0.8f, 0.8f, 0.5f);
+                        LiquidMaterial.DiffusionCoefficient = LiquidType ? new Color4(0.8f, 0.8f, 0.8f, 1f) : new Color4(0.8f, 0.8f, 0.8f, 0.5f);
+                        LiquidMaterial.SpecularCoefficient = LiquidType ? new Color4(1f, 1f, 1f, 1f) : new Color4(0.8f, 0.8f, 0.8f, 0.5f);
                         break;
                     case 2:
-                        LiquidMaterial.AmbientCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.2f);
-                        LiquidMaterial.DiffusionCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.2f);
-                        LiquidMaterial.SpecularCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.2f);
+                        LiquidMaterial.AmbientCoefficient = LiquidType ? new Color4(0.67f, 0.43f, 0.29f, 1f) : new Color4(0.9f, 0.9f, 0.9f, 0.2f);
+                        LiquidMaterial.DiffusionCoefficient = LiquidType ? new Color4(0.67f, 0.43f, 0.29f, 1f) : new Color4(0.9f, 0.9f, 0.9f, 0.2f);
+                        LiquidMaterial.SpecularCoefficient = LiquidType ? new Color4(1f, 1f, 1f, 1f) : new Color4(0.9f, 0.9f, 0.9f, 0.2f);
                         break;
                     case 3:
-                        LiquidMaterial.AmbientCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.6f);
-                        LiquidMaterial.DiffusionCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.6f);
-                        LiquidMaterial.SpecularCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.6f);
+                        LiquidMaterial.AmbientCoefficient = LiquidType ? new Color4(0.51f, 0.56f, 0.6f, 1f) : new Color4(0.9f, 0.9f, 0.9f, 0.6f);
+                        LiquidMaterial.DiffusionCoefficient = LiquidType ? new Color4(0.51f, 0.56f, 0.6f, 1f) : new Color4(0.9f, 0.9f, 0.9f, 0.6f);
+                        LiquidMaterial.SpecularCoefficient = LiquidType ? new Color4(1f, 1f, 1f, 1f) : new Color4(0.9f, 0.9f, 0.9f, 0.6f);
                         break;
                     case 4:
-                        LiquidMaterial.AmbientCoefficient = new Color4(0.7f, 0.5f, 0, 0.4f);
-                        LiquidMaterial.DiffusionCoefficient = new Color4(0.7f, 0.5f, 0, 0.4f);
-                        LiquidMaterial.SpecularCoefficient = new Color4(0.7f, 0.5f, 0, 0.4f);
+                        LiquidMaterial.AmbientCoefficient = LiquidType ? new Color4(0.27f, 0.23f, 0.19f, 1f) : new Color4(0.7f, 0.5f, 0, 0.4f);
+                        LiquidMaterial.DiffusionCoefficient = LiquidType ? new Color4(0.27f, 0.23f, 0.19f, 1f) : new Color4(0.7f, 0.5f, 0, 0.4f);
+                        LiquidMaterial.SpecularCoefficient = LiquidType ? new Color4(1f, 1f, 1f, 1f) : new Color4(0.7f, 0.5f, 0, 0.4f);
                         break;
                     case 5:
-                        LiquidMaterial.AmbientCoefficient = new Color4(0, 0, 0, 0.8f);
-                        LiquidMaterial.DiffusionCoefficient = new Color4(0, 0, 0, 0.8f);
-                        LiquidMaterial.SpecularCoefficient = new Color4(0, 0, 0, 0.8f);
+                        LiquidMaterial.AmbientCoefficient = LiquidType ? new Color4(0.76f, 0.73f, 0.65f, 1f) : new Color4(0, 0, 0, 0.8f);
+                        LiquidMaterial.DiffusionCoefficient = LiquidType ? new Color4(0.76f, 0.73f, 0.65f, 1f) : new Color4(0, 0, 0, 0.8f);
+                        LiquidMaterial.SpecularCoefficient = LiquidType ? new Color4(1f, 1f, 1f, 1f) : new Color4(0, 0, 0, 0.8f);
                         break;
                     case 6:
-                        LiquidMaterial.AmbientCoefficient = new Color4(0.8f, 0.5f, 0, 0.6f);
-                        LiquidMaterial.DiffusionCoefficient = new Color4(0.8f, 0.5f, 0, 0.6f);
-                        LiquidMaterial.SpecularCoefficient = new Color4(0.8f, 0.5f, 0, 0.6f);
+                        LiquidMaterial.AmbientCoefficient = LiquidType ? new Color4(0.5f, 0.6f, 0.75f, 1f) : new Color4(0.8f, 0.5f, 0, 0.6f);
+                        LiquidMaterial.DiffusionCoefficient = LiquidType ? new Color4(0.5f, 0.6f, 0.75f, 1f) : new Color4(0.8f, 0.5f, 0, 0.6f);
+                        LiquidMaterial.SpecularCoefficient = LiquidType ? new Color4(1f, 1f, 1f, 1f) : new Color4(0.8f, 0.5f, 0, 0.6f);
                         break;
                     case 7:
-                        LiquidMaterial.AmbientCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.25f);
-                        LiquidMaterial.DiffusionCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.25f);
-                        LiquidMaterial.SpecularCoefficient = new Color4(0.9f, 0.9f, 0.9f, 0.25f);
+                        LiquidMaterial.AmbientCoefficient = LiquidType ? new Color4(0.33f, 0.38f, 0.32f, 1f) : new Color4(0.9f, 0.9f, 0.9f, 0.25f);
+                        LiquidMaterial.DiffusionCoefficient = LiquidType ? new Color4(0.33f, 0.38f, 0.32f, 1f) : new Color4(0.9f, 0.9f, 0.9f, 0.25f);
+                        LiquidMaterial.SpecularCoefficient = LiquidType ? new Color4(1f, 1f, 1f, 1f) : new Color4(0.9f, 0.9f, 0.9f, 0.25f);
                         break;
                 }
             };
@@ -507,13 +532,47 @@ namespace App.Scripts
             Canvas.RegisterElement(b2);
             #endregion
 
+            Canvas.RegisterElement(_arroy);
 
             _rotate = Scene.Find("rotate").GetComponent<AudioPlayer>();
             _rotate.Repeat = true;
 
+            _timerScript = (TimerScript)Scene.Find("Timer").Script;
+
             Canvas.RegisterElement(main);
             Canvas.RegisterElement(exit);
+            Canvas.RegisterElement(changerLiquid);
             exit.Click += (o, e) => Engine.Instance.Stop();
+            changerLiquid.Click += (o, e) =>
+            {
+                LiquidType = !LiquidType;
+                CoefChanged?.Invoke(this, GetLiquidValue(out var _));
+                r1.Checked = true;
+                if (LiquidType)
+                {
+                    changerLiquid.Text = "Жидкость";
+                    tb_r1.Value = "Алюминий";
+                    tb_r2.Value = "Медь";
+                    tb_r3.Value = "Цинк";
+                    tb_r4.Value = "Галлий";
+                    tb_r5.Value = "Висмут";
+                    tb_r6.Value = "Свинец";
+                    tb_r7.Value = "Олово";
+                    tb_tb2Header.Value = "Жидкий металл";
+                }
+                else 
+                {
+                    changerLiquid.Text = "Жидкий металл";
+                    tb_r1.Value = "Глицерин";
+                    tb_r2.Value = "Вода";
+                    tb_r3.Value = "Эфир";
+                    tb_r4.Value = "Бензол";
+                    tb_r5.Value = "Нефть";
+                    tb_r6.Value = "Масло";
+                    tb_r7.Value = "Спирт";
+                    tb_tb2Header.Value = "Жидкость";
+                }
+            };
 
             #region SetFloatTextBoxStyle
             SetFloatTextBox(fv_d1.Style);
@@ -544,6 +603,10 @@ namespace App.Scripts
             SetTextBoxPref(tb_r5.Style, TextAlignment.Leading);
             SetTextBoxPref(tb_r6.Style, TextAlignment.Leading);
             SetTextBoxPref(tb_r7.Style, TextAlignment.Leading);
+            SetTextBoxSuff(_arroy.Style, 200f);
+
+            _arroy.Style.TextStyle.Color = new Color(0, 0, 0, 255);
+            _arroy.Style.TextStyle.DisabledColor = new Color(0, 0, 0, 0);
 
             SetTextBoxSuff(main.Style, 50f, FontWeight.ExtraBold);
             main.Style.TextStyle.Color = new Color(157, 72, 127);
@@ -554,6 +617,7 @@ namespace App.Scripts
             SetButtonStyle(xUpB.Style);
             SetButtonStyle(xDownB.Style);
             SetButtonStyle(exit.Style, false);
+            SetButtonStyle(changerLiquid.Style);
             #endregion
         }
 
@@ -569,7 +633,7 @@ namespace App.Scripts
                 fv_dx.Value -= 0.02f;
                 _rotate.Play();
             }
-            else
+            else if(!_timerScript.TimerStarted)
             {
                 _rotate.Stop();
             }
@@ -580,37 +644,37 @@ namespace App.Scripts
             if (r1.Checked)
             {
                 number = 1;
-                return 0.0594f;
+                return LiquidType ? 0.914f : 0.0594f;
             }
             if (r2.Checked)
             {
                 number = 2;
-                return 0.0728f;
+                return LiquidType ? 1.351f : 0.0728f;
             }
             if (r3.Checked)
             {
                 number = 3;
-                return 0.0169f;
+                return LiquidType ? 0.811f : 0.0169f;
             }
             if (r4.Checked)
             {
                 number = 4;
-                return 0.0439f;
+                return LiquidType ? 0.735f : 0.0439f;
             }
             if (r5.Checked)
             {
                 number = 5;
-                return 0.026f;
+                return LiquidType ? 0.39f : 0.026f;
             }
             if (r6.Checked)
             {
                 number = 6;
-                return 0.0354f;
+                return LiquidType ? 0.48f : 0.0354f;
             }
             if (r7.Checked)
             {
                 number = 7;
-                return 0.0226f;
+                return LiquidType ? 0.554f : 0.0226f;
             }
 
             number = -1;

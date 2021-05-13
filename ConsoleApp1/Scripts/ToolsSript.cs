@@ -12,7 +12,8 @@ namespace App.Scripts
         private GameObject _spring;
         private GameObject _ring;
         private GameObject _rope;
-        private UI _scriptUI;
+        private UIScript _scriptUI;
+        private TimerScript _timerScript;
 
         private float _coefStiffness = 0;
         private float _perimetrRing = 0;
@@ -25,6 +26,9 @@ namespace App.Scripts
         private AudioPlayer _music;
         private AudioPlayer _drop;
         private AudioPlayer _up;
+        private AudioPlayer _rotate;
+
+        private Random _rnd;
 
         private bool _detachment = false;
 
@@ -42,6 +46,9 @@ namespace App.Scripts
                 _ring.Position = _startPositionRing + shift;
                 _rope.Position = _startPositionRope + shift;
                 _detachment = true;
+                if (_timerScript.TimerStarted) _timerScript.StopTimer();
+                _scriptUI.Arroy.Active = false;
+                _rotate.Stop();
             }
             else if(_detachment)
             {
@@ -59,6 +66,7 @@ namespace App.Scripts
 
         public override void Start()
         {
+            _rnd = new Random();
             _plank = Scene.Find("part1.001");
             _spring = Scene.Find("Пружинка");
             _rope = Scene.Find("Ниточки");
@@ -67,15 +75,29 @@ namespace App.Scripts
             _startPositionSpring = _spring.Position;
             _startPositionRing = _ring.Position;
             _startPositionRope = _rope.Position;
-            _scriptUI = (UI)Scene.Find("UI").Script;
+            _scriptUI = (UIScript)Scene.Find("UI").Script;
+            _timerScript = (TimerScript)Scene.Find("Timer").Script;
+
+            _timerScript.StopButton.Click += (o, e) =>
+            {
+                _scriptUI.Arroy.Active = true;
+            };
+
+            _timerScript.ResetButton.Click += (o, e) =>
+            {
+                _scriptUI.Dx.Value = 0f;
+                _scriptUI.Arroy.Active = false;
+            };
 
             _music = Scene.Find("music").GetComponent<AudioPlayer>();
             _music.Repeat = true;
-            _music.Volume = 0.1f;
+            _music.Volume = 0.06f;
             _music.Play();
 
             _drop = Scene.Find("drop").GetComponent<AudioPlayer>();
             _up = Scene.Find("up").GetComponent<AudioPlayer>();
+            _rotate = Scene.Find("rotate").GetComponent<AudioPlayer>();
+            _rotate.Repeat = true;
 
             _scriptUI.Dpr.ValueChanged += (o, e) =>
             {
@@ -101,6 +123,11 @@ namespace App.Scripts
                 CalcuelateDeltaX();
             };
 
+            _scriptUI.CoefChanged += (o, e) =>
+            {
+                CalcuelateDeltaX();
+            };
+
             CalculateCoef(_scriptUI.Dpr.Value, _scriptUI.Dvit.Value);
             CalculatePerimetr(_scriptUI.D1.Value, _scriptUI.D2.Value);
             CalcuelateDeltaX();
@@ -108,6 +135,13 @@ namespace App.Scripts
 
         public override void FixedUpdate(double deltaTime)
         {
+            if (_timerScript.TimerStarted)
+            {
+                _rotate.Play();
+                _scriptUI.Dx.Value = _timerScript.Seconds;
+                _scriptUI.Arroy.Active =  (int)(_timerScript.Seconds * 1.5) % 2 == 0;
+            }
+
             Move(_scriptUI.Dx.Value);
         }
 
@@ -124,6 +158,7 @@ namespace App.Scripts
         private void CalcuelateDeltaX()
         {
             _deltaX = _scriptUI.GetLiquidValue(out var _) * _perimetrRing * 1000 / _coefStiffness;
+            _deltaX *= 1f + (float)((_rnd.NextDouble() - 0.5) / 100);
         }
     }
 }
