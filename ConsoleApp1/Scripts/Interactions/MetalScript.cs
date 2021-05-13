@@ -7,6 +7,8 @@ namespace Lab3.Scripts.Interactions
 {
     public class MetalScript : Script
     {
+        public bool IsMoving { get; set; }
+
         public bool IsInWater { get; set; }
 
         public bool IsSelected { get; set; }
@@ -63,6 +65,10 @@ namespace Lab3.Scripts.Interactions
             var timer_script = (TimerScript)Scene.Find("Timer").Script;
             timer_script.OnTimerStarted += (o, e) =>
             {
+                if(IsMoving || IsOnWeigher)
+                {
+                    Object.Position = _startPosition;
+                }    
                 _isTimerStarted = true;
             };
             timer_script.OnTimerReseted += (o, e) =>

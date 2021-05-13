@@ -30,6 +30,7 @@ namespace Lab3.Scripts.Interactions
             {
                 if(e.Object?.Name == Object.Children[0].Name && _metalScript.IsSelected && !_metalScript.IsOnWeigher)
                 {
+                    _metalScript.IsMoving = true;
                     _moveMetalAnimation.Reset();              
                     _moveMetalAnimation.Start();
                 }
@@ -43,6 +44,14 @@ namespace Lab3.Scripts.Interactions
             };
 
             var timer_script = (TimerScript)Scene.Find("Timer").Script;
+            timer_script.OnTimerStarted += (o, e) =>
+            {
+                if(_metalScript.IsMoving || _metalScript.IsOnWeigher)
+                {
+                    _metalUI.CurrentWeight.Value = "0,000";
+                }
+                _moveMetalAnimation.Stop();
+            };
             timer_script.OnTimerReseted += (o, e) =>
             {
                 _moveMetalAnimation.Stop();
@@ -56,6 +65,7 @@ namespace Lab3.Scripts.Interactions
 
         private void UpdateWeigherWithMetal(object sender, EventArgs e)
         {
+            _metalScript.IsMoving = false;
             _metalScript.IsOnWeigher = true;
 
             var value = _metalUI.MetalParameters.Mass;

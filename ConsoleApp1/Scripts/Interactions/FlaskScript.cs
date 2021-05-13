@@ -24,14 +24,17 @@ namespace Lab3.Scripts.Interactions
             _moveMetalAnimation.DefaultSpeed = 2f;
             _moveMetalAnimation.OnAnimationEnd += (o, e) =>
             {
-                water_script.AddExtraVolume();
+                _metalScript.IsMoving = false;
                 _metalScript.IsInWater = true;
+                water_script.AddExtraVolume();
             };
 
             MouseGrip.OnLeftClickObject += (o, e) =>
             {
                 if (e.Object?.Name == Object.Name && _metalScript.IsOnWeigher)
                 {
+                    _metalScript.IsOnWeigher = false;
+                    _metalScript.IsMoving = true;
                     _moveMetalAnimation.Reset();
                     _moveMetalAnimation.Start();
                 }
@@ -44,6 +47,10 @@ namespace Lab3.Scripts.Interactions
             };
 
             var timer_script = (TimerScript)Scene.Find("Timer").Script;
+            timer_script.OnTimerStarted += (o, e) =>
+            {
+                _moveMetalAnimation.Stop();
+            };
             timer_script.OnTimerReseted += (o, e) =>
             {
                 _moveMetalAnimation.Stop();

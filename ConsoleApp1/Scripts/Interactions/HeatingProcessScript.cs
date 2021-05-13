@@ -25,10 +25,12 @@ namespace Lab3.Scripts.Interactions
         {
             _waterUI = (WaterPanelUI)Scene.Find("WaterUI").Script;
             _electricalСircuitUI = (ElectricalСircuitPanelUI)Scene.Find("ElectricalСircuitUI").Script;
+            var metal_script = (MetalScript)Scene.Find("Metal").Script;
+            var metal_ui = (MetalPanelUI)Scene.Find("MetalUI").Script;
 
             _temparatureScript = (TemparatureScript)Scene.Find("Thermometer").Children[2].Script;
             _timerScript = (TimerScript)Scene.Find("Timer").Script;
-            _timerScript.OnTimerStarted += (o, e) => StartProcess();
+            _timerScript.OnTimerStarted += (o, e) => StartProcess(metal_ui.MetalParameters, metal_script.IsInWater);
             _timerScript.OnTimerPaused += (o, e) => StopProcess();
             _timerScript.OnTimerReseted += (o, e) => EndProcess();
         }
@@ -42,7 +44,7 @@ namespace Lab3.Scripts.Interactions
             }
         }
 
-        private void StartProcess()
+        private void StartProcess(MetalParameters metalParameters, bool isMetalInWater)
         {
             if (!_isProcessStarted)
             {
@@ -51,16 +53,27 @@ namespace Lab3.Scripts.Interactions
                 _startTemparature = _waterUI.WaterTemparatureInput.Value;
 
                 var loss = Lab3.Scene.Random.NextFloat(1.00f, 1.01f);
-                var m = _waterUI.WaterVolumeInput.Value;
+                var mW = _waterUI.WaterVolumeInput.Value;
                 var U = _electricalСircuitUI.VoltageInput.Value;
                 var I = Convert.ToSingle(_electricalСircuitUI.CurrentAmperage.Value);
+                if (isMetalInWater)
+                {
+                    var mM = metalParameters.Mass;
+                    var shM = metalParameters.SpecificHeat;
 
-                _processStep = (U * I) / (loss * m * SH_WATER);
+                    _processStep = (U * I) / (loss * mW * SH_WATER + mM * shM);
+                }
+                else
+                {                 
+                    _processStep = (U * I) / (loss * mW * SH_WATER);
+                }
+
+                Console.WriteLine(_processStep);
             }
 
             if (_isProccesPaused)
             {
-                _isProccesPaused = true;
+                _isProccesPaused = false;
             }
         }
 
