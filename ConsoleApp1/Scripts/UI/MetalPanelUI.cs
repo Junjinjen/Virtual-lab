@@ -92,9 +92,9 @@ namespace Lab3.Scripts.UI
 
         public TextBox CurrentWeight = new TextBox
         {
-            Width = 0.11f,
+            Width = 0.106f,
             Height = 0.05f,
-            Position = new Vector2(0.675f, 0.895f),
+            Position = new Vector2(0.677f, 0.894f),
             Value = "0,000"
         };
 
@@ -124,9 +124,9 @@ namespace Lab3.Scripts.UI
 
         private RectangleBackground weigherBoxBorder = new RectangleBackground
         {
-            Width = 0.12f,
-            Height = 0.07f,
-            Position = new Vector2(0.67f, 0.885f),
+            Width = 0.11f,
+            Height = 0.058f,
+            Position = new Vector2(0.675f, 0.89f),
             Background = new SolidColorRectangle
             {
                 Color = new Color(100, 141, 151),
@@ -136,9 +136,9 @@ namespace Lab3.Scripts.UI
 
         private RectangleBackground weigherBox = new RectangleBackground
         {
-            Width = 0.11f,
+            Width = 0.106f,
             Height = 0.05f,
-            Position = new Vector2(0.675f, 0.895f),
+            Position = new Vector2(0.677f, 0.894f),
             Background = new SolidColorRectangle
             {
                 Color = new Color(26, 29, 28),

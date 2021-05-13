@@ -33,7 +33,7 @@ namespace Lab3.Scripts.UI
         {
             textBox.Style.ActiveBackground = new SolidColorRectangle() { Color = new Color(0, 0, 0, 0) };
             textBox.Style.Border = new Border() { Color = new Color(0, 0, 0, 0) };
-            //textBox.Style.FocusedBorder = new Border() { Color = new Color(0, 0, 0, 0) };
+            textBox.Style.FocusedBorder = new Border() { Color = new Color(0, 0, 0, 0) };
             textBox.Style.TextStyle = new DisablingTextStyle()
             {
                 Color = new Color(0, 0, 0, 255),
@@ -69,7 +69,7 @@ namespace Lab3.Scripts.UI
         {
             textBox.Style.ActiveBackground = new SolidColorRectangle() { Color = new Color(0, 0, 0, 0) };
             textBox.Style.Border = new Border() { Color = new Color(0, 0, 0, 0) };
-            //textBox.Style.FocusedBorder = new Border() { Color = new Color(0, 0, 0, 0) };
+            textBox.Style.FocusedBorder = new Border() { Color = new Color(0, 0, 0, 0) };
             textBox.Style.TextStyle = new DisablingTextStyle()
             {
                 Color = new Color(210, 0, 0, 255),

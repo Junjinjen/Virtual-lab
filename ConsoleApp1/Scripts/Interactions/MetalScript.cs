@@ -1,4 +1,5 @@
 ﻿using JUnity.Components;
+using JUnity.Components.Audio;
 using JUnity.Components.Physics;
 using JUnity.Services.Input;
 using SharpDX;
@@ -15,15 +16,19 @@ namespace Lab3.Scripts.Interactions
 
         public bool IsOnWeigher { get; set; }
 
-        private Vector3 _startPosition;
+        private AudioPlayer _audioChoice;
 
         private PointMovement _liftingAnimation;
         private PointMovement _loweringAnimation;
+
+        private Vector3 _startPosition;
 
         private bool _isTimerStarted;
 
         public override void Start()
         {
+            _audioChoice = Object.GetComponent<AudioPlayer>();
+
             _startPosition = Object.Position;
 
             _liftingAnimation = new PointMovement(Object, _startPosition);
@@ -38,8 +43,9 @@ namespace Lab3.Scripts.Interactions
             {
                 if (_isTimerStarted) return;
 
-                if (e.Object?.Name == "Metal" && !IsOnWeigher)
+                if (e.Object?.Name == "Metal" && !IsOnWeigher && !IsMoving)
                 {
+                    PlayVoice();
                     IsSelected = true;
                     _loweringAnimation.Stop();
                     _liftingAnimation.Start();
@@ -50,6 +56,7 @@ namespace Lab3.Scripts.Interactions
             {
                 if (_isTimerStarted) return;
 
+                PlayVoice();
                 if (IsSelected && !IsOnWeigher)
                 {
                     _liftingAnimation.Stop();
@@ -84,6 +91,11 @@ namespace Lab3.Scripts.Interactions
         {
             _liftingAnimation.Move((float)deltaTime);
             _loweringAnimation.Move((float)deltaTime);
+        }
+
+        public void PlayVoice()
+        {
+            _audioChoice.Play();
         }
     }
 }

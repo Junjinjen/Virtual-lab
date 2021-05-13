@@ -9,17 +9,17 @@ namespace Lab3.Scripts.UI
     {
         public TextBox CurrentTime = new TextBox
         {
-            Width = 0.14f,
-            Height = 0.06f,
-            Position = new Vector2(0.805f, 0.685f),
+            Width = 0.122f,
+            Height = 0.062f,
+            Position = new Vector2(0.785f, 0.659f),
             Value = "0,000"
         };
 
         private RectangleBackground timerBoxBorder = new RectangleBackground
         {
-            Width = 0.15f,
-            Height = 0.08f,
-            Position = new Vector2(0.80f, 0.675f),
+            Width = 0.126f,
+            Height = 0.07f,
+            Position = new Vector2(0.783f, 0.655f),
             Background = new SolidColorRectangle
             {
                 Color = new Color(100, 141, 151),
@@ -29,9 +29,9 @@ namespace Lab3.Scripts.UI
 
         private RectangleBackground timerBox = new RectangleBackground
         {
-            Width = 0.14f,
-            Height = 0.06f,
-            Position = new Vector2(0.805f, 0.685f),
+            Width = 0.122f,
+            Height = 0.062f,
+            Position = new Vector2(0.785f, 0.659f),
             Background = new SolidColorRectangle
             {
                 Color = new Color(26, 29, 28),

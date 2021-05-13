@@ -67,8 +67,6 @@ namespace Lab3.Scripts.Interactions
                 {                 
                     _processStep = (U * I) / (loss * mW * SH_WATER);
                 }
-
-                Console.WriteLine(_processStep);
             }
 
             if (_isProccesPaused)

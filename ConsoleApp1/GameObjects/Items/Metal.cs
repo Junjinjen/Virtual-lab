@@ -1,4 +1,5 @@
 ﻿using JUnity;
+using JUnity.Components.Audio;
 using JUnity.Components.Physics;
 using JUnity.Components.Physics.Colliders;
 using JUnity.Utilities;
@@ -18,6 +19,10 @@ namespace Lab3.GameObjects.Items
             obj.AddScript<MetalScript>();
             var rb = obj.AddComponent<Rigidbody>();
             rb.AddCollider(new BoxCollider(-Vector3.One * 0.5f, Vector3.One * 0.5f));
+            file = @"Audio/choice.wav";
+            var audio = obj.AddComponent<AudioPlayer>();
+            audio.SetAudio(file);
+            audio.Repeat = false;
 
             return obj;
         }

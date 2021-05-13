@@ -20,16 +20,17 @@ namespace Lab3.Scripts.Interactions
 
             _moveMetalAnimation = new PointMovement(_metalScript.Object, _metalScript.Object.Position);
             _moveMetalAnimation.Points.Add(
-                new Vector3(_metalScript.Object.Position.X, Object.Position.Y + 1.5f, _metalScript.Object.Position.Z));
-            _moveMetalAnimation.Points.Add(Object.Position + Vector3.UnitY * 1.5f);
+                new Vector3(_metalScript.Object.Position.X, Object.Position.Y + 1.4f, _metalScript.Object.Position.Z));
+            _moveMetalAnimation.Points.Add(Object.Position + Vector3.UnitY * 1.4f);
             _moveMetalAnimation.Points.Add(Object.Position + Vector3.UnitY * 1.35f);
             _moveMetalAnimation.DefaultSpeed = 2f;
             _moveMetalAnimation.OnAnimationEnd += UpdateWeigherWithMetal;
 
             MouseGrip.OnLeftClickObject += (o, e) =>
-            {
-                if(e.Object?.Name == Object.Children[0].Name && _metalScript.IsSelected && !_metalScript.IsOnWeigher)
+            {               
+                if (e.Object?.Name == Object.Children[0].Name && _metalScript.IsSelected && !_metalScript.IsOnWeigher)
                 {
+                    _metalScript.PlayVoice();
                     _metalScript.IsMoving = true;
                     _moveMetalAnimation.Reset();              
                     _moveMetalAnimation.Start();

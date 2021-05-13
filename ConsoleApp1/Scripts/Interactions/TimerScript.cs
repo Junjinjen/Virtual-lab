@@ -1,4 +1,5 @@
 ﻿using JUnity.Components;
+using JUnity.Components.Audio;
 using JUnity.Components.Physics;
 using JUnity.Components.UI;
 using JUnity.Services.Input;
@@ -17,6 +18,9 @@ namespace Lab3.Scripts.Interactions
 
         public float Seconds { get; private set; }
 
+        private AudioPlayer _audioTimer;
+        private AudioPlayer _audioButton;
+
         private PointMovement _playButtonAnimation;
         private PointMovement _pauseButtonAnimation;
         private PointMovement _stopButtonAnimation;
@@ -29,6 +33,11 @@ namespace Lab3.Scripts.Interactions
         public override void Start()
         {
             _timer = new Stopwatch();
+
+            _audioTimer = Object.GetComponent<AudioPlayer>();
+            _audioButton = Object.Children[3].GetComponent<AudioPlayer>();
+            _audioButton.Repeat = false;
+
             var ui_script = (TimerPanelUI)Scene.Find("TimerUI").Script;
             _currentTime = ui_script.CurrentTime;
 
@@ -77,12 +86,16 @@ namespace Lab3.Scripts.Interactions
                     _playButtonAnimation.Start();
                     _isUpdate = true;
                     OnTimerStarted?.Invoke(this, null);
+                    _audioTimer.Play();
+                    _audioButton.Play();
                     break;
                 case "Pause":
                     _timer.Stop();
                     _pauseButtonAnimation.Reset();
                     _pauseButtonAnimation.Start();
                     OnTimerPaused?.Invoke(this, null);
+                    _audioTimer.Pause();
+                    _audioButton.Play();
                     break;
                 case "Stop":
                     _timer.Reset();
@@ -90,6 +103,8 @@ namespace Lab3.Scripts.Interactions
                     _stopButtonAnimation.Start();
                     _isUpdate = false;
                     OnTimerReseted?.Invoke(this, null);
+                    _audioTimer.Stop();
+                    _audioButton.Play();
                     break;
             }
         }
