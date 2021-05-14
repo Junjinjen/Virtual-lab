@@ -20,7 +20,7 @@ namespace App.Scripts
 
         #region FirstTable
 
-        private TextBox tb_tb1Header = new TextBox
+        private TextBox table1Header = new TextBox
         {
             Value = "Параметры кольца и пружины",
             Width = 0.4f,
@@ -28,7 +28,7 @@ namespace App.Scripts
             Position = new Vector2(0.57f, 0.2f),
         };
 
-        private FloatTextBox fv_d1 = new FloatTextBox
+        private FloatTextBox floatTextBoxD1 = new FloatTextBox
         {
             Value = 48,
             MaxValue = 50,
@@ -38,7 +38,7 @@ namespace App.Scripts
             Position = new Vector2(0.87f, 0.28f),
         };
 
-        private TextBox tb_p_d1 = new TextBox
+        private TextBox tablePrefD1 = new TextBox
         {
             Value = "Внешний диаметр кольца",
             Width = 0.22f,
@@ -46,7 +46,7 @@ namespace App.Scripts
             Position = new Vector2(0.63f, 0.28f),
         };
 
-        private TextBox tb_s_d1 = new TextBox
+        private TextBox tableSufD1 = new TextBox
         {
             Value = "мм",
             Width = 0.04f,
@@ -54,10 +54,10 @@ namespace App.Scripts
             Position = new Vector2(0.94f, 0.28f),
         };
         
-        public FloatTextBox D1 => fv_d1;
+        public FloatTextBox D1 => floatTextBoxD1;
 
        
-        private FloatTextBox fv_d2 = new FloatTextBox
+        private FloatTextBox floatTextBoxD2 = new FloatTextBox
         {
             Value = 46,
             MaxValue = 50,
@@ -67,7 +67,7 @@ namespace App.Scripts
             Position = new Vector2(0.87f, 0.35f),
         };
 
-        private TextBox tb_p_d2 = new TextBox
+        private TextBox tablePrefD2 = new TextBox
         {
             Value = "Внутренний диаметр кольца",
             Width = 0.22f,
@@ -75,7 +75,7 @@ namespace App.Scripts
             Position = new Vector2(0.63f, 0.35f),
         };
 
-        private TextBox tb_s_d2 = new TextBox
+        private TextBox tableSufD2 = new TextBox
         {
             Value = "мм",
             Width = 0.04f,
@@ -83,10 +83,10 @@ namespace App.Scripts
             Position = new Vector2(0.94f, 0.35f),
         };
 
-        public FloatTextBox D2 => fv_d2;
+        public FloatTextBox D2 => floatTextBoxD2;
 
 
-        private FloatTextBox fv_dpr = new FloatTextBox
+        private FloatTextBox floatTextBoxDpr = new FloatTextBox
         {
             Value = 2f,
             MaxValue = 3f,
@@ -96,7 +96,7 @@ namespace App.Scripts
             Position = new Vector2(0.87f, 0.42f),
         };
 
-        private TextBox tb_p_dpr = new TextBox
+        private TextBox tablePrefDpr = new TextBox
         {
             Value = "Диаметр проволки",
             Width = 0.22f,
@@ -104,7 +104,7 @@ namespace App.Scripts
             Position = new Vector2(0.63f, 0.42f),
         };
 
-        private TextBox tb_s_dpr = new TextBox
+        private TextBox tableSufDpr = new TextBox
         {
             Value = "мм",
             Width = 0.04f,
@@ -112,10 +112,10 @@ namespace App.Scripts
             Position = new Vector2(0.94f, 0.42f),
         };
 
-        public FloatTextBox Dpr => fv_dpr;
+        public FloatTextBox Dpr => floatTextBoxDpr;
 
 
-        private FloatTextBox fv_dvit = new FloatTextBox
+        private FloatTextBox flaotTextBoxDvit = new FloatTextBox
         {
             Value = 50,
             MaxValue = 55,
@@ -125,7 +125,7 @@ namespace App.Scripts
             Position = new Vector2(0.87f, 0.49f),
         };
 
-        private TextBox tb_p_dvit = new TextBox
+        private TextBox tablePrefDvit = new TextBox
         {
             Value = "Диаметр витка пружины",
             Width = 0.22f,
@@ -133,7 +133,7 @@ namespace App.Scripts
             Position = new Vector2(0.63f, 0.49f),
         };
 
-        private TextBox tb_s_dvit = new TextBox
+        private TextBox tableSufDvit = new TextBox
         {
             Value = "мм",
             Width = 0.04f,
@@ -141,10 +141,10 @@ namespace App.Scripts
             Position = new Vector2(0.94f, 0.49f),
         };
 
-        public FloatTextBox Dvit => fv_dvit;
+        public FloatTextBox Dvit => flaotTextBoxDvit;
 
 
-        private FloatTextBox fv_dx = new FloatTextBox
+        private FloatTextBox floatTextBoxDx = new FloatTextBox
         {
             Value = 0,
             MaxValue = 54,
@@ -154,7 +154,7 @@ namespace App.Scripts
             Position = new Vector2(0.87f, 0.56f),
         };
 
-        private TextBox tb_p_dx = new TextBox
+        private TextBox tablePrefDx = new TextBox
         {
             Value = "Удлинение пружины",
             Width = 0.22f,
@@ -162,7 +162,7 @@ namespace App.Scripts
             Position = new Vector2(0.63f, 0.56f),
         };
 
-        private TextBox tb_s_dx = new TextBox
+        private TextBox tableSufDx = new TextBox
         {
             Value = "мм",
             Width = 0.04f,
@@ -170,24 +170,24 @@ namespace App.Scripts
             Position = new Vector2(0.94f, 0.56f),
         };
 
-        public FloatTextBox Dx => fv_dx;
+        public FloatTextBox Dx => floatTextBoxDx;
 
 
-        private Button resetB = new Button
+        private Button resetButton = new Button
         {
             Text = "Сброс",
             Width = 0.15f,
             Height = 0.05f,
             Position = new Vector2(0.725f, 0.62f),
         };
-        private Button xUpB = new Button
+        private Button xUpButton = new Button
         {
             Text = "▲",
             Width = 0.02f,
             Height = 0.02f,
             Position = new Vector2(0.92f, 0.56f),
         };
-        private Button xDownB = new Button
+        private Button xDownButton = new Button
         {
             Text = "▼",
             Width = 0.02f,
@@ -196,7 +196,7 @@ namespace App.Scripts
         };
 
 
-        private RectangleBackground b1b = new RectangleBackground
+        private RectangleBackground backgroundBorder1 = new RectangleBackground
         {
             Height = 0.5f,
             Width = 0.6f,
@@ -208,7 +208,7 @@ namespace App.Scripts
             ZOrder = BackgroundBorderZOrder,
         };
 
-        private RectangleBackground b1 = new RectangleBackground
+        private RectangleBackground background1 = new RectangleBackground
         {
             Height = 0.485f,
             Width = 0.595f,
@@ -224,50 +224,50 @@ namespace App.Scripts
 
         #region SecondTable
 
-        private RadioButton r1 = new RadioButton("Liquid")
+        private RadioButton radioButton1 = new RadioButton("Liquid")
         {
             Width = 0.02f,
             Height = 0.02f,
             Position = new Vector2(0.57f, 0.75f)
         };
-        private RadioButton r2 = new RadioButton("Liquid")
+        private RadioButton radioButton2 = new RadioButton("Liquid")
         {
             Width = 0.02f,
             Height = 0.02f,
             Position = new Vector2(0.57f, 0.81f)
         };
-        private RadioButton r3 = new RadioButton("Liquid")
+        private RadioButton radioButton3 = new RadioButton("Liquid")
         {
             Width = 0.02f,
             Height = 0.02f,
             Position = new Vector2(0.57f, 0.87f)
         };
-        private RadioButton r4 = new RadioButton("Liquid")
+        private RadioButton radioButton4 = new RadioButton("Liquid")
         {
             Width = 0.02f,
             Height = 0.02f,
             Position = new Vector2(0.72f, 0.75f)
         };
-        private RadioButton r5 = new RadioButton("Liquid")
+        private RadioButton radioButton5 = new RadioButton("Liquid")
         {
             Width = 0.02f,
             Height = 0.02f,
             Position = new Vector2(0.72f, 0.81f)
         };
-        private RadioButton r6 = new RadioButton("Liquid")
+        private RadioButton radioButton6 = new RadioButton("Liquid")
         {
             Width = 0.02f,
             Height = 0.02f,
             Position = new Vector2(0.72f, 0.87f)
         };
-        private RadioButton r7 = new RadioButton("Liquid")
+        private RadioButton radioButton7 = new RadioButton("Liquid")
         {
             Width = 0.02f,
             Height = 0.02f,
             Position = new Vector2(0.87f, 0.87f)
         };
 
-        private TextBox tb_tb2Header = new TextBox
+        private TextBox table2Header = new TextBox
         {
             Value = "Жидкость",
             Width = 0.18f,
@@ -275,7 +275,7 @@ namespace App.Scripts
             Position = new Vector2(0.82f, 0.72f),
         };
 
-        private TextBox tb_2_value = new TextBox
+        private TextBox table2value = new TextBox
         {
             Value = "",
             Width = 0.1f,
@@ -285,7 +285,7 @@ namespace App.Scripts
 
         public event EventHandler<float> CoefChanged;
 
-        private TextBox tb_r1 = new TextBox
+        private TextBox radioButtonText1 = new TextBox
         {
             Value = "Глицерин",
             Width = 0.10f,
@@ -293,7 +293,7 @@ namespace App.Scripts
             Position = new Vector2(0.59f, 0.73f),
         };
 
-        private TextBox tb_r2 = new TextBox
+        private TextBox radioButtonText2 = new TextBox
         {
             Value = "Вода",
             Width = 0.10f,
@@ -301,7 +301,7 @@ namespace App.Scripts
             Position = new Vector2(0.59f, 0.79f),
         };
 
-        private TextBox tb_r3 = new TextBox
+        private TextBox radioButtonText3 = new TextBox
         {
             Value = "Эфир",
             Width = 0.10f,
@@ -309,7 +309,7 @@ namespace App.Scripts
             Position = new Vector2(0.59f, 0.85f),
         };
 
-        private TextBox tb_r4 = new TextBox
+        private TextBox radioButtonText4 = new TextBox
         {
             Value = "Бензол",
             Width = 0.10f,
@@ -317,7 +317,7 @@ namespace App.Scripts
             Position = new Vector2(0.74f, 0.73f),
         };
 
-        private TextBox tb_r5 = new TextBox
+        private TextBox radioButtonText5 = new TextBox
         {
             Value = "Нефть",
             Width = 0.10f,
@@ -325,7 +325,7 @@ namespace App.Scripts
             Position = new Vector2(0.74f, 0.79f),
         };
 
-        private TextBox tb_r6 = new TextBox
+        private TextBox radioButtonText6 = new TextBox
         {
             Value = "Масло",
             Width = 0.10f,
@@ -333,7 +333,7 @@ namespace App.Scripts
             Position = new Vector2(0.74f, 0.85f),
         };
 
-        private TextBox tb_r7 = new TextBox
+        private TextBox radioButtonText7 = new TextBox
         {
             Value = "Спирт",
             Width = 0.10f,
@@ -341,7 +341,7 @@ namespace App.Scripts
             Position = new Vector2(0.89f, 0.85f),
         };
 
-        private RectangleBackground b2b = new RectangleBackground
+        private RectangleBackground backgroundBorder2 = new RectangleBackground
         {
             Height = 0.2f,
             Width = 0.6f,
@@ -353,7 +353,7 @@ namespace App.Scripts
             ZOrder = BackgroundBorderZOrder,
         };
 
-        private RectangleBackground b2 = new RectangleBackground
+        private RectangleBackground background2 = new RectangleBackground
         {
             Height = 0.185f,
             Width = 0.595f,
@@ -375,7 +375,7 @@ namespace App.Scripts
             Position = new Vector2(0.55f, 0.0f),
         };
 
-        private Button exit = new Button()
+        private Button exitButton = new Button()
         {
             Text = "Выход",
             Width = 0.05f,
@@ -413,43 +413,43 @@ namespace App.Scripts
         public override void Start()
         {
             #region FirstTable
-            Canvas.RegisterElement(resetB);
-            resetB.Click += (o, e) =>
+            Canvas.RegisterElement(resetButton);
+            resetButton.Click += (o, e) =>
             {
-                fv_d1.Value = 48f;
-                fv_d2.Value = 46f;
-                fv_dpr.Value = 2f;
-                fv_dvit.Value = 50f;
-                fv_dx.Value = 0f;
+                floatTextBoxD1.Value = 48f;
+                floatTextBoxD2.Value = 46f;
+                floatTextBoxDpr.Value = 2f;
+                flaotTextBoxDvit.Value = 50f;
+                floatTextBoxDx.Value = 0f;
             };
-            Canvas.RegisterElement(xUpB);
-            Canvas.RegisterElement(xDownB);
+            Canvas.RegisterElement(xUpButton);
+            Canvas.RegisterElement(xDownButton);
 
-            Canvas.RegisterElement(tb_tb1Header);
+            Canvas.RegisterElement(table1Header);
 
-            Canvas.RegisterElement(tb_p_d1);
-            Canvas.RegisterElement(fv_d1);
-            Canvas.RegisterElement(tb_s_d1);
+            Canvas.RegisterElement(tablePrefD1);
+            Canvas.RegisterElement(floatTextBoxD1);
+            Canvas.RegisterElement(tableSufD1);
 
-            Canvas.RegisterElement(tb_p_d2);
-            Canvas.RegisterElement(fv_d2);
-            Canvas.RegisterElement(tb_s_d2);
+            Canvas.RegisterElement(tablePrefD2);
+            Canvas.RegisterElement(floatTextBoxD2);
+            Canvas.RegisterElement(tableSufD2);
 
-            Canvas.RegisterElement(tb_p_dpr);
-            Canvas.RegisterElement(fv_dpr);
-            Canvas.RegisterElement(tb_s_dpr);
+            Canvas.RegisterElement(tablePrefDpr);
+            Canvas.RegisterElement(floatTextBoxDpr);
+            Canvas.RegisterElement(tableSufDpr);
 
-            Canvas.RegisterElement(tb_p_dvit);
-            Canvas.RegisterElement(fv_dvit);
-            Canvas.RegisterElement(tb_s_dvit);
+            Canvas.RegisterElement(tablePrefDvit);
+            Canvas.RegisterElement(flaotTextBoxDvit);
+            Canvas.RegisterElement(tableSufDvit);
 
-            Canvas.RegisterElement(tb_p_dx);
-            Canvas.RegisterElement(fv_dx);
-            fv_dx.ReadOnly = true;
-            Canvas.RegisterElement(tb_s_dx);
+            Canvas.RegisterElement(tablePrefDx);
+            Canvas.RegisterElement(floatTextBoxDx);
+            floatTextBoxDx.ReadOnly = true;
+            Canvas.RegisterElement(tableSufDx);
 
-            Canvas.RegisterElement(b1b);
-            Canvas.RegisterElement(b1);
+            Canvas.RegisterElement(backgroundBorder1);
+            Canvas.RegisterElement(background1);
             #endregion
 
             #region SecondTable
@@ -458,7 +458,7 @@ namespace App.Scripts
 
             EventHandler handler = (o, e) =>
             {
-                tb_2_value.Value = GetLiquidValue(out var number).ToString("0.0000") + " Н/м";
+                table2value.Value = GetLiquidValue(out var number).ToString("0.0000") + " Н/м";
                 CoefChanged?.Invoke(this, GetLiquidValue(out number));
                 switch (number)
                 {
@@ -500,36 +500,36 @@ namespace App.Scripts
                 }
             };
 
-            Canvas.RegisterElement(r1);
-            Canvas.RegisterElement(r2);
-            Canvas.RegisterElement(r3);
-            Canvas.RegisterElement(r4);
-            Canvas.RegisterElement(r5);
-            Canvas.RegisterElement(r6);
-            Canvas.RegisterElement(r7);
-            r1.Check += handler;
-            r2.Check += handler;
-            r3.Check += handler;
-            r4.Check += handler;
-            r5.Check += handler;
-            r6.Check += handler;
-            r7.Check += handler;
+            Canvas.RegisterElement(radioButton1);
+            Canvas.RegisterElement(radioButton2);
+            Canvas.RegisterElement(radioButton3);
+            Canvas.RegisterElement(radioButton4);
+            Canvas.RegisterElement(radioButton5);
+            Canvas.RegisterElement(radioButton6);
+            Canvas.RegisterElement(radioButton7);
+            radioButton1.Check += handler;
+            radioButton2.Check += handler;
+            radioButton3.Check += handler;
+            radioButton4.Check += handler;
+            radioButton5.Check += handler;
+            radioButton6.Check += handler;
+            radioButton7.Check += handler;
 
-            r1.Checked = true;
+            radioButton1.Checked = true;
 
-            Canvas.RegisterElement(tb_r1);
-            Canvas.RegisterElement(tb_r2);
-            Canvas.RegisterElement(tb_r3);
-            Canvas.RegisterElement(tb_r4);
-            Canvas.RegisterElement(tb_r5);
-            Canvas.RegisterElement(tb_r6);
-            Canvas.RegisterElement(tb_r7);
+            Canvas.RegisterElement(radioButtonText1);
+            Canvas.RegisterElement(radioButtonText2);
+            Canvas.RegisterElement(radioButtonText3);
+            Canvas.RegisterElement(radioButtonText4);
+            Canvas.RegisterElement(radioButtonText5);
+            Canvas.RegisterElement(radioButtonText6);
+            Canvas.RegisterElement(radioButtonText7);
 
-            Canvas.RegisterElement(tb_tb2Header);
-            Canvas.RegisterElement(tb_2_value);
+            Canvas.RegisterElement(table2Header);
+            Canvas.RegisterElement(table2value);
 
-            Canvas.RegisterElement(b2b);
-            Canvas.RegisterElement(b2);
+            Canvas.RegisterElement(backgroundBorder2);
+            Canvas.RegisterElement(background2);
             #endregion
 
             Canvas.RegisterElement(_arroy);
@@ -540,69 +540,69 @@ namespace App.Scripts
             _timerScript = (TimerScript)Scene.Find("Timer").Script;
 
             Canvas.RegisterElement(main);
-            Canvas.RegisterElement(exit);
+            Canvas.RegisterElement(exitButton);
             Canvas.RegisterElement(changerLiquid);
-            exit.Click += (o, e) => Engine.Instance.Stop();
+            exitButton.Click += (o, e) => Engine.Instance.Stop();
             changerLiquid.Click += (o, e) =>
             {
                 LiquidType = !LiquidType;
                 CoefChanged?.Invoke(this, GetLiquidValue(out var _));
-                r1.Checked = true;
+                radioButton1.Checked = true;
                 if (LiquidType)
                 {
                     changerLiquid.Text = "Жидкость";
-                    tb_r1.Value = "Алюминий";
-                    tb_r2.Value = "Медь";
-                    tb_r3.Value = "Цинк";
-                    tb_r4.Value = "Галлий";
-                    tb_r5.Value = "Висмут";
-                    tb_r6.Value = "Свинец";
-                    tb_r7.Value = "Олово";
-                    tb_tb2Header.Value = "Жидкий металл";
+                    radioButtonText1.Value = "Алюминий";
+                    radioButtonText2.Value = "Медь";
+                    radioButtonText3.Value = "Цинк";
+                    radioButtonText4.Value = "Галлий";
+                    radioButtonText5.Value = "Висмут";
+                    radioButtonText6.Value = "Свинец";
+                    radioButtonText7.Value = "Олово";
+                    table2Header.Value = "Жидкий металл";
                 }
                 else 
                 {
                     changerLiquid.Text = "Жидкий металл";
-                    tb_r1.Value = "Глицерин";
-                    tb_r2.Value = "Вода";
-                    tb_r3.Value = "Эфир";
-                    tb_r4.Value = "Бензол";
-                    tb_r5.Value = "Нефть";
-                    tb_r6.Value = "Масло";
-                    tb_r7.Value = "Спирт";
-                    tb_tb2Header.Value = "Жидкость";
+                    radioButtonText1.Value = "Глицерин";
+                    radioButtonText2.Value = "Вода";
+                    radioButtonText3.Value = "Эфир";
+                    radioButtonText4.Value = "Бензол";
+                    radioButtonText5.Value = "Нефть";
+                    radioButtonText6.Value = "Масло";
+                    radioButtonText7.Value = "Спирт";
+                    table2Header.Value = "Жидкость";
                 }
             };
 
             #region SetFloatTextBoxStyle
-            SetFloatTextBox(fv_d1.Style);
-            SetFloatTextBox(fv_d2.Style);
-            SetFloatTextBox(fv_dpr.Style);
-            SetFloatTextBox(fv_dvit.Style);
-            SetFloatTextBox(fv_dx.Style);
+            SetFloatTextBox(floatTextBoxD1.Style);
+            SetFloatTextBox(floatTextBoxD2.Style);
+            SetFloatTextBox(floatTextBoxDpr.Style);
+            SetFloatTextBox(flaotTextBoxDvit.Style);
+            SetFloatTextBox(floatTextBoxDx.Style);
             #endregion
 
             #region SetTextBoxStyle
-            SetTextBoxPref(tb_p_d1.Style);
-            SetTextBoxSuff(tb_s_d1.Style);
-            SetTextBoxPref(tb_p_d2.Style);
-            SetTextBoxSuff(tb_s_d2.Style);
-            SetTextBoxPref(tb_p_dpr.Style);
-            SetTextBoxSuff(tb_s_dpr.Style);
-            SetTextBoxPref(tb_p_dvit.Style);
-            SetTextBoxSuff(tb_s_dvit.Style);
-            SetTextBoxPref(tb_p_dx.Style);
-            SetTextBoxSuff(tb_s_dx.Style);
-            SetTextBoxSuff(tb_tb1Header.Style, 40f);
-            SetTextBoxSuff(tb_tb2Header.Style, 40f);
-            SetTextBoxSuff(tb_2_value.Style);
-            SetTextBoxPref(tb_r1.Style, TextAlignment.Leading);
-            SetTextBoxPref(tb_r2.Style, TextAlignment.Leading);
-            SetTextBoxPref(tb_r3.Style, TextAlignment.Leading);
-            SetTextBoxPref(tb_r4.Style, TextAlignment.Leading);
-            SetTextBoxPref(tb_r5.Style, TextAlignment.Leading);
-            SetTextBoxPref(tb_r6.Style, TextAlignment.Leading);
-            SetTextBoxPref(tb_r7.Style, TextAlignment.Leading);
+            SetTextBoxPref(tablePrefD1.Style);
+            SetTextBoxSuff(tableSufD1.Style);
+            SetTextBoxPref(tablePrefD2.Style);
+            SetTextBoxSuff(tableSufD2.Style);
+            SetTextBoxPref(tablePrefDpr.Style);
+            SetTextBoxSuff(tableSufDpr.Style);
+            SetTextBoxPref(tablePrefDvit.Style);
+            SetTextBoxSuff(tableSufDvit.Style);
+            SetTextBoxPref(tablePrefDx.Style);
+            SetTextBoxSuff(tableSufDx.Style);
+            SetTextBoxSuff(table1Header.Style, 40f);
+            SetTextBoxSuff(table2Header.Style, 40f);
+            SetTextBoxSuff(table2value.Style);
+            SetTextBoxPref(radioButtonText1.Style, TextAlignment.Leading);
+            SetTextBoxPref(radioButtonText2.Style, TextAlignment.Leading);
+            SetTextBoxPref(radioButtonText3.Style, TextAlignment.Leading);
+            SetTextBoxPref(radioButtonText4.Style, TextAlignment.Leading);
+            SetTextBoxPref(radioButtonText5.Style, TextAlignment.Leading);
+            SetTextBoxPref(radioButtonText6.Style, TextAlignment.Leading);
+            SetTextBoxPref(radioButtonText7.Style, TextAlignment.Leading);
             SetTextBoxSuff(_arroy.Style, 200f);
 
             _arroy.Style.TextStyle.Color = new Color(0, 0, 0, 255);
@@ -613,24 +613,24 @@ namespace App.Scripts
             #endregion
 
             #region SetButtons
-            SetButtonStyle(resetB.Style);
-            SetButtonStyle(xUpB.Style);
-            SetButtonStyle(xDownB.Style);
-            SetButtonStyle(exit.Style, false);
+            SetButtonStyle(resetButton.Style);
+            SetButtonStyle(xUpButton.Style);
+            SetButtonStyle(xDownButton.Style);
+            SetButtonStyle(exitButton.Style, false);
             SetButtonStyle(changerLiquid.Style);
             #endregion
         }
 
         public override void FixedUpdate(double deltaTime)
         {
-            if (xUpB.IsPressed && fv_dx.MaxValue > fv_dx.Value)
+            if (xUpButton.IsPressed && floatTextBoxDx.MaxValue > floatTextBoxDx.Value)
             {
-                fv_dx.Value += 0.02f;
+                floatTextBoxDx.Value += 0.02f;
                 _rotate.Play();
             }
-            else if (xDownB.IsPressed && fv_dx.MinValue < fv_dx.Value)
+            else if (xDownButton.IsPressed && floatTextBoxDx.MinValue < floatTextBoxDx.Value)
             {
-                fv_dx.Value -= 0.02f;
+                floatTextBoxDx.Value -= 0.02f;
                 _rotate.Play();
             }
             else if(!_timerScript.TimerStarted)
@@ -641,37 +641,37 @@ namespace App.Scripts
 
         public float GetLiquidValue(out int number)
         {
-            if (r1.Checked)
+            if (radioButton1.Checked)
             {
                 number = 1;
                 return LiquidType ? 0.914f : 0.0594f;
             }
-            if (r2.Checked)
+            if (radioButton2.Checked)
             {
                 number = 2;
                 return LiquidType ? 1.351f : 0.0728f;
             }
-            if (r3.Checked)
+            if (radioButton3.Checked)
             {
                 number = 3;
                 return LiquidType ? 0.811f : 0.0169f;
             }
-            if (r4.Checked)
+            if (radioButton4.Checked)
             {
                 number = 4;
                 return LiquidType ? 0.735f : 0.0439f;
             }
-            if (r5.Checked)
+            if (radioButton5.Checked)
             {
                 number = 5;
                 return LiquidType ? 0.39f : 0.026f;
             }
-            if (r6.Checked)
+            if (radioButton6.Checked)
             {
                 number = 6;
                 return LiquidType ? 0.48f : 0.0354f;
             }
-            if (r7.Checked)
+            if (radioButton7.Checked)
             {
                 number = 7;
                 return LiquidType ? 0.554f : 0.0226f;
