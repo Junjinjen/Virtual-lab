@@ -36,7 +36,7 @@ namespace App.Scripts
         {
             var shift = new Vector3(0, deltaX * 4, 0);
             _plank.Position = _startPositionPlank + shift;
-            _spring.Scale = new Vector3(1f, 1f, 1f + deltaX / 60);
+            _spring.Scale = new Vector3(1f, 1f, 1f + deltaX / 70);
             _spring.Position = _startPositionSpring + shift;
 
             if (_deltaX < deltaX && !_detachment)
@@ -78,6 +78,16 @@ namespace App.Scripts
             _scriptUI = (UIScript)Scene.Find("UI").Script;
             _timerScript = (TimerScript)Scene.Find("Timer").Script;
 
+            _scriptUI.ResetButton.Click += (o, e) =>
+            {
+                _timerScript.ResetTimer();
+            };
+
+            _timerScript.StartButton.Click += (o, e) =>
+            {
+                if(_scriptUI.Dx.Value >= _deltaX) _timerScript.StopTimer();
+            };
+
             _timerScript.StopButton.Click += (o, e) =>
             {
                 _scriptUI.Arroy.Active = true;
@@ -113,6 +123,7 @@ namespace App.Scripts
 
             _scriptUI.D1.ValueChanged += (o, e) =>
             {
+                if (e.Value <= _scriptUI.D2.Value) _scriptUI.D1.Value = _scriptUI.D2.Value + 0.01f;
                 CalculatePerimetr(_scriptUI.D1.Value, _scriptUI.D2.Value);
                 CalcuelateDeltaX();
             };
@@ -140,6 +151,12 @@ namespace App.Scripts
                 _rotate.Play();
                 _scriptUI.Dx.Value = _timerScript.Seconds;
                 _scriptUI.Arroy.Active =  (int)(_timerScript.Seconds * 1.5) % 2 == 0;
+                if(_scriptUI.Dx.Value >= _scriptUI.Dx.MaxValue)
+                {
+                    _timerScript.StopTimer();
+                    _scriptUI.Arroy.Active = false;
+                    _rotate.Stop();
+                }
             }
 
             Move(_scriptUI.Dx.Value);

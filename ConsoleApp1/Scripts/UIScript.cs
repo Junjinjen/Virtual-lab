@@ -8,7 +8,6 @@ using JUnity.Services.UI.Surfaces;
 using SharpDX;
 using SharpDX.DirectWrite;
 using System;
-using System.Collections.Generic;
 using static JUnity.Components.UI.Button;
 
 namespace App.Scripts
@@ -180,6 +179,9 @@ namespace App.Scripts
             Height = 0.05f,
             Position = new Vector2(0.725f, 0.62f),
         };
+
+        public Button ResetButton => resetButton;
+
         private Button xUpButton = new Button
         {
             Text = "▲",
@@ -632,6 +634,7 @@ namespace App.Scripts
             {
                 floatTextBoxDx.Value -= 0.02f;
                 _rotate.Play();
+                if (floatTextBoxDx.Value < 0) floatTextBoxDx.Value = 0;
             }
             else if(!_timerScript.TimerStarted)
             {

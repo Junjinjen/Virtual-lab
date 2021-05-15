@@ -1,6 +1,5 @@
 ﻿using App.Objects;
 using JUnity.Components;
-using JUnity.Services.Input;
 using JUnity.Utilities;
 using SharpDX;
 
@@ -8,6 +7,7 @@ namespace App
 {
     public class Scene : ISceneInitializer
     {
+
         public void Seed(GameObjectCollection scene)
         {
             var prov = new CameraProvider();
@@ -29,8 +29,6 @@ namespace App
             GameObjectFactory.CreateAndRegister(new SoundObject("Sounds/dropInWater.wav", "drop"));
             GameObjectFactory.CreateAndRegister(new SoundObject("Sounds/rotate.wav", "rotate"));
             GameObjectFactory.CreateAndRegister(new SoundObject("Sounds/up.wav", "up"));
-
-
         }
     }
 }
