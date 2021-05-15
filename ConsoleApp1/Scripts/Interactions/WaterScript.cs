@@ -1,4 +1,5 @@
 ﻿using JUnity.Components;
+using JUnity.Services.Input;
 using Lab3.Scripts.UI;
 
 namespace Lab3.Scripts.Interactions
@@ -9,6 +10,7 @@ namespace Lab3.Scripts.Interactions
         private const float MAX_VOLUME = 3f;
         private const float EXTRA_VOLUME = 0.1f;
 
+        private bool _isProcessStarted;
         private bool _isAddExtra;
         private float _oldVolume;
 
@@ -16,6 +18,25 @@ namespace Lab3.Scripts.Interactions
         {
             var ui_script = (WaterPanelUI)Scene.Find("WaterUI").Script;
             ui_script.WaterVolumeInput.ValueChanged += (o, e) => UpdateWater(e.Value);
+
+            MouseGrip.OnRightClickObject += (o, e) =>
+            {  
+                RemoveExtraVolume();
+            };
+
+            var metal_UI = (MetalPanelUI)Scene.Find("MetalUI").Script;
+            metal_UI.MetalChanged += (o, e) =>
+            {
+                RemoveExtraVolume();
+            };
+
+            var timer_script = (TimerScript)Scene.Find("Timer").Script;
+            timer_script.OnTimerStarted += (o, e) => _isProcessStarted = true;
+            timer_script.OnTimerReseted += (o, e) =>
+            {
+                _isProcessStarted = false;
+                RemoveExtraVolume();
+            };
         }
         private void UpdateWater(float value)
         {
@@ -47,8 +68,13 @@ namespace Lab3.Scripts.Interactions
 
         public void RemoveExtraVolume()
         {
-            _isAddExtra = false;
-            UpdateWater(_oldVolume);
+            if (!_isProcessStarted)
+            {
+                if (_isAddExtra)
+                    _oldVolume -= EXTRA_VOLUME;
+                _isAddExtra = false;
+                UpdateWater(_oldVolume);
+            }
         }
     }
 }

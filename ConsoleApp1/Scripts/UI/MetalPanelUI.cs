@@ -3,12 +3,15 @@ using JUnity.Components.UI;
 using JUnity.Services.UI.Surfaces;
 using Lab3.Scripts.Interactions;
 using SharpDX;
+using System;
 using System.Collections.Generic;
 
 namespace Lab3.Scripts.UI
 {
     public class MetalPanelUI : Script
     {
+        public event EventHandler<MetalChangeedEventArgs> MetalChanged;
+
         private List<MetalParameters> metalParameters = new List<MetalParameters>()
         {
             new MetalParameters(2712f, 0.00025f, 920f),
@@ -94,7 +97,7 @@ namespace Lab3.Scripts.UI
         {
             Width = 0.106f,
             Height = 0.05f,
-            Position = new Vector2(0.677f, 0.894f),
+            Position = new Vector2(0.677f, 0.908f),
             Value = "0,000"
         };
 
@@ -126,7 +129,7 @@ namespace Lab3.Scripts.UI
         {
             Width = 0.11f,
             Height = 0.058f,
-            Position = new Vector2(0.675f, 0.89f),
+            Position = new Vector2(0.675f, 0.904f),
             Background = new SolidColorRectangle
             {
                 Color = new Color(100, 141, 151),
@@ -138,7 +141,7 @@ namespace Lab3.Scripts.UI
         {
             Width = 0.106f,
             Height = 0.05f,
-            Position = new Vector2(0.677f, 0.894f),
+            Position = new Vector2(0.677f, 0.908f),
             Background = new SolidColorRectangle
             {
                 Color = new Color(26, 29, 28),
@@ -199,7 +202,9 @@ namespace Lab3.Scripts.UI
 
         public override void Update(double deltaTime)
         {
-            if(aluminumButton.Checked)
+            var previousIndex = _currentMetalIndex;
+
+            if (aluminumButton.Checked)
             {
                 _currentMetalIndex = 0;
             }
@@ -209,15 +214,30 @@ namespace Lab3.Scripts.UI
                 _currentMetalIndex = 1;
             }
 
-            if (castIronButton.Checked)
+            if (steelButton.Checked)
             {
                 _currentMetalIndex = 2;
             }
 
-            if (steelButton.Checked)
+            if (castIronButton.Checked)
             {
                 _currentMetalIndex = 3;
             }
+
+            if(previousIndex != _currentMetalIndex)
+            {
+                MetalChanged?.Invoke(this, new MetalChangeedEventArgs(_currentMetalIndex));
+            }
+        }
+    }
+
+    public class MetalChangeedEventArgs : EventArgs
+    {
+        public int MetalID { get; private set; }
+
+        public MetalChangeedEventArgs(int id)
+        {
+            MetalID = id;
         }
     }
 }

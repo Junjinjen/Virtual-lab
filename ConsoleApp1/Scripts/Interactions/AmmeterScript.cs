@@ -37,6 +37,8 @@ namespace Lab3.Scripts.Interactions
                 amperage = 0;
             }
 
+            amperage += Lab3.Scene.Random.NextFloat(-0.0015f, 0.0015f) * amperage;
+
             var angle = MIN_ANGLE + amperage * (2 * MAX_ANGLE) / MAX_VALUE;
             Object.Rotation = _baseRotation * Quaternion.RotationAxis(-Vector3.UnitY, angle);
             _currentAmperage.Value = string.Format("{0:f1}", amperage);

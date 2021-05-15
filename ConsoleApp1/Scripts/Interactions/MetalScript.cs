@@ -2,6 +2,7 @@
 using JUnity.Components.Audio;
 using JUnity.Components.Physics;
 using JUnity.Services.Input;
+using Lab3.Scripts.UI;
 using SharpDX;
 
 namespace Lab3.Scripts.Interactions
@@ -57,7 +58,7 @@ namespace Lab3.Scripts.Interactions
                 if (_isTimerStarted) return;
 
                 PlayVoice();
-                if (IsSelected && !IsOnWeigher)
+                if (IsSelected && !IsOnWeigher && !IsMoving && !IsInWater)
                 {
                     _liftingAnimation.Stop();
                     _loweringAnimation.Start();
@@ -67,6 +68,7 @@ namespace Lab3.Scripts.Interactions
                     Object.Position = _startPosition;
                 }
                 IsSelected = false;
+                IsMoving = false;
             };
 
             var timer_script = (TimerScript)Scene.Find("Timer").Script;
@@ -81,10 +83,11 @@ namespace Lab3.Scripts.Interactions
             timer_script.OnTimerReseted += (o, e) =>
             {
                 _isTimerStarted = false;
-                IsSelected = false;
-                IsOnWeigher = false;
-                Object.Position = _startPosition;
+                ResetPosition();
             };
+
+            var metal_ui = (MetalPanelUI)Scene.Find("MetalUI").Script;
+            metal_ui.MetalChanged += UpdateMetal;
         }
 
         public override void Update(double deltaTime)
@@ -96,6 +99,24 @@ namespace Lab3.Scripts.Interactions
         public void PlayVoice()
         {
             _audioChoice.Play();
+        }
+
+        private void UpdateMetal(object sender, MetalChangeedEventArgs e)
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                Object.Children[i].IsActive = i == e.MetalID;
+            }
+
+            ResetPosition();
+        }
+
+        private void ResetPosition()
+        {
+            IsMoving = false;
+            IsSelected = false;
+            IsOnWeigher = false;
+            Object.Position = _startPosition;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using JUnity;
+using JUnity.Components.Audio;
 using JUnity.Utilities;
 using Lab3.Scripts.Interactions;
 using SharpDX;
@@ -14,6 +15,9 @@ namespace Lab3.GameObjects.Items
             obj.Position = new Vector3(-3.5f, -4.0f, 0.0f);
             obj.Scale *= 1.2f;
             obj.AddScript<HeatingProcessScript>();
+            file = @"Audio/heating.wav";
+            var audio = obj.AddComponent<AudioPlayer>();
+            audio.SetAudio(file);
 
             return obj;
         }

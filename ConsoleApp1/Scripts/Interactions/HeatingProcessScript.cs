@@ -1,4 +1,5 @@
 ﻿using JUnity.Components;
+using JUnity.Components.Audio;
 using Lab3.Scripts.UI;
 using SharpDX;
 using System;
@@ -9,12 +10,15 @@ namespace Lab3.Scripts.Interactions
     {
         private const float SH_WATER = 4180.6f;
 
+        private AudioPlayer _audioHeating;
+
         private WaterPanelUI _waterUI;
         private ElectricalСircuitPanelUI _electricalСircuitUI;
 
         private TemparatureScript _temparatureScript;
         private TimerScript _timerScript;
 
+        private bool _isHeating;
         private bool _isProcessStarted;
         private bool _isProccesPaused;
 
@@ -23,6 +27,8 @@ namespace Lab3.Scripts.Interactions
 
         public override void Start()
         {
+            _audioHeating = Object.GetComponent<AudioPlayer>();
+
             _waterUI = (WaterPanelUI)Scene.Find("WaterUI").Script;
             _electricalСircuitUI = (ElectricalСircuitPanelUI)Scene.Find("ElectricalСircuitUI").Script;
             var metal_script = (MetalScript)Scene.Find("Metal").Script;
@@ -41,6 +47,12 @@ namespace Lab3.Scripts.Interactions
             {
                 var temparature = _startTemparature + _processStep * _timerScript.Seconds;
                 _temparatureScript.UpdateTemperature(temparature);
+
+                if(temparature > 100f && !_isHeating)
+                {
+                    _isHeating = true;
+                    _audioHeating.Play();
+                }
             }
         }
 
@@ -72,16 +84,19 @@ namespace Lab3.Scripts.Interactions
             if (_isProccesPaused)
             {
                 _isProccesPaused = false;
+                _isHeating = false;
             }
         }
 
         private void StopProcess()
         {
+            _audioHeating.Pause();
             _isProccesPaused = true;
         }
 
         private void EndProcess()
         {
+            _audioHeating.Stop();
             _isProcessStarted = false;
             _isProccesPaused = true;
         }

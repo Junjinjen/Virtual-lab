@@ -1,4 +1,5 @@
 ﻿using JUnity.Components;
+using JUnity.Components.Audio;
 using JUnity.Components.Physics;
 using JUnity.Services.Input;
 using Lab3.Scripts.UI;
@@ -9,20 +10,23 @@ namespace Lab3.Scripts.Interactions
 {
     public class WeigherScript : Script
     {
+        private AudioPlayer _audioWeigher;
         private MetalPanelUI _metalUI;
         private MetalScript _metalScript;
         private PointMovement _moveMetalAnimation;
 
         public override void Start()
         {
+            _audioWeigher = Object.GetComponent<AudioPlayer>();
+
             _metalUI = (MetalPanelUI)Scene.Find("MetalUI").Script;
             _metalScript = (MetalScript)Scene.Find("Metal").Script;
 
             _moveMetalAnimation = new PointMovement(_metalScript.Object, _metalScript.Object.Position);
             _moveMetalAnimation.Points.Add(
-                new Vector3(_metalScript.Object.Position.X, Object.Position.Y + 1.4f, _metalScript.Object.Position.Z));
+                new Vector3(_metalScript.Object.Position.X, Object.Position.Y + 1.5f, _metalScript.Object.Position.Z));
+            _moveMetalAnimation.Points.Add(Object.Position + Vector3.UnitY * 1.5f);
             _moveMetalAnimation.Points.Add(Object.Position + Vector3.UnitY * 1.4f);
-            _moveMetalAnimation.Points.Add(Object.Position + Vector3.UnitY * 1.35f);
             _moveMetalAnimation.DefaultSpeed = 2f;
             _moveMetalAnimation.OnAnimationEnd += UpdateWeigherWithMetal;
 
@@ -57,6 +61,12 @@ namespace Lab3.Scripts.Interactions
             {
                 _moveMetalAnimation.Stop();
             };
+
+            _metalUI.MetalChanged += (o, e) =>
+            {
+                _moveMetalAnimation.Stop();
+                _metalUI.CurrentWeight.Value = "0,000";
+            };
         }
 
         public override void Update(double deltaTime)
@@ -66,6 +76,8 @@ namespace Lab3.Scripts.Interactions
 
         private void UpdateWeigherWithMetal(object sender, EventArgs e)
         {
+            _audioWeigher.Play();
+
             _metalScript.IsMoving = false;
             _metalScript.IsOnWeigher = true;
 
