@@ -1,14 +1,8 @@
 ﻿using JUnity;
 using JUnity.Components.Physics;
 using JUnity.Components.Physics.Colliders;
-using JUnity.Services.Input;
 using JUnity.Utilities;
 using SharpDX;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lab2.GameObjects
 {

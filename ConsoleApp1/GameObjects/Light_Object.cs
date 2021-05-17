@@ -17,7 +17,7 @@ namespace Lab2.GameObjects
             var gameObject = new GameObject("Light");
             var light = gameObject.AddComponent<DirectionLight>();
             light.Color = Color3.White;
-            light.Direction = new Vector3(-1, -1, 1f);
+            light.Direction = new Vector3(-0.3f, -1, 1f);
             light.Direction.Normalize();
 
             return gameObject;

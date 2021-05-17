@@ -63,6 +63,8 @@ namespace Lab2.Scripts
             Position = new Vector2(0.95f, 0.865f),
             Text = "█",
         };
+
+        public Button ResetButton => reset_btn;
         #endregion
 
         System.Diagnostics.Stopwatch timer;

@@ -6,7 +6,6 @@ namespace Lab2.GameObjects
 {
     public class Fire : IGameObjectCreator
     {
-        
         public GameObject Create()
         {
             var file = @"Meshes/fire.fbx";

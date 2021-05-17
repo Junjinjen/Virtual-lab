@@ -8,7 +8,6 @@ using JUnity.Services.Input;
 using JUnity.Services.UI.Styling;
 using JUnity.Services.UI.Surfaces;
 using SharpDX;
-using SharpDX.DirectInput;
 using SharpDX.DirectWrite;
 using System;
 
@@ -37,11 +36,14 @@ namespace Lab2.Scripts
         private GameObject temp2;
         private GameObject volumeWater;
         private GameObject solidBody;
+        private GameObject waterCup;
         private Vector3 startPositionBody;
 
         private bool isCoolDown = false;
         private float stepCoolDown;
         private float startTemperature;
+        private bool finishCoolDown = false;
+        private float currentTimerTime;
 
         private PointMovement animator;
         private AudioPlayer waterMusic;
@@ -93,11 +95,19 @@ namespace Lab2.Scripts
             gameObject.Scale = new Vector3(1f, 1f, scale);
         }
 
+        public void SetCurrentWaterCup(GameObject gameObject, float currentVolume)
+        {
+            var scale = 4.5f + 3.5f + currentVolume * 5.1f;
+            gameObject.Scale = new Vector3(0.9f, 0.9f, scale);
+        }
+
         public void SetScaleBody(GameObject gameObject, float currentWeight, float step)
         {
             var scale = currentWeight * step + 1;
             gameObject.Scale = new Vector3(scale, scale, scale);
         }
+
+        
         
         public override void Start()
         {
@@ -112,7 +122,12 @@ namespace Lab2.Scripts
             temp1 = Scene.Find("ColumnWater");
             temp2 = Scene.Find("ColumnObject");
             volumeWater = Scene.Find("WaterCalorimeter");
+            waterCup = Scene.Find("Water");
             solidBody = Scene.Find("Object");
+            timer_script.ResetButton.Click += (o, e) =>
+            {
+                currentTimerTime = 0;
+            };
             animator = new PointMovement(solidBody, solidBody.Position);
             animator.Points.Add(new Vector3(1, 3, 0));
             animator.Points.Add(new Vector3(-1.5f, 3, 0));
@@ -142,6 +157,10 @@ namespace Lab2.Scripts
                     {
                         animator.Start();
                     }
+                    if ((animator.PointIndex == 5 || animator.PointIndex == 6) && finishCoolDown)
+                    {
+                        animator.Start();
+                    }
                     if (animator.Last)
                     {
                         animator.Reset();
@@ -165,6 +184,8 @@ namespace Lab2.Scripts
                     animator.Stop();
                     solidBody.Position = positionCup;
                     currentColision = e.OtherCollider;
+                    currentTimerTime = timer_script.Seconds;
+                    SetCurrentWaterCup(waterCup, ui_script.Body_weight.Value);
                     waterMusic.Play();
                 }
                 if (e.TriggeredCollider.Name == "SolidBody" && e.OtherCollider.Name == "CalorimeterCollider" &&
@@ -173,6 +194,7 @@ namespace Lab2.Scripts
                     animator.Stop();
                     solidBody.Position = positionCalorimeter;
                     currentColision = e.OtherCollider;
+                    SetCurrentWater(volumeWater, ui_script.Water_volume.Value + ui_script.Body_weight.Value);
                     waterMusic.Play();
                 }
             };
@@ -274,7 +296,7 @@ namespace Lab2.Scripts
             {
                 if(object_temp < T_end_body)
                 {
-                    object_temp = ui_script.Body_temperature.Value + timer_script.Seconds;
+                    object_temp = ui_script.Body_temperature.Value + timer_script.Seconds - currentTimerTime;
                     SetCurrentTemperature(temp2, object_temp, 37f);
                     object_temperature.Value = object_temp.ToString("0.0");
                 }
@@ -286,6 +308,7 @@ namespace Lab2.Scripts
                 if(object_temp == T_end_body)
                 {
                     animator.Start();
+                    SetCurrentWaterCup(waterCup, 0);
                 }
             }
 
@@ -298,6 +321,7 @@ namespace Lab2.Scripts
                     timer_script.StartTimer();
                     stepCoolDown = (float)((temperature_end - water_temp) / s);
                     startTemperature = water_temp;
+                    finishCoolDown = false;
                 }
                 if (isCoolDown && s > timer_script.Seconds)
                 {
@@ -308,13 +332,15 @@ namespace Lab2.Scripts
                 if(isCoolDown && s <= timer_script.Seconds)
                 {
                     timer_script.StopTimer();
-                    animator.Start();
+                    finishCoolDown = true;
                 }
             }
             else if(isCoolDown)
             {
                 timer_script.Reset();
                 isCoolDown = false;
+                finishCoolDown = false;
+                SetCurrentWater(volumeWater, ui_script.Water_volume.Value);
             }
         }
 

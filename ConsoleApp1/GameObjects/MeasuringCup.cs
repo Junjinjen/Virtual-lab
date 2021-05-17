@@ -23,7 +23,7 @@ namespace Lab2.GameObjects
             file = @"Meshes/water.fbx";
             obj.Children.Add(GameObjectFactory.Create(new FbxObjectCreator(file, "Water")));
             obj.Children[4].Position = new Vector3(0f, 1.8f, 0f);
-            obj.Children[4].Scale = Vector3.One * 0.9f + Vector3.UnitZ * 5;
+            obj.Children[4].Scale = Vector3.One * 0.9f + Vector3.UnitZ * 4.5f;
             obj.Children[4].Rotation = Quaternion.RotationYawPitchRoll(0, MathUtil.Pi / 2f, 0);
             var mat = obj.Children[4].GetComponent<MeshRenderer>().Material;
             mat.AmbientCoefficient = new Color4(1f, 1f, 1f, 0.4f);
