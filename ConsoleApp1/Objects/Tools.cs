@@ -1,7 +1,5 @@
 ﻿using App.Scripts;
 using JUnity;
-using JUnity.Components.Physics;
-using JUnity.Components.Physics.Colliders;
 using JUnity.Utilities;
 using SharpDX;
 
