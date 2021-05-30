@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Lab3.Scene" Collapsed="true">
+    <Position X="11.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scene.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Lab3.Program" Collapsed="true">
+    <Position X="11.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab3.GameObjects.Items.Ammeter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\Items\Ammeter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Lab3.GameObjects.Items.Background" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\Items\Background.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Lab3.GameObjects.Items.Device" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\Items\Device.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Lab3.GameObjects.Items.Flask" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\Items\Flask.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Lab3.GameObjects.Items.Heater" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\Items\Heater.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Lab3.GameObjects.Items.Metal" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\Items\Metal.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Lab3.GameObjects.Items.Stand" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\Items\Stand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Lab3.GameObjects.Items.Table" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\Items\Table.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Lab3.GameObjects.Items.Thermometer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\Items\Thermometer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Lab3.GameObjects.Items.Timer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\Items\Timer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Lab3.GameObjects.Items.Voltmeter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\Items\Voltmeter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Lab3.GameObjects.Items.Water" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\Items\Water.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Lab3.GameObjects.Items.Weigher" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\Items\Weigher.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Lab3.Scripts.Interactions.HeatingProcessScript" Collapsed="true">
+    <Position X="7.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAABAAiAAAACAAAAAAAIAggAAgBCAAJABAEAAAQA=</HashCode>
+      <FileName>Scripts\Interactions\HeatingProcessScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab3.Scripts.Interactions.TemparatureScript" Collapsed="true">
+    <Position X="2.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAQAAkAAAAAAAAgAAAAAAEAAAAAAAQAA=</HashCode>
+      <FileName>Scripts\Interactions\TemparatureScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab3.Scripts.UI.WaterPanelUI" Collapsed="true">
+    <Position X="3.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABgAAAIgKBAgggAAGAAAoAADAAAAAAAAAAAAAAASAA=</HashCode>
+      <FileName>Scripts\UI\WaterPanelUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab3.Scripts.Interactions.WaterScript" Collapsed="true">
+    <Position X="4" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAICAAAAAAAAAAgBgAAgAAAAAAABAAAIIAAAA=</HashCode>
+      <FileName>Scripts\Interactions\WaterScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab3.Scripts.Interactions.AmmeterScript" Collapsed="true">
+    <Position X="8" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAgAACAACACAAIgAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\Interactions\AmmeterScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab3.Scripts.Interactions.VoltmeterScript" Collapsed="true">
+    <Position X="6.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAgAACAACACAAAAAAAAEAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\Interactions\VoltmeterScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab3.Scripts.UI.ElectricalСircuitPanelUI" Collapsed="true">
+    <Position X="7.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQKAQAAAAAAAAMgAAAAAABACAAAAAAAAAAAg=</HashCode>
+      <FileName>Scripts\UI\ElectricalСircuitPanelUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab3.Scripts.UI.MetalPanelUI" Collapsed="true">
+    <Position X="3.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAgAACgAFgAQAAAAAgAAAgIgIAAQACAEIAAIAhA=</HashCode>
+      <FileName>Scripts\UI\MetalPanelUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab3.Scripts.Interactions.MetalScript" Collapsed="true">
+    <Position X="4.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAACCAAFAAAAEAAAADAAAgAAAFAAAgAgAAAAAA=</HashCode>
+      <FileName>Scripts\Interactions\MetalScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab3.Scripts.Interactions.WeigherScript" Collapsed="true">
+    <Position X="2.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAACAAACAAAAAAAAAAEAAAAAAEBAAAAAACAAAAAAA=</HashCode>
+      <FileName>Scripts\Interactions\WeigherScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab3.Scripts.Interactions.FlaskScript" Collapsed="true">
+    <Position X="7.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\Interactions\FlaskScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab3.Scripts.Interactions.TimerScript" Collapsed="true">
+    <Position X="9.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABABABAiJgAAAAQAAAACAAAQQAAAAAAAABIAAEAAA=</HashCode>
+      <FileName>Scripts\Interactions\TimerScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab3.GameObjects.LightObject" Collapsed="true">
+    <Position X="11.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\LightObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

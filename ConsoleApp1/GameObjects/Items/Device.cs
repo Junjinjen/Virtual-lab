@@ -8,6 +8,7 @@ namespace Lab3.GameObjects.Items
 {
     public class Device : IGameObjectCreator
     {
+
         public GameObject Create()
         {
             var file = @"Meshes/device.fbx";

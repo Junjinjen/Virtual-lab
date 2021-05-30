@@ -7,6 +7,7 @@ namespace Lab3.GameObjects.Items
 {
     public class Thermometer : IGameObjectCreator
     {
+
         public GameObject Create()
         {
             var file = @"Meshes/thermometer.fbx";

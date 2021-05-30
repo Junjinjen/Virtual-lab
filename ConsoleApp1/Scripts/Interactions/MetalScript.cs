@@ -74,7 +74,7 @@ namespace Lab3.Scripts.Interactions
             var timer_script = (TimerScript)Scene.Find("Timer").Script;
             timer_script.OnTimerStarted += (o, e) =>
             {
-                if(IsMoving || IsOnWeigher)
+                if(IsMoving || (IsOnWeigher && !IsInWater))
                 {
                     Object.Position = _startPosition;
                 }    

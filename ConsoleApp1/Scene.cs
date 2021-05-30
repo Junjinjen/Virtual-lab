@@ -26,8 +26,10 @@ namespace Lab3
             MouseGrip.SetCameraProvider(camera);
 
             GameObjectFactory.CreateAndRegister(new LightObject());
+
             GameObjectFactory.CreateAndRegister(new Background());
             GameObjectFactory.CreateAndRegister(new Table());
+
             GameObjectFactory.CreateAndRegister(new Thermometer());
             GameObjectFactory.CreateAndRegister(new Voltmeter());
             GameObjectFactory.CreateAndRegister(new Ammeter());

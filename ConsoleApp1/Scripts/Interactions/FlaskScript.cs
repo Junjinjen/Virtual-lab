@@ -34,7 +34,7 @@ namespace Lab3.Scripts.Interactions
                 if (e.Object?.Name == Object.Name && _metalScript.IsOnWeigher)
                 {
                     _metalScript.PlayVoice();
-                    _metalScript.IsOnWeigher = false;
+                    _metalScript.IsOnWeigher = true;
                     _metalScript.IsMoving = true;
                     _moveMetalAnimation.Reset();
                     _moveMetalAnimation.Start();
