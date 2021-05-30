@@ -19,7 +19,11 @@ namespace Lab3.Scripts.Interactions
 
         public override void Start()
         {
-            _baseRotation = Object.Rotation;
+            if (_baseRotation == Quaternion.Zero)
+            {
+                _baseRotation = Object.Rotation;
+                Object.Rotation = _baseRotation * Quaternion.RotationAxis(-Vector3.UnitY, MIN_ANGLE);
+            }
             var ui_script = (ElectricalСircuitPanelUI)Scene.Find("ElectricalСircuitUI").Script;
             _currentAmperage = ui_script.CurrentAmperage;
         }

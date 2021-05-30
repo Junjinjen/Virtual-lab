@@ -8,6 +8,7 @@ namespace Lab3.Scripts.Interactions
     public class TemparatureScript : Script
     {
         private const float MAX_SIZE_Z = 24f;
+        private const float MAX_TEMPARATURE_VALUE = 0f;
         private const float MAX_TEMPARATURE = 100f;
         private const float MIN_TEMPARATURE = -20f;
 
@@ -31,9 +32,9 @@ namespace Lab3.Scripts.Interactions
             {
                 value = MAX_TEMPARATURE;
             }
-            else if (value < MIN_TEMPARATURE)
+            else if (value < MAX_TEMPARATURE_VALUE)
             {
-                value = MIN_TEMPARATURE;
+                value = MAX_TEMPARATURE_VALUE;
             }
 
             var scale = Object.Scale;

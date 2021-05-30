@@ -17,15 +17,22 @@ namespace Lab3.Scripts.Interactions
 
         public override void Start()
         {
-            _baseRotation = Object.Rotation;
+            if (_baseRotation == Quaternion.Zero)
+            {
+                _baseRotation = Object.Rotation;
+                Object.Rotation = _baseRotation * Quaternion.RotationAxis(-Vector3.UnitY, MIN_ANGLE);
+            }
+
             var ui_script = (ElectricalСircuitPanelUI)Scene.Find("ElectricalСircuitUI").Script;
-            ui_script.VoltageInput.ValueChanged += UpdatePointer;
             _ammeterScript = (AmmeterScript)Scene.Find("Ammeter").Children[0].Script;
+
+            var timer = (TimerScript)Scene.Find("Timer").Script;
+            timer.OnTimerStarted += (o, e) => UpdatePointer(ui_script.VoltageInput.Value);
+            timer.OnTimerReseted += (o, e) => UpdatePointer(0);
         }
 
-        private void UpdatePointer(object sender, JUnity.Components.UI.FloatTextBoxValueChangedEventArgs e)
+        private void UpdatePointer(float value)
         {
-            var value = e.Value;
             if(value > MAX_VALUE)
             {
                 value = MAX_VALUE;

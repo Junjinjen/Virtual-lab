@@ -21,8 +21,8 @@ namespace Lab3.Scripts.UI
             Width = 0.07f,
             Height = 0.035f,
             Position = new Vector2(0.235f, 0.2625f),
-            Value = 0.5f,
-            MinValue = 0f,
+            Value = 110f,
+            MinValue = 0.1f,
             MaxValue = 200f,
         };
 
@@ -47,7 +47,7 @@ namespace Lab3.Scripts.UI
             Width = 0.07f,
             Height = 0.035f,
             Position = new Vector2(0.235f, 0.3225f),
-            Value = "5"
+            Value = "5.0"
         };
 
         private TextBox amperageLabel = new TextBox
@@ -95,7 +95,6 @@ namespace Lab3.Scripts.UI
             Canvas.RegisterElement(electricalСircuitPanelLabel);
             electricalСircuitPanelLabel.CreateStyleTitle();
             Canvas.RegisterElement(VoltageInput);
-            VoltageInput.Value = 110f;
             Canvas.RegisterElement(voltageLabel);
             voltageLabel.CreateStyleTextBox();
             Canvas.RegisterElement(voltageMeasurement);
