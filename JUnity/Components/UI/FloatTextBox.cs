@@ -20,6 +20,10 @@ namespace JUnity.Components.UI
                 Color = new Color(214, 0, 68),
                 Width = 0.5f,
             };
+            Style.Border.Width = 3f;
+            Style.DisabledBorder.Width = 3f;
+            Style.FocusedBorder.Width = 3f;
+            Style.FormatErrorBorder.Width = 3f;
         }
 
         public event EventHandler<FloatTextBoxValueChangedEventArgs> ValueChanged;

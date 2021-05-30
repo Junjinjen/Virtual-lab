@@ -9,6 +9,8 @@ namespace Lab2
         {
             using (var engine = new Engine(new Scene()))
             {
+                engine.Settings.MultisamplerQuality = -1;
+                engine.Settings.MultisamplesPerPixel = 4;
                 engine.Settings.BackgroundColor = SharpDX.Color.Gray;
                 engine.Settings.Borderless = true;
                 engine.Run();

@@ -107,8 +107,6 @@ namespace Lab2.Scripts
             gameObject.Scale = new Vector3(scale, scale, scale);
         }
 
-        
-        
         public override void Start()
         {
             #region StartFields
