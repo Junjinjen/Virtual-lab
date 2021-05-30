@@ -123,7 +123,7 @@ namespace App.Scripts
 
             _scriptUI.D1.ValueChanged += (o, e) =>
             {
-                if (e.Value <= _scriptUI.D2.Value) _scriptUI.D1.Value = _scriptUI.D2.Value + 0.01f;
+                if (!_scriptUI.D1.HasFormatError && e.Value <= _scriptUI.D2.Value) _scriptUI.D1.Value = _scriptUI.D2.Value + 0.01f;
                 CalculatePerimetr(_scriptUI.D1.Value, _scriptUI.D2.Value);
                 CalcuelateDeltaX();
             };
