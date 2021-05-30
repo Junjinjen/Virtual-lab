@@ -29,8 +29,20 @@ namespace Lab3.Scripts.Interactions
                 water_script.AddExtraVolume();
             };
 
+            var timer_script = (TimerScript)Scene.Find("Timer").Script;
+            timer_script.OnTimerStarted += (o, e) =>
+            {
+                _moveMetalAnimation.Stop();
+            };
+            timer_script.OnTimerReseted += (o, e) =>
+            {
+                _moveMetalAnimation.Stop();
+            };
+
             MouseGrip.OnLeftClickObject += (o, e) =>
             {
+                if (timer_script.IsTimerStarted) return;
+
                 if (e.Object?.Name == Object.Name && _metalScript.IsOnWeigher)
                 {
                     _metalScript.PlayVoice();
@@ -42,18 +54,10 @@ namespace Lab3.Scripts.Interactions
             };
             MouseGrip.OnRightClickObject += (o, e) =>
             {
+                if (timer_script.IsTimerStarted) return;
+
                 water_script.RemoveExtraVolume();
                 _metalScript.IsInWater = false;
-                _moveMetalAnimation.Stop();
-            };
-
-            var timer_script = (TimerScript)Scene.Find("Timer").Script;
-            timer_script.OnTimerStarted += (o, e) =>
-            {
-                _moveMetalAnimation.Stop();
-            };
-            timer_script.OnTimerReseted += (o, e) =>
-            {
                 _moveMetalAnimation.Stop();
             };
         }

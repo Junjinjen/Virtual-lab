@@ -30,8 +30,24 @@ namespace Lab3.Scripts.Interactions
             _moveMetalAnimation.DefaultSpeed = 2f;
             _moveMetalAnimation.OnAnimationEnd += UpdateWeigherWithMetal;
 
+            var timer_script = (TimerScript)Scene.Find("Timer").Script;
+            timer_script.OnTimerStarted += (o, e) =>
+            {
+                if (_metalScript.IsMoving || _metalScript.IsOnWeigher)
+                {
+                    _metalUI.CurrentWeight.Value = "0,000";
+                }
+                _moveMetalAnimation.Stop();
+            };
+            timer_script.OnTimerReseted += (o, e) =>
+            {
+                _moveMetalAnimation.Stop();
+            };
+
             MouseGrip.OnLeftClickObject += (o, e) =>
-            {               
+            {
+                if (timer_script.IsTimerStarted) return;
+
                 if (e.Object?.Name == Object.Children[0].Name && _metalScript.IsSelected && !_metalScript.IsOnWeigher)
                 {
                     _metalScript.PlayVoice();
@@ -43,23 +59,11 @@ namespace Lab3.Scripts.Interactions
 
             MouseGrip.OnRightClickObject += (o, e) =>
             {
+                if (timer_script.IsTimerStarted) return;
+
                 _metalScript.IsOnWeigher = false;
                 _moveMetalAnimation.Stop();
                 _metalUI.CurrentWeight.Value = "0,000";
-            };
-
-            var timer_script = (TimerScript)Scene.Find("Timer").Script;
-            timer_script.OnTimerStarted += (o, e) =>
-            {
-                if(_metalScript.IsMoving || _metalScript.IsOnWeigher)
-                {
-                    _metalUI.CurrentWeight.Value = "0,000";
-                }
-                _moveMetalAnimation.Stop();
-            };
-            timer_script.OnTimerReseted += (o, e) =>
-            {
-                _moveMetalAnimation.Stop();
             };
 
             _metalUI.MetalChanged += (o, e) =>

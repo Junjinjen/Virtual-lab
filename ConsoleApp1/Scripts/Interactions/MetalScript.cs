@@ -24,8 +24,6 @@ namespace Lab3.Scripts.Interactions
 
         private Vector3 _startPosition;
 
-        private bool _isTimerStarted;
-
         public override void Start()
         {
             _audioChoice = Object.GetComponent<AudioPlayer>();
@@ -40,9 +38,22 @@ namespace Lab3.Scripts.Interactions
             _loweringAnimation.Points.Add(_startPosition);
             _loweringAnimation.DefaultSpeed = 2f;
 
+            var timer_script = (TimerScript)Scene.Find("Timer").Script;
+            timer_script.OnTimerStarted += (o, e) =>
+            {
+                if (IsMoving || (IsOnWeigher && !IsInWater))
+                {
+                    Object.Position = _startPosition;
+                }
+            };
+            timer_script.OnTimerReseted += (o, e) =>
+            {
+                ResetPosition();
+            };
+
             MouseGrip.OnLeftClickObject += (o, e) =>
             {
-                if (_isTimerStarted) return;
+                if (timer_script.IsTimerStarted) return;
 
                 if (e.Object?.Name == "Metal" && !IsOnWeigher && !IsMoving)
                 {
@@ -55,7 +66,7 @@ namespace Lab3.Scripts.Interactions
 
             MouseGrip.OnRightClickObject += (o, e) =>
             {
-                if (_isTimerStarted) return;
+                if (timer_script.IsTimerStarted) return;
 
                 PlayVoice();
                 if (IsSelected && !IsOnWeigher && !IsMoving && !IsInWater)
@@ -69,21 +80,6 @@ namespace Lab3.Scripts.Interactions
                 }
                 IsSelected = false;
                 IsMoving = false;
-            };
-
-            var timer_script = (TimerScript)Scene.Find("Timer").Script;
-            timer_script.OnTimerStarted += (o, e) =>
-            {
-                if(IsMoving || (IsOnWeigher && !IsInWater))
-                {
-                    Object.Position = _startPosition;
-                }    
-                _isTimerStarted = true;
-            };
-            timer_script.OnTimerReseted += (o, e) =>
-            {
-                _isTimerStarted = false;
-                ResetPosition();
             };
 
             var metal_ui = (MetalPanelUI)Scene.Find("MetalUI").Script;

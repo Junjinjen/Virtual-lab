@@ -16,6 +16,7 @@ namespace Lab3.Scripts.Interactions
         public event EventHandler<EventArgs> OnTimerPaused;
         public event EventHandler<EventArgs> OnTimerReseted;
 
+        public bool IsTimerStarted { get; private set; }
         public float Seconds { get; private set; }
 
         private AudioPlayer _audioTimer;
@@ -82,6 +83,7 @@ namespace Lab3.Scripts.Interactions
             {
                 case "Play":
                     _timer.Start();
+                    IsTimerStarted = true;
                     _playButtonAnimation.Reset();
                     _playButtonAnimation.Start();
                     _isUpdate = true;
@@ -99,6 +101,7 @@ namespace Lab3.Scripts.Interactions
                     break;
                 case "Stop":
                     _timer.Reset();
+                    IsTimerStarted = false;
                     _stopButtonAnimation.Reset();
                     _stopButtonAnimation.Start();
                     _isUpdate = false;
